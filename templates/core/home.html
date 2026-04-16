@@ -6,9 +6,7 @@
 
 {% block content %}
 
-{# ==============================================================
-   1) HERO — asymmetric editorial, real Instagram reel on the right
-============================================================== #}
+{# 1) HERO — asymmetric editorial, real Instagram reel on the right #}
 <section class="hero-section bg-ink-900">
   {% if doctor.hero_background %}
     <div class="absolute inset-0"
@@ -103,17 +101,15 @@
 </section>
 
 
-{# ==============================================================
-   2) TRUST STRIP — 4 stats with counter animation
-============================================================== #}
+{# 2) TRUST STRIP — 4 stats with counter animation #}
 <section class="bg-white border-y border-ink-100">
   <div class="container-main grid grid-cols-2 lg:grid-cols-4 divide-x divide-ink-100 border-x border-ink-100">
     <div x-data="counter({{ doctor.years_of_experience }})" class="trust-stat">
-      <span class="trust-stat-value"><span x-text="current"></span>+</span>
+      <span class="trust-stat-value"><span x-text="current">{{ doctor.years_of_experience }}</span>+</span>
       <span class="trust-stat-label">{% trans "Yıl Klinik Deneyim" %}</span>
     </div>
     <div x-data="counter({{ doctor.publication_count }})" class="trust-stat">
-      <span class="trust-stat-value"><span x-text="current"></span>+</span>
+      <span class="trust-stat-value"><span x-text="current">{{ doctor.publication_count }}</span>+</span>
       <span class="trust-stat-label">{% trans "Uluslararası Yayın" %}</span>
     </div>
     <div class="trust-stat">
@@ -130,9 +126,7 @@
 </section>
 
 
-{# ==============================================================
-   3) EXPERTISE — Bento grid (asymmetric), 6 featured cards
-============================================================== #}
+{# 3) EXPERTISE — Bento grid (asymmetric), 6 featured cards #}
 {% if featured_specialties %}
 <section id="uzmanlik" class="section-padding bg-cream-50">
   <div class="container-main">
@@ -205,9 +199,7 @@
 {% endif %}
 
 
-{# ==============================================================
-   4) "Why me" — 3 pillars
-============================================================== #}
+{# 4) "Why me" — 3 pillars #}
 <section class="section-padding bg-white border-y border-ink-100">
   <div class="container-main">
     <div class="max-w-2xl mb-14">
@@ -244,9 +236,7 @@
 </section>
 
 
-{# ==============================================================
-   5) Academic identity — compact, 3 featured publications
-============================================================== #}
+{# 5) Academic identity — compact, 3 featured publications #}
 {% if featured_publications %}
 <section class="section-padding bg-cream-100">
   <div class="container-main">
@@ -293,9 +283,7 @@
 {% endif %}
 
 
-{# ==============================================================
-   6) Videos — featured grid
-============================================================== #}
+{# 6) Videos — featured grid #}
 {% if featured_videos %}
 <section id="videolar" class="section-padding bg-white">
   <div class="container-main">
@@ -348,9 +336,7 @@
 {% endif %}
 
 
-{# ==============================================================
-   7) Recent blog posts — ONLY if posts exist
-============================================================== #}
+{# 7) Recent blog posts — ONLY if posts exist #}
 {% if recent_posts %}
 <section class="section-padding bg-cream-50">
   <div class="container-main">
@@ -385,9 +371,7 @@
 {% endif %}
 
 
-{# ==============================================================
-   8) Short bio band
-============================================================== #}
+{# 8) Short bio band #}
 <section class="section-padding bg-white">
   <div class="container-main">
     <div class="grid lg:grid-cols-12 gap-12 items-center">
@@ -425,9 +409,7 @@
 </section>
 
 
-{# ==============================================================
-   9) CTA band
-============================================================== #}
+{# 9) CTA band #}
 <section class="relative py-20 md:py-28 bg-teal-gradient text-white overflow-hidden">
   <div class="absolute inset-0 opacity-10 bg-cream-pattern"></div>
   <div class="container-main text-center relative">

@@ -21,12 +21,14 @@
   {# Tailwind build output #}
   <link rel="stylesheet" href="{% static 'dist/css/output.css' %}">
 
-  {# HTMX + Alpine #}
+  {# HTMX #}
   <script src="https://unpkg.com/htmx.org@2.0.3" defer></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
-  <script defer src="https://unpkg.com/@alpinejs/intersect@3.14.1/dist/cdn.min.js"></script>
-  <script defer src="{% static 'src/js/alpine-components.js' %}"></script>
   <script src="{% static 'src/js/htmx-config.js' %}" defer></script>
+
+  {# Alpine — our components file must load BEFORE the core so the
+     alpine:init listener is registered before Alpine fires it. #}
+  <script defer src="{% static 'src/js/alpine-components.js' %}"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
 
   {# Analytics (optional) #}
   {% if site_settings.google_analytics_id %}
@@ -41,6 +43,8 @@
 
   {# Favicon placeholder (data-uri SVG — replace with real icon set later) #}
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2300A0B0'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-family='Fraunces,serif' font-size='18' font-weight='600' fill='white'%3ESG%3C/text%3E%3C/svg%3E">
+
+  <style>[x-cloak]{display:none !important;}</style>
 
   {% block extra_head %}{% endblock %}
 </head>
