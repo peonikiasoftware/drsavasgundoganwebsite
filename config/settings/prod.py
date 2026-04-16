@@ -2,9 +2,13 @@
 import dj_database_url
 
 from .base import *  # noqa: F401,F403
-from .base import MIDDLEWARE, INSTALLED_APPS, env
+from .base import BASE_DIR, MIDDLEWARE, INSTALLED_APPS, env
 
 DEBUG = False
+
+# Vercel's @vercel/static-build serves the contents of `staticfiles_build/`
+# at the site root, so `staticfiles_build/static/foo.css` → `/static/foo.css`.
+STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static"
 
 ALLOWED_HOSTS = env.list(
     "DJANGO_ALLOWED_HOSTS",
