@@ -17,11 +17,14 @@ if not env("CLOUDINARY_CLOUD_NAME", default=""):
     DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
 else:
     DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-    CLOUDINARY_STORAGE = {
-        "CLOUD_NAME": env("CLOUDINARY_CLOUD_NAME"),
-        "API_KEY": env("CLOUDINARY_API_KEY", default=""),
-        "API_SECRET": env("CLOUDINARY_API_SECRET", default=""),
-    }
+    _cn = env("CLOUDINARY_CLOUD_NAME")
+    _ak = env("CLOUDINARY_API_KEY", default="")
+    _as = env("CLOUDINARY_API_SECRET", default="")
+    CLOUDINARY_STORAGE = {"CLOUD_NAME": _cn, "API_KEY": _ak, "API_SECRET": _as}
+    import cloudinary as _cloudinary_lib
+    _cloudinary_lib.config(
+        cloud_name=_cn, api_key=_ak, api_secret=_as, secure=True,
+    )
 
 # Debug toolbar (optional; only if installed)
 try:

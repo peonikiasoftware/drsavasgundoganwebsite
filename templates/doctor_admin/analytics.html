@@ -1,0 +1,181 @@
+{% extends "doctor_admin/_base_admin.html" %}
+{% load i18n humanize %}
+
+{% block title %}{% trans "Analitik" %}{% endblock %}
+
+{% block content %}
+<div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+  <div>
+    <span class="eyebrow">{% trans "Site Analitikleri" %}</span>
+    <h1 class="font-serif text-3xl mt-2">{% trans "Ziyaretçi İstatistikleri" %}</h1>
+    <p class="mt-2 text-sm text-ink-500">{% trans "Botlar filtrelenmiştir. IP adresleri anonim saklanır." %}</p>
+  </div>
+  <form method="get" class="flex items-center gap-2 text-sm">
+    <span class="text-ink-500">{% trans "Dönem:" %}</span>
+    {% for days in "7,14,30,60,90"|cut:" "|cut:",0"|make_list %}{% endfor %}
+    <a href="?days=7"  class="px-3 h-9 rounded-full border {% if period_days == 7 %}bg-teal-500 border-teal-500 text-white{% else %}bg-white border-ink-100{% endif %} inline-flex items-center">7 gün</a>
+    <a href="?days=30" class="px-3 h-9 rounded-full border {% if period_days == 30 %}bg-teal-500 border-teal-500 text-white{% else %}bg-white border-ink-100{% endif %} inline-flex items-center">30 gün</a>
+    <a href="?days=90" class="px-3 h-9 rounded-full border {% if period_days == 90 %}bg-teal-500 border-teal-500 text-white{% else %}bg-white border-ink-100{% endif %} inline-flex items-center">90 gün</a>
+  </form>
+</div>
+
+{# ---------- Top-line stats ---------- #}
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+  <div class="bg-white border border-ink-100 rounded-2xl p-6">
+    <p class="eyebrow">{% trans "Bugün" %}</p>
+    <p class="mt-3 font-serif text-4xl text-teal-700 num-tabular">{{ totals.today|intcomma }}</p>
+    <p class="mt-1 text-xs text-ink-500">{% trans "dün" %}: {{ totals.yesterday|intcomma }}</p>
+  </div>
+  <div class="bg-white border border-ink-100 rounded-2xl p-6">
+    <p class="eyebrow">{% trans "Son 7 Gün" %}</p>
+    <p class="mt-3 font-serif text-4xl text-teal-700 num-tabular">{{ totals.last_7d|intcomma }}</p>
+    <p class="mt-1 text-xs text-ink-500">{{ totals.unique_7d|intcomma }} {% trans "benzersiz ziyaretçi" %}</p>
+  </div>
+  <div class="bg-white border border-ink-100 rounded-2xl p-6">
+    <p class="eyebrow">{% trans "Son 30 Gün" %}</p>
+    <p class="mt-3 font-serif text-4xl text-teal-700 num-tabular">{{ totals.last_30d|intcomma }}</p>
+    <p class="mt-1 text-xs text-ink-500">{{ totals.unique_30d|intcomma }} {% trans "benzersiz ziyaretçi" %}</p>
+  </div>
+  <div class="bg-white border border-ink-100 rounded-2xl p-6">
+    <p class="eyebrow">{% trans "Toplam" %}</p>
+    <p class="mt-3 font-serif text-4xl text-teal-700 num-tabular">{{ totals.total_ever|intcomma }}</p>
+    <p class="mt-1 text-xs text-ink-500">{{ totals.bots_30d|intcomma }} {% trans "bot (son 30g)" %}</p>
+  </div>
+</div>
+
+{# ---------- Daily trend bar chart ---------- #}
+<div class="bg-white border border-ink-100 rounded-2xl p-6 mb-8">
+  <div class="flex items-center justify-between mb-5">
+    <div>
+      <p class="eyebrow">{% trans "Günlük Trend" %}</p>
+      <p class="mt-1 text-ink-500 text-sm">{% blocktrans with d=period_days %}Son {{ d }} gün{% endblocktrans %}</p>
+    </div>
+    <span class="text-xs text-ink-500">{% trans "max" %}: {{ max_day|intcomma }}</span>
+  </div>
+  <div class="flex items-end gap-[2px] h-40">
+    {% for d in daily %}
+      {% widthratio d.views max_day 100 as pct %}
+      <div class="flex-1 min-w-[4px] relative group">
+        <div class="absolute bottom-0 left-0 right-0 bg-teal-500 hover:bg-teal-600 transition-colors duration-150 rounded-t"
+             style="height: {% if d.views %}{{ pct|default:'2' }}%{% else %}2px{% endif %}"
+             title="{{ d.day|date:'d M' }}: {{ d.views }}"></div>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="flex justify-between text-[10px] text-ink-500 mt-2 uppercase tracking-wider">
+    <span>{{ daily.0.day|date:"d M" }}</span>
+    {% if daily|length > 14 %}<span>{{ daily|length|add:"-1"|divisibleby:2|yesno:"" }}</span>{% endif %}
+    <span>{% trans "Bugün" %}</span>
+  </div>
+</div>
+
+{# ---------- Row: Top Pages + Language + Device ---------- #}
+<div class="grid lg:grid-cols-12 gap-6 mb-8">
+
+  <div class="lg:col-span-6 bg-white border border-ink-100 rounded-2xl p-6">
+    <p class="eyebrow mb-5">{% trans "En Çok Görüntülenen Sayfalar" %}</p>
+    {% if top_pages %}
+      <ul class="space-y-3">
+        {% for p in top_pages %}
+          {% widthratio p.views top_pages.0.views 100 as bar %}
+          <li>
+            <div class="flex justify-between items-baseline text-sm mb-1">
+              <a href="{{ p.path }}" target="_blank" rel="noopener"
+                 class="text-ink-900 hover:text-teal-700 truncate pr-3 font-mono text-xs">{{ p.path }}</a>
+              <span class="text-teal-700 font-semibold num-tabular shrink-0">{{ p.views|intcomma }}</span>
+            </div>
+            <div class="h-1.5 bg-cream-100 rounded-full overflow-hidden">
+              <div class="h-full bg-teal-500" style="width: {{ bar }}%"></div>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-ink-500 text-sm">{% trans "Henüz ziyaret yok." %}</p>
+    {% endif %}
+  </div>
+
+  <div class="lg:col-span-3 bg-white border border-ink-100 rounded-2xl p-6">
+    <p class="eyebrow mb-5">{% trans "Dil" %}</p>
+    <ul class="space-y-3">
+      {% for l in lang %}
+        <li class="flex items-center justify-between text-sm">
+          <span class="inline-flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-cream-100 text-teal-700 text-[10px] font-semibold uppercase inline-flex items-center justify-center">{{ l.language|default:"–" }}</span>
+            {% if l.language == "tr" %}Türkçe{% elif l.language == "en" %}English{% else %}{{ l.language|default:"Diğer" }}{% endif %}
+          </span>
+          <span class="font-semibold num-tabular">{{ l.views|intcomma }}</span>
+        </li>
+      {% empty %}
+        <li class="text-ink-500 text-sm">—</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="lg:col-span-3 bg-white border border-ink-100 rounded-2xl p-6">
+    <p class="eyebrow mb-5">{% trans "Cihaz" %}</p>
+    <ul class="space-y-3">
+      {% for d in device %}
+        <li class="flex items-center justify-between text-sm">
+          <span class="inline-flex items-center gap-2 capitalize">
+            <span class="w-7 h-7 rounded-lg bg-cream-100 text-teal-700 inline-flex items-center justify-center">
+              <i data-lucide="{% if d.device_type == 'mobile' %}smartphone{% elif d.device_type == 'tablet' %}tablet{% elif d.device_type == 'bot' %}bot{% else %}monitor{% endif %}" class="w-3.5 h-3.5"></i>
+            </span>
+            {% if d.device_type == "mobile" %}Mobil{% elif d.device_type == "tablet" %}Tablet{% elif d.device_type == "bot" %}Bot{% else %}Masaüstü{% endif %}
+          </span>
+          <span class="font-semibold num-tabular">{{ d.views|intcomma }}</span>
+        </li>
+      {% empty %}
+        <li class="text-ink-500 text-sm">—</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{# ---------- Countries + Referrers ---------- #}
+<div class="grid lg:grid-cols-2 gap-6">
+  <div class="bg-white border border-ink-100 rounded-2xl p-6">
+    <p class="eyebrow mb-5">{% trans "Ülkeler" %}</p>
+    {% if countries %}
+      <ul class="space-y-3">
+        {% for c in countries %}
+          {% widthratio c.views countries.0.views 100 as bar %}
+          <li>
+            <div class="flex justify-between items-baseline text-sm mb-1">
+              <span class="inline-flex items-center gap-2">
+                <span class="w-7 h-7 rounded-md bg-cream-100 text-teal-700 text-[10px] font-mono uppercase inline-flex items-center justify-center">{{ c.country }}</span>
+              </span>
+              <span class="font-semibold num-tabular">{{ c.views|intcomma }}</span>
+            </div>
+            <div class="h-1.5 bg-cream-100 rounded-full overflow-hidden">
+              <div class="h-full bg-gold-500" style="width: {{ bar }}%"></div>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-ink-500 text-sm">{% trans "Ülke bilgisi henüz yok (Vercel başlıkları yayında görünmeye başlar)." %}</p>
+    {% endif %}
+  </div>
+
+  <div class="bg-white border border-ink-100 rounded-2xl p-6">
+    <p class="eyebrow mb-5">{% trans "Siteye Yönlendirenler" %}</p>
+    {% if referrers %}
+      <ul class="space-y-3">
+        {% for r in referrers %}
+          <li class="flex justify-between items-center text-sm">
+            <a href="{{ r.referrer }}" target="_blank" rel="noopener" class="truncate pr-3 text-ink-700 hover:text-teal-700">{{ r.referrer|truncatechars:60 }}</a>
+            <span class="font-semibold num-tabular shrink-0">{{ r.views|intcomma }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-ink-500 text-sm">{% trans "Dış siteden gelen ziyaret yok." %}</p>
+    {% endif %}
+  </div>
+</div>
+
+<p class="mt-8 text-xs text-ink-500">
+  {% trans "Analitik verileri Supabase veritabanında saklanır. Kişisel veri (IP, isim, e-posta) toplanmaz; sadece anonim parmak izi hash'i saklanır." %}
+</p>
+{% endblock %}

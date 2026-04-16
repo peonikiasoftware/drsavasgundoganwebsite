@@ -7,8 +7,14 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 
+from datetime import timedelta
+
+from django.db.models import Count
+from django.db.models.functions import TruncDate
+from django.utils import timezone
+
 from apps.blog.models import BlogPost
-from apps.core.models import ContactMessage, DoctorProfile
+from apps.core.models import ContactMessage, DoctorProfile, PageView
 from apps.experience.models import Education, Experience, Membership
 from apps.expertise.models import SpecialtyArea
 from apps.faq.models import FAQItem
@@ -61,11 +67,117 @@ def dashboard(request):
         "faq": FAQItem.objects.count(),
         "memberships": Membership.objects.count(),
     }
+
+    # Headline analytics teasers
+    now = timezone.now()
+    today = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    last_7 = now - timedelta(days=7)
+    human = PageView.objects.filter(is_bot=False)
+    analytics_summary = {
+        "today": human.filter(created_at__gte=today).count(),
+        "last_7d": human.filter(created_at__gte=last_7).count(),
+        "unique_7d": human.filter(created_at__gte=last_7).values("visitor_hash").distinct().count(),
+    }
+
     return render(request, "doctor_admin/dashboard.html", {
         "unread_messages": unread_messages,
         "recent_messages": recent_messages,
         "stats": stats,
+        "analytics_summary": analytics_summary,
         "doctor": DoctorProfile.load(),
+    })
+
+
+@doctor_required
+def analytics(request):
+    """30-day traffic dashboard."""
+    now = timezone.now()
+    today = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    last_7 = now - timedelta(days=7)
+    last_30 = now - timedelta(days=30)
+
+    try:
+        period_days = max(1, min(90, int(request.GET.get("days") or 30)))
+    except (TypeError, ValueError):
+        period_days = 30
+    period_start = now - timedelta(days=period_days)
+
+    human = PageView.objects.filter(is_bot=False)
+    period = human.filter(created_at__gte=period_start)
+
+    # Top-line counters
+    totals = {
+        "today":       human.filter(created_at__gte=today).count(),
+        "yesterday":   human.filter(
+            created_at__gte=today - timedelta(days=1),
+            created_at__lt=today,
+        ).count(),
+        "last_7d":     human.filter(created_at__gte=last_7).count(),
+        "last_30d":    human.filter(created_at__gte=last_30).count(),
+        "unique_7d":   human.filter(created_at__gte=last_7).values("visitor_hash").distinct().count(),
+        "unique_30d":  human.filter(created_at__gte=last_30).values("visitor_hash").distinct().count(),
+        "bots_30d":    PageView.objects.filter(is_bot=True, created_at__gte=last_30).count(),
+        "total_ever":  PageView.objects.filter(is_bot=False).count(),
+    }
+
+    # Top pages
+    top_pages = list(
+        period.values("path")
+              .annotate(views=Count("id"))
+              .order_by("-views")[:12]
+    )
+
+    # Language split
+    lang = list(
+        period.values("language")
+              .annotate(views=Count("id"))
+              .order_by("-views")
+    )
+    # Device split
+    device = list(
+        period.values("device_type")
+              .annotate(views=Count("id"))
+              .order_by("-views")
+    )
+    # Top countries (Vercel adds x-vercel-ip-country header)
+    countries = list(
+        period.exclude(country="")
+              .values("country")
+              .annotate(views=Count("id"))
+              .order_by("-views")[:8]
+    )
+    # Top referrers (strip own domain)
+    referrers = list(
+        period.exclude(referrer="")
+              .values("referrer")
+              .annotate(views=Count("id"))
+              .order_by("-views")[:8]
+    )
+
+    # Daily trend (for the sparkline chart)
+    daily_rows = list(
+        period.annotate(day=TruncDate("created_at"))
+              .values("day")
+              .annotate(views=Count("id"))
+              .order_by("day")
+    )
+    day_map = {r["day"]: r["views"] for r in daily_rows}
+    daily = []
+    for i in range(period_days):
+        d = (now - timedelta(days=period_days - 1 - i)).date()
+        daily.append({"day": d, "views": day_map.get(d, 0)})
+    max_day = max((d["views"] for d in daily), default=1) or 1
+
+    return render(request, "doctor_admin/analytics.html", {
+        "totals": totals,
+        "top_pages": top_pages,
+        "lang": lang,
+        "device": device,
+        "countries": countries,
+        "referrers": referrers,
+        "daily": daily,
+        "max_day": max_day,
+        "period_days": period_days,
     })
 
 

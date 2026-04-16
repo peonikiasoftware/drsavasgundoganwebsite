@@ -55,6 +55,14 @@ if _cloudinary_cloud and _cloudinary_key and _cloudinary_secret:
         "API_SECRET": _cloudinary_secret,
     }
     DEFAULT_MEDIA_BACKEND = "cloudinary_storage.storage.MediaCloudinaryStorage"
+    # Init Cloudinary library globals — required so CloudinaryField.url works
+    import cloudinary as _cloudinary_lib
+    _cloudinary_lib.config(
+        cloud_name=_cloudinary_cloud,
+        api_key=_cloudinary_key,
+        api_secret=_cloudinary_secret,
+        secure=True,
+    )
 else:
     # No Cloudinary configured — use local filesystem. On Vercel this is
     # ephemeral (writes disappear between invocations) but at least the

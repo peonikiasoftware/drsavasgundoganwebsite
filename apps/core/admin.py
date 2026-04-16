@@ -1,7 +1,7 @@
 from django.contrib import admin
 from modeltranslation.admin import TabbedTranslationAdmin
 
-from .models import ContactMessage, DoctorProfile, SiteSettings
+from .models import ContactMessage, DoctorProfile, PageView, SiteSettings
 
 
 @admin.register(DoctorProfile)
@@ -75,6 +75,21 @@ class SiteSettingsAdmin(TabbedTranslationAdmin):
         return not SiteSettings.objects.exists()
 
     def has_delete_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(PageView)
+class PageViewAdmin(admin.ModelAdmin):
+    list_display = ("created_at", "path", "language", "device_type", "country", "is_bot")
+    list_filter = ("is_bot", "device_type", "language", "country")
+    search_fields = ("path", "user_agent", "referrer")
+    readonly_fields = (
+        "path", "language", "referrer", "user_agent",
+        "visitor_hash", "device_type", "is_bot", "country", "created_at",
+    )
+    date_hierarchy = "created_at"
+
+    def has_add_permission(self, request):
         return False
 
 

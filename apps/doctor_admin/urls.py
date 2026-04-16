@@ -10,6 +10,7 @@ urlpatterns = [
     path("logout/", views.DoctorLogoutView.as_view(), name="logout"),
 
     path("profile/", views.profile_edit, name="profile"),
+    path("analytics/", views.analytics, name="analytics"),
 
     path("messages/", views.messages_inbox, name="messages"),
     path("messages/<int:pk>/", views.message_detail, name="message_detail"),

@@ -14,6 +14,7 @@ DOCTOR_GROUP_NAME = "doctor_editors"
 DOCTOR_PERMISSIONS = {
     ("core", "doctorprofile"): ("view", "change"),
     ("core", "contactmessage"): ("view", "change"),
+    ("core", "pageview"): ("view",),
     ("experience", "education"): ("view", "add", "change", "delete"),
     ("experience", "experience"): ("view", "add", "change", "delete"),
     ("experience", "membership"): ("view", "add", "change", "delete"),

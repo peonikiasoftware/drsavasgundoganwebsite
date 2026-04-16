@@ -171,6 +171,45 @@ class SiteSettings(SingletonMixin, models.Model):
         return self.site_name
 
 
+class PageView(models.Model):
+    """One row per public HTML pageview, recorded by AnalyticsMiddleware.
+    No PII stored — only hashed (IP + UA) fingerprint for unique-visitor counts."""
+
+    DEVICE_CHOICES = [
+        ("desktop", "Masaüstü"),
+        ("mobile", "Mobil"),
+        ("tablet", "Tablet"),
+        ("bot", "Bot"),
+    ]
+
+    path = models.CharField(_("Yol"), max_length=500, db_index=True)
+    language = models.CharField(_("Dil"), max_length=8, blank=True)
+    referrer = models.TextField(_("Referans"), blank=True)
+    user_agent = models.CharField(_("User-Agent"), max_length=400, blank=True)
+    visitor_hash = models.CharField(
+        _("Ziyaretçi Parmak İzi"), max_length=64, blank=True, db_index=True
+    )
+    device_type = models.CharField(
+        _("Cihaz"), max_length=10, choices=DEVICE_CHOICES, default="desktop"
+    )
+    is_bot = models.BooleanField(_("Bot mu?"), default=False, db_index=True)
+    country = models.CharField(_("Ülke"), max_length=4, blank=True)
+    created_at = models.DateTimeField(_("Zaman"), auto_now_add=True, db_index=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = _("Sayfa Görüntüleme")
+        verbose_name_plural = _("Sayfa Görüntülemeleri")
+        indexes = [
+            models.Index(fields=["-created_at"]),
+            models.Index(fields=["path", "-created_at"]),
+            models.Index(fields=["is_bot", "-created_at"]),
+        ]
+
+    def __str__(self):
+        return f"{self.path} — {self.created_at:%Y-%m-%d %H:%M}"
+
+
 class ContactMessage(models.Model):
     """Submissions from the public contact form."""
 
