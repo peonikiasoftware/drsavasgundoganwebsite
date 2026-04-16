@@ -34,6 +34,11 @@ python3.12 manage.py migrate --noinput || {
   echo "WARN: migrate failed — continuing, you may need to run it manually."
 }
 
+# 4b. First-run seeding (safe to rerun — uses get_or_create / update_or_create)
+echo "[4b/5] create_initial_users + seed_doctor_data"
+python3.12 manage.py create_initial_users || echo "INFO: users already exist."
+python3.12 manage.py seed_doctor_data || echo "WARN: seed failed — run manually."
+
 # 5. compilemessages is optional; .mo files are pre-compiled and committed.
 echo "[5/5] compilemessages (best-effort)"
 python3.12 manage.py compilemessages 2>/dev/null || \
