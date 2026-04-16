@@ -19,8 +19,14 @@ CSRF_TRUSTED_ORIGINS = [
 
 # ---------------------------------------------------------------------------
 # Database — Supabase (Transaction pooler, port 6543)
+# Accepts either DATABASE_URL (manual) or POSTGRES_URL (Vercel+Supabase
+# marketplace integration auto-sets this name).
 # ---------------------------------------------------------------------------
-DATABASE_URL = env("DATABASE_URL", default="")
+DATABASE_URL = (
+    env("DATABASE_URL", default="")
+    or env("POSTGRES_URL", default="")
+    or env("POSTGRES_PRISMA_URL", default="")
+)
 if DATABASE_URL:
     DATABASES = {
         "default": dj_database_url.config(
