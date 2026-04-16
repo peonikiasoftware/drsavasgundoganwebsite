@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+
+# Django
+*.log
+db.sqlite3
+db.sqlite3-journal
+staticfiles/
+staticfiles_build/
+media/
+/static/dist/
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+.claude/
+
+# Vercel
+.vercel
+
+# Tests / Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Translations (derlenmişler commit edilmez, .po edilir)
+*.mo
+
+# OS
+Thumbs.db

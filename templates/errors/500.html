@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}500 — {% trans "Sunucu Hatası" %}{% endblock %}
+{% block content %}
+<section class="section-padding">
+  <div class="container-main text-center">
+    <p class="font-serif text-7xl md:text-9xl text-teal-500 tracking-tight">500</p>
+    <h1 class="mt-6 font-serif text-4xl md:text-5xl text-ink-900">{% trans "Bir Sorun Oluştu" %}</h1>
+    <p class="mt-4 text-ink-700 max-w-xl mx-auto">{% trans "Teknik ekibimiz bilgilendirildi, kısa sürede düzeltilecektir." %}</p>
+    <a href="/" class="btn-primary mt-8 inline-flex">{% trans "Ana Sayfaya Dön" %}</a>
+  </div>
+</section>
+{% endblock %}
