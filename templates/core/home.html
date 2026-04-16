@@ -17,31 +17,31 @@
   {% endif %}
   <div class="hero-overlay"></div>
 
-  <div class="relative container-main pt-24 pb-14 lg:pt-28 lg:pb-20 w-full">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+  <div class="relative container-main pt-20 pb-14 lg:pt-24 lg:pb-20 w-full">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
 
-      {# Left copy ~60% #}
+      {# Left copy ~55% — tighter, more hierarchical #}
       <div class="lg:col-span-7 text-white">
         <span class="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.22em] text-gold-400">
           <span class="w-6 h-px bg-gold-500"></span>
           {{ doctor.hospital_name }}
         </span>
 
-        <h1 class="h-hero mt-6 text-white">
+        <h1 class="h-hero mt-5 text-white">
           {{ doctor.hero_headline }}
         </h1>
 
-        <p class="mt-6 font-serif italic text-xl lg:text-2xl text-teal-100 max-w-2xl">
+        <p class="mt-5 font-serif italic text-xl lg:text-2xl text-teal-100 max-w-2xl">
           {{ doctor.hero_subheadline }}
         </p>
 
         {% if doctor.hero_intro_paragraph %}
-          <p class="mt-6 text-ink-100/90 text-base lg:text-lg leading-relaxed max-w-xl">
+          <p class="mt-5 text-ink-100/90 text-base lg:text-lg leading-relaxed max-w-xl">
             {{ doctor.hero_intro_paragraph }}
           </p>
         {% endif %}
 
-        <div class="mt-8 flex flex-wrap gap-2.5">
+        <div class="mt-7 flex flex-wrap gap-2.5">
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs text-white backdrop-blur">
             <i data-lucide="award" class="w-3.5 h-3.5 text-gold-400"></i>
             {% blocktrans with y=doctor.years_of_experience %}{{ y }}+ yıl deneyim{% endblocktrans %}
@@ -56,7 +56,7 @@
           </span>
         </div>
 
-        <div class="mt-10 flex flex-wrap gap-3">
+        <div class="mt-9 flex flex-wrap gap-3">
           <a href="{{ doctor.appointment_url }}" target="_blank" rel="noopener" class="btn-primary">
             <i data-lucide="calendar-check" class="w-4 h-4"></i>
             {% trans "Randevu Al" %}
@@ -68,22 +68,43 @@
         </div>
       </div>
 
-      {# Right — Instagram Reel ~40%, iframe only (Instagram's own chrome is rich) #}
+      {# Right — Instagram Reel ~45%, prominent with decorative frame #}
       {% if hero_video %}
-      <div class="lg:col-span-5 max-w-md lg:max-w-none mx-auto w-full">
-        <div class="relative rounded-[28px] overflow-hidden ring-1 ring-gold-400/50 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.55)]">
+      <div class="lg:col-span-5 relative">
+        {# Decorative ambient glow #}
+        <div aria-hidden="true" class="absolute -inset-10 -z-10 hidden lg:block">
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] rounded-full bg-gradient-to-br from-teal-500/30 via-teal-700/10 to-gold-500/20 blur-3xl"></div>
+        </div>
+
+        {# Floating gold dots #}
+        <span aria-hidden="true" class="hidden lg:block absolute -top-6 -right-6 w-24 h-24 rounded-full border-2 border-gold-500/40"></span>
+        <span aria-hidden="true" class="hidden lg:block absolute -bottom-8 -left-8 w-16 h-16 rounded-full bg-gold-500/30 backdrop-blur-sm"></span>
+
+        <div class="relative max-w-sm lg:max-w-none mx-auto w-full">
+          {# Acıbadem gold sticker #}
           {% if hero_video.is_official_acibadem %}
-          <span class="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-gold-500 text-ink-900 text-[10px] font-semibold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full shadow-gold-glow whitespace-nowrap">
-            {% trans "Acıbadem Resmi Hesabında Yayınlandı" %}
-          </span>
+          <div class="absolute -top-3 left-0 right-0 flex justify-center z-20">
+            <span class="bg-gold-500 text-ink-900 text-[10px] font-semibold uppercase tracking-[0.22em] px-5 py-1.5 rounded-full shadow-gold-glow whitespace-nowrap">
+              ✦ {% trans "Acıbadem Resmi Hesabında Yayınlandı" %} ✦
+            </span>
+          </div>
           {% endif %}
-          <iframe src="{{ hero_video.embed_url }}"
-                  class="block w-full aspect-[9/16] max-h-[600px]"
-                  frameborder="0"
-                  allowtransparency="true"
-                  allow="encrypted-media"
-                  loading="lazy"
-                  title="{{ hero_video.title }}"></iframe>
+
+          {# The reel iframe — bigger, crisper border #}
+          <div class="relative rounded-[32px] overflow-hidden ring-2 ring-gold-400/60 shadow-[0_50px_120px_-30px_rgba(0,0,0,0.7)] bg-black">
+            <iframe src="{{ hero_video.embed_url }}"
+                    class="block w-full aspect-[9/16] max-h-[640px]"
+                    frameborder="0"
+                    allowtransparency="true"
+                    allow="encrypted-media"
+                    loading="lazy"
+                    title="{{ hero_video.title }}"></iframe>
+          </div>
+
+          {# Caption beneath reel #}
+          <p class="mt-5 text-sm text-teal-100/85 text-center italic max-w-xs mx-auto leading-relaxed">
+            {{ hero_video.title }}
+          </p>
         </div>
       </div>
       {% endif %}

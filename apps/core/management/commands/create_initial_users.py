@@ -72,11 +72,20 @@ class Command(BaseCommand):
                 "ADMIN_SUPERUSER_USERNAME / PASSWORD not set — skipping superuser."
             ))
             return
-        if User.objects.filter(username=username).exists():
-            self.stdout.write(f"Superuser '{username}' already exists — skipping.")
-            return
-        User.objects.create_superuser(username=username, email=email, password=password)
-        self.stdout.write(self.style.SUCCESS(f"Created superuser '{username}'."))
+        user = User.objects.filter(username=username).first()
+        if user is None:
+            User.objects.create_superuser(username=username, email=email, password=password)
+            self.stdout.write(self.style.SUCCESS(f"Created superuser '{username}'."))
+        else:
+            # Always reset password so env rotation takes effect on next deploy
+            user.set_password(password)
+            user.email = email or user.email
+            user.is_superuser = True
+            user.is_staff = True
+            user.save()
+            self.stdout.write(self.style.SUCCESS(
+                f"Updated superuser '{username}' (password reset)."
+            ))
 
     def _ensure_doctor_user(self, group: Group) -> None:
         username = os.getenv("DOCTOR_ADMIN_USERNAME")
@@ -96,11 +105,12 @@ class Command(BaseCommand):
                 "is_staff": True,
             },
         )
-        if created:
-            user.set_password(password)
+        # Always reset password to whatever is in env — enables rotation
+        user.set_password(password)
+        user.email = email or user.email
         user.is_staff = True
         user.is_superuser = False
         user.save()
         user.groups.add(group)
-        msg = "Created" if created else "Updated"
+        msg = "Created" if created else "Updated (password reset)"
         self.stdout.write(self.style.SUCCESS(f"{msg} doctor user '{username}'."))
