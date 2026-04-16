@@ -3,71 +3,259 @@
 
 {% block title %}{{ post.meta_title|default:post.title }} — {{ doctor.full_name }}{% endblock %}
 {% block meta_description %}{{ post.meta_description|default:post.excerpt|truncatechars:160 }}{% endblock %}
+{% block og_title %}{{ post.title }}{% endblock %}
+{% block og_description %}{{ post.excerpt|truncatechars:200 }}{% endblock %}
+
+{% block extra_head %}
+  {% if post.featured_image %}
+    <meta property="og:image" content="{{ post.featured_image.url }}">
+    <meta name="twitter:image" content="{{ post.featured_image.url }}">
+  {% endif %}
+  <meta property="article:published_time" content="{{ post.published_at|date:'c' }}">
+  <meta property="article:author" content="{{ post.author_name }}">
+  {% if post.category %}<meta property="article:section" content="{{ post.category.name }}">{% endif %}
+{% endblock %}
 
 {% block content %}
+
+{# ---------- Reading progress bar (sticky top) ---------- #}
+<div x-data="{ w: 0,
+              init(){
+                const handler = () => {
+                  const el = document.getElementById('article-body');
+                  if (!el) return;
+                  const r = el.getBoundingClientRect();
+                  const pct = Math.max(0, Math.min(1,
+                    (window.scrollY + window.innerHeight * 0.3)
+                    / (el.offsetTop + el.offsetHeight - window.innerHeight * 0.3)
+                  ));
+                  this.w = pct * 100;
+                };
+                window.addEventListener('scroll', handler, { passive: true });
+                handler();
+              } }"
+     class="fixed top-0 left-0 right-0 h-[3px] z-50 bg-transparent pointer-events-none">
+  <div class="h-full bg-gradient-to-r from-teal-500 via-teal-600 to-gold-500 transition-[width] duration-150"
+       :style="'width:' + w + '%'"></div>
+</div>
+
 <article class="pb-24">
 
+  {# ---------- BREADCRUMB ---------- #}
+  <nav class="container-main pt-8 text-xs uppercase tracking-[0.2em] text-ink-500">
+    <a href="{% url 'core:home' %}" class="hover:text-teal-700">{% trans "Ana Sayfa" %}</a>
+    <span class="mx-2 text-ink-300">/</span>
+    <a href="{% url 'blog:list' %}" class="hover:text-teal-700">Blog</a>
+    {% if post.category %}
+      <span class="mx-2 text-ink-300">/</span>
+      <a href="{% url 'blog:list' %}?category={{ post.category.slug }}" class="hover:text-teal-700">{{ post.category.name }}</a>
+    {% endif %}
+  </nav>
+
   {# ---------- HERO ---------- #}
-  <section class="bg-cream-50 pt-20 pb-16">
+  <section class="pt-10 pb-16">
     <div class="container-narrow text-center">
       {% if post.category %}
-        <a href="{% url 'blog:list' %}?category={{ post.category.slug }}" class="eyebrow">{{ post.category.name }}</a>
+        <a href="{% url 'blog:list' %}?category={{ post.category.slug }}"
+           class="inline-block eyebrow hover:text-teal-500">{{ post.category.name }}</a>
       {% endif %}
       <h1 class="mt-4 font-serif text-4xl md:text-5xl lg:text-6xl tracking-tight text-ink-900 leading-[1.05]">
         {{ post.title }}
       </h1>
-      <p class="mt-6 text-ink-500 text-sm">
-        {{ post.author_name }} · {{ post.published_at|date:"d F Y" }} · {{ post.read_time_minutes }} {% trans "dk okuma" %}
-      </p>
-    </div>
-  </section>
-
-  {% if post.featured_image %}
-  <div class="container-main">
-    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}"
-         class="w-full rounded-3xl object-cover aspect-[16/8] shadow-soft-lift -mt-6">
-  </div>
-  {% endif %}
-
-  {# ---------- BODY ---------- #}
-  <section class="py-16">
-    <div class="container-narrow">
-      <div class="prose-clinic">{{ post.content|safe }}</div>
-
-      {% if post.related_specialty %}
-        <div class="mt-14 p-6 bg-teal-50 border-l-2 border-teal-500 rounded-r-xl flex items-center gap-4">
-          <span class="icon-badge !w-12 !h-12"><i data-lucide="stethoscope" class="w-5 h-5"></i></span>
-          <div>
-            <p class="text-xs uppercase tracking-[0.18em] text-teal-700">{% trans "İlgili uzmanlık" %}</p>
-            <a href="{{ post.related_specialty.get_absolute_url }}" class="font-serif text-lg text-ink-900 hover:text-teal-700">{{ post.related_specialty.title }}</a>
-          </div>
-        </div>
+      {% if post.excerpt %}
+        <p class="mt-6 text-lg md:text-xl text-ink-700 leading-relaxed max-w-2xl mx-auto">
+          {{ post.excerpt }}
+        </p>
       {% endif %}
 
-      <div class="mt-14 p-8 rounded-2xl bg-teal-gradient text-white">
-        <p class="font-serif text-xl">{% trans "Bu konuyu benimle konuşmak ister misiniz?" %}</p>
-        <a href="{{ doctor.appointment_url }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 mt-5 px-6 py-3 rounded-full bg-white text-teal-700 font-medium">
-          <i data-lucide="calendar-check" class="w-4 h-4"></i> {% trans "Randevu Al" %}
-        </a>
+      <div class="mt-8 flex flex-wrap justify-center items-center gap-4 text-sm text-ink-500">
+        <span class="inline-flex items-center gap-2">
+          <span class="w-8 h-8 rounded-full bg-teal-gradient text-white inline-flex items-center justify-center text-[10px] font-serif font-semibold">SG</span>
+          {{ post.author_name }}
+        </span>
+        <span class="w-1 h-1 rounded-full bg-ink-300"></span>
+        <span class="inline-flex items-center gap-1.5">
+          <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+          {{ post.published_at|date:"d F Y" }}
+        </span>
+        <span class="w-1 h-1 rounded-full bg-ink-300"></span>
+        <span class="inline-flex items-center gap-1.5">
+          <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+          {{ post.read_time_minutes }} {% trans "dk okuma" %}
+        </span>
+        <span class="w-1 h-1 rounded-full bg-ink-300"></span>
+        <span class="inline-flex items-center gap-1.5">
+          <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+          {{ post.view_count }}
+        </span>
       </div>
     </div>
   </section>
 
+  {# ---------- FEATURED IMAGE ---------- #}
+  {% if post.featured_image %}
+  <div class="container-main mb-14">
+    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}"
+         class="w-full rounded-3xl object-cover aspect-[16/8] shadow-soft-lift">
+  </div>
+  {% endif %}
+
+  {# ---------- BODY + STICKY SHARE + AUTHOR + TOC ---------- #}
+  <section>
+    <div class="container-main grid lg:grid-cols-12 gap-10 lg:gap-14">
+
+      {# Left rail — share buttons (desktop sticky) #}
+      <aside class="hidden lg:block lg:col-span-1">
+        <div class="sticky top-24 flex flex-col gap-3 items-center">
+          <span class="text-[10px] uppercase tracking-[0.2em] text-ink-500 rotate-180 [writing-mode:vertical-rl] mt-2 mb-4">{% trans "Paylaş" %}</span>
+          <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ post.title|urlencode }}"
+             target="_blank" rel="noopener" aria-label="X"
+             class="w-10 h-10 rounded-full bg-white border border-cream-200 hover:border-teal-300 hover:text-teal-700 inline-flex items-center justify-center transition-all duration-250 shadow-[0_1px_0_0_rgba(15,23,32,0.04)]">
+            <i data-lucide="twitter" class="w-4 h-4"></i>
+          </a>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}"
+             target="_blank" rel="noopener" aria-label="LinkedIn"
+             class="w-10 h-10 rounded-full bg-white border border-cream-200 hover:border-teal-300 hover:text-teal-700 inline-flex items-center justify-center transition-all duration-250 shadow-[0_1px_0_0_rgba(15,23,32,0.04)]">
+            <i data-lucide="linkedin" class="w-4 h-4"></i>
+          </a>
+          <a href="https://wa.me/?text={{ post.title|urlencode }}%20{{ request.build_absolute_uri|urlencode }}"
+             target="_blank" rel="noopener" aria-label="WhatsApp"
+             class="w-10 h-10 rounded-full bg-white border border-cream-200 hover:border-teal-300 hover:text-teal-700 inline-flex items-center justify-center transition-all duration-250 shadow-[0_1px_0_0_rgba(15,23,32,0.04)]">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+          </a>
+          <a href="mailto:?subject={{ post.title|urlencode }}&body={{ request.build_absolute_uri|urlencode }}"
+             aria-label="E-mail"
+             class="w-10 h-10 rounded-full bg-white border border-cream-200 hover:border-teal-300 hover:text-teal-700 inline-flex items-center justify-center transition-all duration-250 shadow-[0_1px_0_0_rgba(15,23,32,0.04)]">
+            <i data-lucide="mail" class="w-4 h-4"></i>
+          </a>
+          <button type="button" onclick="navigator.clipboard.writeText(location.href).then(()=>this.classList.add('text-teal-700','border-teal-500'))"
+                  aria-label="{% trans 'Linki kopyala' %}"
+                  class="w-10 h-10 rounded-full bg-white border border-cream-200 hover:border-teal-300 hover:text-teal-700 inline-flex items-center justify-center transition-all duration-250 shadow-[0_1px_0_0_rgba(15,23,32,0.04)]">
+            <i data-lucide="link" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </aside>
+
+      {# Main article body #}
+      <div id="article-body" class="lg:col-span-8">
+        <div class="prose-clinic prose-img:rounded-2xl prose-img:shadow-soft-lift prose-img:border prose-img:border-cream-200">
+          {{ post.content|safe }}
+        </div>
+
+        {# ---------- Inline share (mobile + below article) ---------- #}
+        <div class="lg:hidden mt-10 p-5 rounded-2xl bg-cream-100 border border-cream-200 flex items-center gap-3 text-sm">
+          <span class="font-medium">{% trans "Paylaş:" %}</span>
+          <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ post.title|urlencode }}" target="_blank" rel="noopener" class="w-8 h-8 rounded-full bg-white border border-cream-200 inline-flex items-center justify-center"><i data-lucide="twitter" class="w-3.5 h-3.5"></i></a>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" target="_blank" rel="noopener" class="w-8 h-8 rounded-full bg-white border border-cream-200 inline-flex items-center justify-center"><i data-lucide="linkedin" class="w-3.5 h-3.5"></i></a>
+          <a href="https://wa.me/?text={{ post.title|urlencode }}%20{{ request.build_absolute_uri|urlencode }}" target="_blank" rel="noopener" class="w-8 h-8 rounded-full bg-white border border-cream-200 inline-flex items-center justify-center"><i data-lucide="message-circle" class="w-3.5 h-3.5"></i></a>
+          <a href="mailto:?subject={{ post.title|urlencode }}" class="w-8 h-8 rounded-full bg-white border border-cream-200 inline-flex items-center justify-center"><i data-lucide="mail" class="w-3.5 h-3.5"></i></a>
+        </div>
+
+        {# ---------- Related specialty callout ---------- #}
+        {% if post.related_specialty %}
+          <div class="mt-12 p-6 md:p-8 bg-gradient-to-br from-cream-50 via-white to-cream-100 border border-cream-200 rounded-2xl flex items-center gap-5">
+            {% if post.related_specialty.hero_image %}
+              <img src="{{ post.related_specialty.hero_image.url }}" alt="{{ post.related_specialty.title }}"
+                   class="w-24 h-24 rounded-xl object-cover shrink-0">
+            {% else %}
+              <span class="icon-badge !w-14 !h-14 shrink-0"><i data-lucide="stethoscope" class="w-5 h-5"></i></span>
+            {% endif %}
+            <div>
+              <p class="eyebrow">{% trans "İlgili uzmanlık alanı" %}</p>
+              <a href="{{ post.related_specialty.get_absolute_url }}"
+                 class="mt-2 font-serif text-xl text-ink-900 hover:text-teal-700 block">{{ post.related_specialty.title }}</a>
+              <p class="mt-1 text-sm text-ink-700">{{ post.related_specialty.short_description|truncatechars:140 }}</p>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      {# Right rail — Author card + CTA (desktop sticky) #}
+      <aside class="lg:col-span-3 space-y-6 lg:sticky lg:top-24 h-fit">
+        <div class="bg-gradient-to-br from-white via-cream-50 to-cream-100 border border-cream-200 rounded-2xl p-6 shadow-[0_1px_0_0_rgba(15,23,32,0.04)]">
+          <div class="flex items-center gap-3">
+            {% if doctor.portrait_photo %}
+              <img src="{{ doctor.portrait_photo.url }}" alt="{{ doctor.full_name }}"
+                   class="w-14 h-14 rounded-full object-cover ring-2 ring-gold-500/40">
+            {% else %}
+              <span class="w-14 h-14 rounded-full bg-teal-gradient text-white inline-flex items-center justify-center font-serif">SG</span>
+            {% endif %}
+            <div class="min-w-0">
+              <p class="font-serif text-base leading-tight">{{ doctor.full_name }}</p>
+              <p class="text-xs text-teal-700 mt-0.5">{{ doctor.title_long }}</p>
+            </div>
+          </div>
+          <p class="mt-4 text-sm text-ink-700 leading-relaxed">
+            {{ doctor.bio_short|truncatechars:140 }}
+          </p>
+          <a href="{% url 'core:about' %}" class="btn-ghost mt-4 text-xs">
+            {% trans "Hakkımda" %} <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+
+        <a href="{{ doctor.appointment_url }}" target="_blank" rel="noopener"
+           class="block bg-teal-gradient text-white rounded-2xl p-6 hover:-translate-y-0.5 hover:shadow-teal-glow transition-all duration-250">
+          <span class="icon-badge !bg-white/15 !text-white"><i data-lucide="calendar-check" class="w-5 h-5"></i></span>
+          <p class="mt-4 font-serif text-lg leading-tight">{% trans "Bu konuda randevu almak ister misiniz?" %}</p>
+          <span class="mt-4 inline-flex items-center gap-1 text-sm border-b border-white/40 pb-0.5 hover:border-white">
+            {% trans "Acıbadem Randevu" %} <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+          </span>
+        </a>
+      </aside>
+    </div>
+  </section>
+
+  {# ---------- Prev / Next ---------- #}
+  {% if prev_post or next_post %}
+  <section class="mt-20">
+    <div class="container-main grid md:grid-cols-2 gap-4">
+      {% if prev_post %}
+        <a href="{{ prev_post.get_absolute_url }}"
+           class="paper-card group !pl-6 block">
+          <span class="eyebrow !text-ink-500">← {% trans "Önceki yazı" %}</span>
+          <p class="mt-3 font-serif text-lg leading-tight group-hover:text-teal-700 transition-colors">{{ prev_post.title }}</p>
+        </a>
+      {% else %}<div></div>{% endif %}
+      {% if next_post %}
+        <a href="{{ next_post.get_absolute_url }}"
+           class="paper-card group !pl-6 md:text-right block">
+          <span class="eyebrow !text-ink-500">{% trans "Sonraki yazı" %} →</span>
+          <p class="mt-3 font-serif text-lg leading-tight group-hover:text-teal-700 transition-colors">{{ next_post.title }}</p>
+        </a>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+
+  {# ---------- Related posts ---------- #}
   {% if related %}
-  <section class="pt-10">
+  <section class="mt-20">
     <div class="container-main">
-      <h2 class="h-h2 mb-8">{% trans "İlgili yazılar" %}</h2>
+      <div class="flex items-end justify-between mb-8">
+        <div>
+          <span class="eyebrow">{% trans "Devamını Okuyun" %}</span>
+          <h2 class="h-h2 mt-3">{% trans "İlgili yazılar" %}</h2>
+        </div>
+        <a href="{% url 'blog:list' %}" class="btn-ghost">{% trans "Tümü" %} <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+      </div>
       <div class="grid md:grid-cols-3 gap-6">
         {% for r in related %}
-          <a href="{{ r.get_absolute_url }}" class="editorial-card">
+          <a href="{{ r.get_absolute_url }}" class="editorial-card group">
             {% if r.featured_image %}
               <div class="aspect-[16/10] overflow-hidden">
-                <img src="{{ r.featured_image.url }}" alt="{{ r.title }}" class="w-full h-full object-cover">
+                <img src="{{ r.featured_image.url }}" alt="{{ r.title }}"
+                     class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-[600ms]">
+              </div>
+            {% else %}
+              <div class="aspect-[16/10] bg-gradient-to-br from-teal-500 to-teal-800 flex items-center justify-center">
+                <span class="font-serif text-5xl text-white/40">{{ r.title|first }}</span>
               </div>
             {% endif %}
             <div class="p-6">
-              <h3 class="font-serif text-lg text-ink-900">{{ r.title }}</h3>
+              {% if r.category %}<span class="eyebrow">{{ r.category.name }}</span>{% endif %}
+              <h3 class="mt-3 font-serif text-lg text-ink-900 group-hover:text-teal-700 transition-colors">{{ r.title }}</h3>
               <p class="mt-2 text-sm text-ink-700 line-clamp-2">{{ r.excerpt }}</p>
+              <p class="mt-4 text-xs text-ink-500">{{ r.published_at|date:"d F Y" }} · {{ r.read_time_minutes }} {% trans "dk" %}</p>
             </div>
           </a>
         {% endfor %}
@@ -75,5 +263,15 @@
     </div>
   </section>
   {% endif %}
+
+  {# ---------- Back to blog CTA ---------- #}
+  <section class="mt-16">
+    <div class="container-main text-center">
+      <a href="{% url 'blog:list' %}" class="btn-outline">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        {% trans "Tüm Blog Yazıları" %}
+      </a>
+    </div>
+  </section>
 </article>
 {% endblock %}

@@ -193,7 +193,11 @@ LOGOUT_REDIRECT_URL = "/"
 # ---------------------------------------------------------------------------
 # CKEditor
 # ---------------------------------------------------------------------------
-CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_UPLOAD_PATH = "blog-uploads/"
+CKEDITOR_IMAGE_BACKEND = "pillow"
+CKEDITOR_ALLOW_NONIMAGE_FILES = False
+CKEDITOR_RESTRICT_BY_USER = True
+
 CKEDITOR_CONFIGS = {
     "default": {
         "toolbar": "Custom",
@@ -202,22 +206,35 @@ CKEDITOR_CONFIGS = {
             ["NumberedList", "BulletedList", "-", "Outdent", "Indent"],
             ["JustifyLeft", "JustifyCenter", "JustifyRight"],
             ["Link", "Unlink", "Anchor"],
+            ["Image", "Table", "HorizontalRule"],
             ["Format", "Styles"],
             ["RemoveFormat", "Source"],
         ],
+        "extraPlugins": "uploadimage,image2",
+        "removePlugins": "image",  # use the image2 plugin instead
         "height": 320,
         "width": "100%",
     },
     "doctor": {
-        "toolbar": "Simple",
-        "toolbar_Simple": [
-            ["Bold", "Italic", "Underline"],
+        "toolbar": "DoctorBlog",
+        "toolbar_DoctorBlog": [
+            ["Format"],
+            ["Bold", "Italic", "Underline", "-", "Blockquote"],
             ["NumberedList", "BulletedList"],
+            ["JustifyLeft", "JustifyCenter", "JustifyRight"],
             ["Link", "Unlink"],
+            ["Image", "Table", "HorizontalRule"],
             ["RemoveFormat"],
         ],
-        "height": 260,
+        "format_tags": "p;h2;h3;h4",
+        "extraPlugins": "uploadimage,image2,autolink",
+        "removePlugins": "image",
+        "image2_alignClasses": ["align-left", "align-center", "align-right"],
+        "image2_disableResizer": False,
+        "filebrowserUploadMethod": "form",
+        "height": 420,
         "width": "100%",
+        "contentsCss": ["/static/dist/css/output.css"],
     },
 }
 

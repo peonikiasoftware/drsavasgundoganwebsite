@@ -55,3 +55,15 @@ class Publication(models.Model):
         if self.pubmed_id:
             return f"https://pubmed.ncbi.nlm.nih.gov/{self.pubmed_id}/"
         return ""
+
+    @property
+    def best_url(self) -> str:
+        """First working link for the card click-through."""
+        from urllib.parse import quote
+        if self.full_url:
+            return self.full_url
+        if self.pubmed_id:
+            return f"https://pubmed.ncbi.nlm.nih.gov/{self.pubmed_id}/"
+        if self.doi:
+            return f"https://doi.org/{self.doi}"
+        return f"https://scholar.google.com/scholar?q={quote(self.title)}"

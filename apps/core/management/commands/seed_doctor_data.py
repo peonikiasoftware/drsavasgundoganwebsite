@@ -412,6 +412,7 @@ PUBLICATIONS = [
         authors="Takmaz O, Ozbasli E, Gundogan S, et al.",
         journal="JSLS: Journal of the Society of Laparoendoscopic Surgeons",
         year=2018, citation_count=30, is_featured=True, order=10,
+        pubmed_id="30524183",
     ),
     dict(
         title_tr=(
@@ -425,6 +426,7 @@ PUBLICATIONS = [
         authors="Takmaz O, Bastu E, Ozbasli E, Gundogan S, et al.",
         journal="Journal of Minimally Invasive Gynecology",
         year=2020, citation_count=24, is_featured=True, order=20,
+        pubmed_id="31476481",
     ),
     dict(
         title_tr="Dev Servikal Miyomun Laparoskopik Yönetimi",
@@ -432,6 +434,7 @@ PUBLICATIONS = [
         authors="Peker N, Gundogan S, Şendağ F",
         journal="Journal of Minimally Invasive Gynecology",
         year=2017, citation_count=16, is_featured=True, order=30,
+        pubmed_id="27632929",
     ),
     dict(
         title_tr=(
@@ -443,6 +446,7 @@ PUBLICATIONS = [
         authors="Peker N, Aydeniz EG, Gundogan S, Şendağ F",
         journal="Journal of Minimally Invasive Gynecology",
         year=2017, citation_count=16, is_featured=False, order=40,
+        pubmed_id="27449690",
     ),
     dict(
         title_tr="Dev Miyomun Laparoskopik Yardımlı Robotik Miyomektomisi",
@@ -462,6 +466,7 @@ PUBLICATIONS = [
         authors="Şendağ F, Peker N, Aydeniz EG, Akdemir A, Gundogan S",
         journal="Journal of Minimally Invasive Gynecology",
         year=2017, citation_count=6, is_featured=False, order=60,
+        pubmed_id="27480596",
     ),
     dict(
         title_tr="Tek Port Robotik Pelvik Bulky Lenf Nodu Rezeksiyonu: Vaka Sunumu",
@@ -469,6 +474,7 @@ PUBLICATIONS = [
         authors="Gungor M, Takmaz O, Afsar S, Ozbasli E, Gundogan S",
         journal="Journal of Minimally Invasive Gynecology",
         year=2016, citation_count=6, is_featured=False, order=70,
+        pubmed_id="27311875",
     ),
     dict(
         title_tr="Şiddetli Endometriozis için Tek Kesi Laparoskopik Histerektomi",
@@ -476,6 +482,7 @@ PUBLICATIONS = [
         authors="Sendag F, Peker N, Aydeniz EG, Akdemir A, Gundogan S",
         journal="Journal of Minimally Invasive Gynecology",
         year=2015, citation_count=3, is_featured=False, order=80,
+        pubmed_id="27678683",
     ),
     dict(
         title_tr="Adolesan Gebelikler ve Perinatal Sonuçlar",
@@ -502,6 +509,7 @@ PUBLICATIONS = [
         authors="Sendag F, Peker N, Aydeniz EG, Akdemir A, Gundogan S",
         journal="Journal of Minimally Invasive Gynecology",
         year=2015, citation_count=1, is_featured=False, order=110,
+        pubmed_id="27678733",
     ),
 ]
 

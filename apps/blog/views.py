@@ -32,9 +32,27 @@ def post_detail(request, slug):
         slug=slug, status="published",
     )
     BlogPost.objects.filter(pk=post.pk).update(view_count=F("view_count") + 1)
+
     related = BlogPost.objects.filter(
         status="published", category=post.category,
     ).exclude(pk=post.pk).order_by("-published_at")[:3]
+
+    # Previous / next by publish date within same category (fallback: global)
+    siblings = BlogPost.objects.filter(status="published").order_by("-published_at")
+    slugs = list(siblings.values_list("slug", flat=True))
+    prev_post = next_post = None
+    try:
+        idx = slugs.index(post.slug)
+        if idx + 1 < len(slugs):
+            prev_post = siblings.get(slug=slugs[idx + 1])  # older
+        if idx > 0:
+            next_post = siblings.get(slug=slugs[idx - 1])  # newer
+    except ValueError:
+        pass
+
     return render(request, "blog/detail.html", {
-        "post": post, "related": related,
+        "post": post,
+        "related": related,
+        "prev_post": prev_post,
+        "next_post": next_post,
     })
