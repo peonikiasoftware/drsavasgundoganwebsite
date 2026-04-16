@@ -1,44 +1,73 @@
 #!/usr/bin/env bash
 # -----------------------------------------------------------------
-# Vercel build script (Python 3.12 + Node 20+)
-#
-# NOTE: Vercel's build image uses uv-managed Python where global pip
-# is blocked by PEP 668. We create our own venv at build time; the
-# @vercel/python runtime still installs requirements.txt into the
-# lambda independently.
+# Vercel build script — runs inside @vercel/static-build
 # -----------------------------------------------------------------
-set -euo pipefail
-echo "--- build_files.sh starting ---"
+set -e
+echo "=== build_files.sh starting ==="
+echo "PWD: $(pwd)"
+echo "Node: $(node --version 2>&1 || echo MISSING)"
+echo "npm:  $(npm --version 2>&1 || echo MISSING)"
+echo "ls /usr/bin | grep python:"
+ls /usr/bin/ 2>/dev/null | grep -i python || true
 
-# 1. Build-time Python venv + deps
-echo "[1/5] create build venv + install Python deps"
-python3.12 -m venv /tmp/build_venv
-PY="/tmp/build_venv/bin/python"
-$PY -m pip install --upgrade pip wheel
-$PY -m pip install -r requirements.txt
+# ---------------------------------------------------------------
+# 1. Find a usable Python 3.x interpreter (Vercel image has 3.12)
+# ---------------------------------------------------------------
+PYTHON_BIN=""
+for candidate in python3.12 python3.11 python3.10 python3 python; do
+  if command -v "$candidate" >/dev/null 2>&1; then
+    PYTHON_BIN=$(command -v "$candidate")
+    break
+  fi
+done
+if [ -z "$PYTHON_BIN" ]; then
+  echo "FATAL: No Python binary found on PATH"
+  exit 1
+fi
+echo "Using Python: $PYTHON_BIN ($($PYTHON_BIN --version 2>&1))"
 
-# 2. Frontend build (Tailwind)
-echo "[2/5] npm install + build"
-npm ci --no-audit --no-fund --loglevel=error || npm install --no-audit --no-fund
+# ---------------------------------------------------------------
+# 2. Build-time venv + deps
+#    (avoids Vercel's uv-managed system Python PEP 668 lock)
+# ---------------------------------------------------------------
+echo "--- [1/5] create venv + install Python deps ---"
+VENV_DIR="$(pwd)/.build_venv"
+"$PYTHON_BIN" -m venv "$VENV_DIR"
+PY="$VENV_DIR/bin/python"
+"$PY" -m pip install --upgrade pip wheel --quiet
+"$PY" -m pip install -r requirements.txt --quiet
+echo "Django: $("$PY" -c 'import django; print(django.get_version())')"
+
+# ---------------------------------------------------------------
+# 3. Frontend (Tailwind)
+# ---------------------------------------------------------------
+echo "--- [2/5] npm install + build ---"
+npm ci --no-audit --no-fund --loglevel=error || npm install --no-audit --no-fund --loglevel=error
 npm run build
 
-# 3. collectstatic into the directory Vercel routes /static/ to
-echo "[3/5] collectstatic"
+# ---------------------------------------------------------------
+# 4. Django collectstatic → staticfiles_build/static/
+# ---------------------------------------------------------------
+echo "--- [3/5] collectstatic ---"
 export DJANGO_SETTINGS_MODULE=config.settings.prod
-mkdir -p staticfiles_build
-$PY manage.py collectstatic --noinput --clear
+mkdir -p staticfiles_build/static
+"$PY" manage.py collectstatic --noinput --clear
 
-# 4. Migrate the Supabase database
-echo "[4/5] migrate + first-run seed"
-$PY manage.py migrate --noinput || {
-  echo "WARN: migrate failed — continuing, you may need to run it manually."
-}
-$PY manage.py create_initial_users || echo "INFO: users already exist."
-$PY manage.py seed_doctor_data || echo "WARN: seed failed — run manually."
+# ---------------------------------------------------------------
+# 5. Migrate + first-run seed (failures are non-fatal — don't
+#    break the deploy if DATABASE_URL isn't set yet, etc.)
+# ---------------------------------------------------------------
+echo "--- [4/5] migrate + seed ---"
+"$PY" manage.py migrate --noinput      || echo "WARN: migrate failed — check DATABASE_URL env var."
+"$PY" manage.py create_initial_users   || echo "INFO: users already exist or env vars missing."
+"$PY" manage.py seed_doctor_data       || echo "WARN: seed failed — run manually later."
 
-# 5. compilemessages is optional; .mo files are pre-compiled and committed.
-echo "[5/5] compilemessages (best-effort)"
-$PY manage.py compilemessages 2>/dev/null || \
+# ---------------------------------------------------------------
+# 6. compilemessages — gettext missing on Vercel; .mo files are
+#    pre-compiled and committed, so this is best-effort.
+# ---------------------------------------------------------------
+echo "--- [5/5] compilemessages (best-effort) ---"
+"$PY" manage.py compilemessages 2>/dev/null || \
   echo "INFO: gettext missing on Vercel — using pre-compiled .mo files from repo."
 
-echo "--- build_files.sh done ---"
+echo "=== build_files.sh done ==="
