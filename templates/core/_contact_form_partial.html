@@ -1,0 +1,70 @@
+{% load i18n widget_tweaks %}
+{% if success %}
+  <div class="rounded-2xl bg-teal-50 border border-teal-200 p-6 text-teal-800">
+    <div class="flex gap-3 items-start">
+      <span class="w-9 h-9 shrink-0 inline-flex items-center justify-center rounded-xl bg-teal-500 text-white">
+        <i data-lucide="check" class="w-4 h-4"></i>
+      </span>
+      <div>
+        <p class="font-serif text-xl">{% trans "Mesajınız alındı." %}</p>
+        <p class="mt-1 text-sm">{% trans "Ekibimiz kısa süre içinde size geri dönecektir." %}</p>
+      </div>
+    </div>
+  </div>
+{% else %}
+  <form method="post" action="{% url 'core:contact' %}"
+        hx-post="{% url 'core:contact' %}" hx-target="#contact-form-wrap" hx-swap="innerHTML"
+        class="space-y-5" novalidate>
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="p-4 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+
+    <div class="grid sm:grid-cols-2 gap-5">
+      <div>
+        <label class="form-label" for="id_name">{% trans "Ad Soyad" %} *</label>
+        {% render_field form.name class="form-input" required="required" %}
+        {% if form.name.errors %}<p class="mt-1 text-xs text-red-600">{{ form.name.errors.0 }}</p>{% endif %}
+      </div>
+      <div>
+        <label class="form-label" for="id_email">{% trans "E-posta" %} *</label>
+        {% render_field form.email class="form-input" required="required" %}
+        {% if form.email.errors %}<p class="mt-1 text-xs text-red-600">{{ form.email.errors.0 }}</p>{% endif %}
+      </div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-5">
+      <div>
+        <label class="form-label" for="id_phone">{% trans "Telefon" %}</label>
+        {% render_field form.phone class="form-input" %}
+      </div>
+      <div>
+        <label class="form-label" for="id_subject">{% trans "Konu" %}</label>
+        {% render_field form.subject class="form-input" %}
+      </div>
+    </div>
+
+    <div>
+      <label class="form-label" for="id_message">{% trans "Mesajınız" %} *</label>
+      {% render_field form.message class="form-input" required="required" rows="5" %}
+      {% if form.message.errors %}<p class="mt-1 text-xs text-red-600">{{ form.message.errors.0 }}</p>{% endif %}
+    </div>
+
+    <label class="flex items-start gap-3 text-sm text-ink-700 cursor-pointer">
+      {% render_field form.kvkk_consent class="mt-1 h-4 w-4 text-teal-500 rounded border-ink-300 focus:ring-teal-500" required="required" %}
+      <span>
+        <a href="{% url 'core:kvkk' %}" class="text-teal-700 underline">{% trans "Aydınlatma Metni" %}</a>
+        {% trans "'ni okudum ve kişisel verilerimin bu form kapsamında işlenmesini kabul ediyorum." %}
+      </span>
+    </label>
+    {% if form.kvkk_consent.errors %}<p class="text-xs text-red-600">{{ form.kvkk_consent.errors.0 }}</p>{% endif %}
+
+    <button type="submit" class="btn-primary w-full sm:w-auto">
+      <i data-lucide="send" class="w-4 h-4"></i>
+      {% trans "Mesajı Gönder" %}
+    </button>
+  </form>
+{% endif %}

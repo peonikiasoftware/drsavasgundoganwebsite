@@ -1,0 +1,21 @@
+{% load i18n %}
+{# Usage: wrap the triggering grid in x-data="videoModal" and call show(url) on each card. #}
+<div x-show="open" x-cloak
+     @keydown.escape.window="hide()"
+     x-transition.opacity
+     class="fixed inset-0 z-[70] bg-ink-900/85 backdrop-blur-sm flex items-center justify-center p-4"
+     @click.self="hide()"
+     style="display:none">
+  <div class="relative w-full max-w-md">
+    <button type="button" @click="hide()" aria-label="{% trans 'Kapat' %}"
+            class="absolute -top-12 right-0 w-10 h-10 rounded-full bg-white/10 text-white inline-flex items-center justify-center hover:bg-white/20 transition-colors duration-250">
+      <i data-lucide="x" class="w-5 h-5"></i>
+    </button>
+    <div class="aspect-[9/16] bg-ink-900 rounded-2xl overflow-hidden shadow-2xl">
+      <template x-if="open && src">
+        <iframe :src="src" class="w-full h-full" frameborder="0"
+                allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+      </template>
+    </div>
+  </div>
+</div>

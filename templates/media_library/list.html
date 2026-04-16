@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Video Kütüphanesi" %} — {{ doctor.full_name }}{% endblock %}
+
+{% block content %}
+<section class="section-padding bg-cream-50" x-data="videoModal">
+
+  <div class="container-main">
+    <div class="max-w-3xl mb-14">
+      <span class="eyebrow">{% trans "Bilgilendirme Videoları" %}</span>
+      <h1 class="h-display mt-4">
+        {% blocktrans %}Kadın sağlığını <span class="accent-italic">kendi sesimle</span>.{% endblocktrans %}
+      </h1>
+      <p class="mt-5 text-ink-700 text-lg">
+        {% trans "Hasta bilgilendirme için hazırladığım videolara göz atın. Her video kısa, anlaşılır ve güncel bilgiler içerir." %}
+      </p>
+    </div>
+
+    {# ---------- HERO VIDEO — Acıbadem official ---------- #}
+    {% if hero_video %}
+    <article class="featured-card mb-14 grid md:grid-cols-2 gap-0 items-stretch">
+      <div class="relative aspect-[9/16] md:aspect-auto md:min-h-[520px] bg-ink-900">
+        <iframe src="{{ hero_video.embed_url }}" class="w-full h-full"
+                frameborder="0" allow="encrypted-media" loading="lazy"
+                title="{{ hero_video.title }}"></iframe>
+      </div>
+      <div class="p-8 md:p-12 flex flex-col justify-center">
+        <span class="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-gold-600">
+          <span class="w-6 h-px bg-gold-500"></span>
+          {% trans "Acıbadem Resmi Hesabında Yayınlandı" %}
+        </span>
+        <h2 class="h-h2 mt-4">{{ hero_video.title }}</h2>
+        <p class="mt-4 text-ink-700 leading-relaxed">{{ hero_video.description }}</p>
+        {% if hero_video.publish_date %}
+          <p class="mt-5 text-xs text-ink-500">{{ hero_video.publish_date|date:"d F Y" }}</p>
+        {% endif %}
+        <a href="{{ hero_video.video_url }}" target="_blank" rel="noopener" class="btn-ghost mt-5">
+          {% trans "Orijinal paylaşımı gör" %} <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </article>
+    {% endif %}
+
+    {# ---------- Category filter ---------- #}
+    {% if categories %}
+    <div class="flex flex-wrap gap-2 mb-10">
+      <a href="{% url 'media_library:list' %}"
+         class="inline-flex items-center px-4 h-9 rounded-full border text-sm transition-all duration-250
+                {% if not current_category %}bg-teal-500 border-teal-500 text-white{% else %}bg-white border-ink-100 text-ink-700 hover:border-teal-200 hover:text-teal-700{% endif %}">
+        {% trans "Tümü" %}
+      </a>
+      {% for c in categories %}
+        <a href="?category={{ c.slug }}"
+           class="inline-flex items-center px-4 h-9 rounded-full border text-sm transition-all duration-250
+                  {% if current_category == c.slug %}bg-teal-500 border-teal-500 text-white{% else %}bg-white border-ink-100 text-ink-700 hover:border-teal-200 hover:text-teal-700{% endif %}">
+          {{ c.name }}
+        </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {# ---------- Grid ---------- #}
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for v in videos %}
+      <button type="button" @click='show("{{ v.embed_url|escapejs }}")' class="group editorial-card text-left">
+        <div class="relative aspect-[4/5] bg-ink-900 overflow-hidden">
+          {% if v.thumbnail %}
+            <img src="{{ v.thumbnail.url }}" alt="{{ v.title }}"
+                 class="w-full h-full object-cover opacity-85 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-[600ms]">
+          {% else %}
+            <div class="absolute inset-0 bg-gradient-to-br from-teal-900 via-ink-900 to-[#001419]"></div>
+          {% endif %}
+          <div class="absolute inset-0 flex items-center justify-center">
+            <span class="w-14 h-14 rounded-full bg-white/90 text-teal-700 inline-flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <i data-lucide="play" class="w-5 h-5 fill-current"></i>
+            </span>
+          </div>
+          {% if v.is_official_acibadem %}
+            <span class="absolute top-3 left-3 bg-gold-500 text-ink-900 text-[10px] font-semibold uppercase tracking-wider px-3 py-1 rounded-full">Acıbadem</span>
+          {% endif %}
+        </div>
+        <div class="p-5">
+          <p class="font-serif text-base text-ink-900 leading-snug">{{ v.title }}</p>
+          {% if v.description %}
+            <p class="mt-1.5 text-xs text-ink-700 line-clamp-2">{{ v.description }}</p>
+          {% endif %}
+        </div>
+      </button>
+      {% empty %}
+        <p class="text-ink-700 col-span-full">{% trans "Henüz video eklenmedi." %}</p>
+      {% endfor %}
+    </div>
+
+    {% include "partials/_video_modal.html" %}
+  </div>
+</section>
+{% endblock %}

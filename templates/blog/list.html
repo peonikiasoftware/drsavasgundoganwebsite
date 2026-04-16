@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Blog — {{ doctor.full_name }}{% endblock %}
+
+{% block content %}
+<section class="section-padding bg-cream-50">
+  <div class="container-main">
+
+    <div class="max-w-3xl mb-14">
+      <span class="eyebrow">Blog</span>
+      <h1 class="h-display mt-4">
+        {% blocktrans %}Kadın sağlığı üzerine <span class="accent-italic">düşünceler</span>.{% endblocktrans %}
+      </h1>
+    </div>
+
+    {% if posts %}
+      {# ---------- Filters + search ---------- #}
+      <form method="get" class="flex flex-col md:flex-row gap-3 mb-10 bg-white border border-ink-100 rounded-2xl p-4">
+        <select name="category" class="form-input !py-2 rounded-xl border !border-ink-100 bg-white flex-1">
+          <option value="">{% trans "Tüm kategoriler" %}</option>
+          {% for c in categories %}
+            <option value="{{ c.slug }}" {% if current_category == c.slug %}selected{% endif %}>{{ c.name }}</option>
+          {% endfor %}
+        </select>
+        <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'Başlıkta ara...' %}"
+               class="form-input !py-2 rounded-xl border !border-ink-100 bg-white flex-1">
+        <button type="submit" class="btn-primary !py-2.5 text-sm">
+          <i data-lucide="search" class="w-4 h-4"></i> {% trans "Ara" %}
+        </button>
+      </form>
+
+      {# ---------- Grid ---------- #}
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for post in posts %}
+          <a href="{{ post.get_absolute_url }}" class="editorial-card group">
+            {% if post.featured_image %}
+              <div class="aspect-[16/10] overflow-hidden">
+                <img src="{{ post.featured_image.url }}" alt="{{ post.title }}"
+                     class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-[600ms]">
+              </div>
+            {% else %}
+              <div class="aspect-[16/10] bg-gradient-to-br from-teal-500/90 to-teal-800 flex items-center justify-center">
+                <span class="font-serif text-5xl text-white/40">{{ post.title|first }}</span>
+              </div>
+            {% endif %}
+            <div class="p-6">
+              {% if post.category %}<span class="eyebrow">{{ post.category.name }}</span>{% endif %}
+              <h3 class="mt-3 font-serif text-xl text-ink-900 leading-tight group-hover:text-teal-700 transition-colors">{{ post.title }}</h3>
+              <p class="mt-3 text-sm text-ink-700 line-clamp-3">{{ post.excerpt }}</p>
+              <p class="mt-5 text-xs text-ink-500">{{ post.published_at|date:"d F Y" }} · {{ post.read_time_minutes }} {% trans "dk" %}</p>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+
+    {% else %}
+      {# ---------- Coming soon placeholder ---------- #}
+      <div class="bg-white border border-ink-100 rounded-3xl p-10 md:p-16 text-center">
+        <span class="icon-badge !w-16 !h-16 mx-auto"><i data-lucide="pen-line" class="w-7 h-7"></i></span>
+        <h2 class="h-h2 mt-8">{% trans "Yakında burada..." %}</h2>
+        <p class="mt-4 max-w-xl mx-auto text-ink-700 text-lg">
+          {% blocktrans %}Blog yazılarım yakında yayımlanacak. O zamana kadar Instagram hesabımdan güncel içeriklere erişebilirsiniz.{% endblocktrans %}
+        </p>
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
+          <a href="{{ doctor.instagram_url }}" target="_blank" rel="noopener" class="btn-primary">
+            <i data-lucide="instagram" class="w-4 h-4"></i> {{ doctor.instagram_handle }}
+          </a>
+          <a href="{% url 'media_library:list' %}" class="btn-outline">
+            <i data-lucide="play-circle" class="w-4 h-4"></i> {% trans "Videolarımı izle" %}
+          </a>
+        </div>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+{% endblock %}

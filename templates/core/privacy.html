@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ page_title }} — {{ doctor.full_name }}{% endblock %}
+
+{% block content %}
+<section class="section-padding bg-cream-50">
+  <div class="container-narrow">
+    <span class="eyebrow">{% trans "Yasal" %}</span>
+    <h1 class="h-display mt-4">{{ page_title }}</h1>
+    <div class="mt-12 prose-clinic">
+      {% if body_field == 'privacy_body' and site_settings.privacy_body %}
+        {{ site_settings.privacy_body|safe }}
+      {% elif body_field == 'kvkk_body' and site_settings.kvkk_body %}
+        {{ site_settings.kvkk_body|safe }}
+      {% else %}
+        <p>{% trans "Bu sayfada aydınlatma metni ve veri sorumlusunun yükümlülükleri yer alır." %}</p>
+        <p>{% trans "6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında, bu web sitesinden iletilen formlar yoluyla toplanan ad, soyad, e-posta, telefon ve mesaj içeriği bilgileriniz yalnızca talebinize cevap verebilmek amacıyla işlenir. Bilgileriniz üçüncü şahıslarla paylaşılmaz ve talebiniz tamamlandığında makul bir süre içinde silinir." %}</p>
+        <h2>{% trans "Haklarınız" %}</h2>
+        <ul>
+          <li>{% trans "Kişisel verilerinizin işlenip işlenmediğini öğrenme." %}</li>
+          <li>{% trans "İşlenen verilerinize ilişkin bilgi talep etme." %}</li>
+          <li>{% trans "Verilerinizin düzeltilmesini veya silinmesini isteme." %}</li>
+        </ul>
+        <p>{% trans "Başvurularınızı" %} <a href="mailto:{{ doctor.email_public }}">{{ doctor.email_public }}</a> {% trans "adresine iletebilirsiniz." %}</p>
+      {% endif %}
+    </div>
+    <p class="mt-12 text-xs text-ink-500">{% trans "Son güncelleme:" %} {{ doctor.updated_at|date:"d F Y" }}</p>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ post.meta_title|default:post.title }} — {{ doctor.full_name }}{% endblock %}
+{% block meta_description %}{{ post.meta_description|default:post.excerpt|truncatechars:160 }}{% endblock %}
+
+{% block content %}
+<article class="pb-24">
+
+  {# ---------- HERO ---------- #}
+  <section class="bg-cream-50 pt-20 pb-16">
+    <div class="container-narrow text-center">
+      {% if post.category %}
+        <a href="{% url 'blog:list' %}?category={{ post.category.slug }}" class="eyebrow">{{ post.category.name }}</a>
+      {% endif %}
+      <h1 class="mt-4 font-serif text-4xl md:text-5xl lg:text-6xl tracking-tight text-ink-900 leading-[1.05]">
+        {{ post.title }}
+      </h1>
+      <p class="mt-6 text-ink-500 text-sm">
+        {{ post.author_name }} · {{ post.published_at|date:"d F Y" }} · {{ post.read_time_minutes }} {% trans "dk okuma" %}
+      </p>
+    </div>
+  </section>
+
+  {% if post.featured_image %}
+  <div class="container-main">
+    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}"
+         class="w-full rounded-3xl object-cover aspect-[16/8] shadow-soft-lift -mt-6">
+  </div>
+  {% endif %}
+
+  {# ---------- BODY ---------- #}
+  <section class="py-16">
+    <div class="container-narrow">
+      <div class="prose-clinic">{{ post.content|safe }}</div>
+
+      {% if post.related_specialty %}
+        <div class="mt-14 p-6 bg-teal-50 border-l-2 border-teal-500 rounded-r-xl flex items-center gap-4">
+          <span class="icon-badge !w-12 !h-12"><i data-lucide="stethoscope" class="w-5 h-5"></i></span>
+          <div>
+            <p class="text-xs uppercase tracking-[0.18em] text-teal-700">{% trans "İlgili uzmanlık" %}</p>
+            <a href="{{ post.related_specialty.get_absolute_url }}" class="font-serif text-lg text-ink-900 hover:text-teal-700">{{ post.related_specialty.title }}</a>
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="mt-14 p-8 rounded-2xl bg-teal-gradient text-white">
+        <p class="font-serif text-xl">{% trans "Bu konuyu benimle konuşmak ister misiniz?" %}</p>
+        <a href="{{ doctor.appointment_url }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 mt-5 px-6 py-3 rounded-full bg-white text-teal-700 font-medium">
+          <i data-lucide="calendar-check" class="w-4 h-4"></i> {% trans "Randevu Al" %}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {% if related %}
+  <section class="pt-10">
+    <div class="container-main">
+      <h2 class="h-h2 mb-8">{% trans "İlgili yazılar" %}</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {% for r in related %}
+          <a href="{{ r.get_absolute_url }}" class="editorial-card">
+            {% if r.featured_image %}
+              <div class="aspect-[16/10] overflow-hidden">
+                <img src="{{ r.featured_image.url }}" alt="{{ r.title }}" class="w-full h-full object-cover">
+              </div>
+            {% endif %}
+            <div class="p-6">
+              <h3 class="font-serif text-lg text-ink-900">{{ r.title }}</h3>
+              <p class="mt-2 text-sm text-ink-700 line-clamp-2">{{ r.excerpt }}</p>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+</article>
+{% endblock %}
