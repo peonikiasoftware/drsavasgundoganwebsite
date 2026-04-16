@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /doctor-admin/
+Disallow: /ckeditor/
+
+Sitemap: https://drsavasgundogan.com/sitemap.xml

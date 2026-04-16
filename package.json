@@ -1,0 +1,16 @@
+{
+  "name": "drsavasgundogan-frontend",
+  "version": "1.0.0",
+  "description": "Tailwind CSS build pipeline for Op. Dr. Savaş Gündoğan official site",
+  "private": true,
+  "scripts": {
+    "build": "tailwindcss -i ./static/src/css/input.css -o ./static/dist/css/output.css --minify",
+    "watch": "tailwindcss -i ./static/src/css/input.css -o ./static/dist/css/output.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.9",
+    "@tailwindcss/typography": "^0.5.15",
+    "tailwindcss": "^3.4.14"
+  }
+}
