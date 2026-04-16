@@ -42,8 +42,10 @@ yarn-error.log
 htmlcov/
 .pytest_cache/
 
-# Translations (derlenmişler commit edilmez, .po edilir)
-*.mo
+# Translations — .po is canonical, .mo is commited so Vercel doesn't need gettext.
+# (Vercel build image doesn't include GNU gettext; compilemessages fails there.)
+# Keep .mo files under /locale/ tracked.
+
 
 # OS
 Thumbs.db

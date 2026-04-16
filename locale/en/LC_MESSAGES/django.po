@@ -1,0 +1,730 @@
+# English translations for drsavasgundogan site.
+# Copyright (C) 2026 Op. Dr. Savaş Gündoğan
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: drsavasgundogan 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-16 21:00+0300\n"
+"PO-Revision-Date: 2026-04-16 21:00+0300\n"
+"Last-Translator: Claude Code\n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# ----------------------------------------------------------------
+# Navigation & headers
+# ----------------------------------------------------------------
+msgid "Ana Sayfa"
+msgstr "Home"
+
+msgid "Hakkımda"
+msgstr "About"
+
+msgid "Uzmanlık"
+msgstr "Expertise"
+
+msgid "Uzmanlık Alanlarım"
+msgstr "Areas of Expertise"
+
+msgid "Kariyer"
+msgstr "Career"
+
+msgid "Yayınlar"
+msgstr "Publications"
+
+msgid "Akademik Yayınlar"
+msgstr "Academic Publications"
+
+msgid "Video Kütüphanesi"
+msgstr "Video Library"
+
+msgid "Videolar"
+msgstr "Videos"
+
+msgid "Blog"
+msgstr "Blog"
+
+msgid "SSS"
+msgstr "FAQ"
+
+msgid "Sıkça Sorulan Sorular"
+msgstr "Frequently Asked Questions"
+
+msgid "Eğitim"
+msgstr "Education"
+
+msgid "Eğitim & Deneyim"
+msgstr "Education & Experience"
+
+msgid "Deneyim"
+msgstr "Experience"
+
+msgid "İletişim"
+msgstr "Contact"
+
+msgid "Randevu Al"
+msgstr "Book Appointment"
+
+msgid "Randevu Al — Acıbadem"
+msgstr "Book at Acıbadem"
+
+msgid "Menüyü aç"
+msgstr "Open menu"
+
+msgid "Menüyü kapat"
+msgstr "Close menu"
+
+msgid "Gezinme"
+msgstr "Navigation"
+
+# ----------------------------------------------------------------
+# Hero + homepage
+# ----------------------------------------------------------------
+msgid "Özenle · Bilimle · Modern Tekniklerle"
+msgstr "With Care · With Science · With Modern Techniques"
+
+msgid "Uzmanlık <span class=\"accent-italic\">Alanlarım</span>"
+msgstr "My Areas of <span class=\"accent-italic\">Expertise</span>"
+
+msgid "Tüm Uzmanlık Alanlarım"
+msgstr "All Areas of Expertise"
+
+msgid "Neden Ben"
+msgstr "Why Me"
+
+msgid "Sizinle <span class=\"accent-italic\">birlikte</span> şekillendirilen bir tedavi."
+msgstr "Treatment <span class=\"accent-italic\">shaped together</span> with you."
+
+msgid "Uluslararası Deneyim"
+msgstr "International Experience"
+
+msgid "İtalya'da Università degli Studi dell'Insubria'da minimal invaziv cerrahi eğitimi aldım. Dünya standartlarında teknikleri kliniğime taşıyorum."
+msgstr "I trained at Università degli Studi dell'Insubria in Italy in minimally invasive surgery. I bring world-class techniques back to my clinic."
+
+msgid "Minimal İnvaziv Uzmanlık"
+msgstr "Minimally Invasive Expertise"
+
+msgid "vNOTES (izsiz vajinal cerrahi), robotik cerrahi ve tek-port laparoskopi ile daha kısa iyileşme, minimum iz."
+msgstr "vNOTES (scarless vaginal surgery), robotic surgery and single-port laparoscopy — shorter recovery, minimal scarring."
+
+msgid "Hasta Odaklı Yaklaşım"
+msgstr "Patient-Centered Approach"
+
+msgid "Her hasta özeldir. Tedavi planı, yaşam tarzına ve beklentilerine göre birebir tasarlanır."
+msgstr "Every patient is unique. Treatment is tailored to their lifestyle and expectations."
+
+msgid "Akademi"
+msgstr "Academia"
+
+msgid "Akademik <span class=\"accent-italic\">Araştırmalarım</span>"
+msgstr "My Academic <span class=\"accent-italic\">Research</span>"
+
+msgid "Minimal invaziv cerrahi, robotik myomektomi ve endometriozis üzerine <em>Journal of Minimally Invasive Gynecology</em> başta olmak üzere prestijli dergilerde uluslararası yayınlar."
+msgstr "International publications on minimally invasive surgery, robotic myomectomy and endometriosis, published in leading journals including <em>Journal of Minimally Invasive Gynecology</em>."
+
+msgid "Tüm yayınlarım"
+msgstr "All my publications"
+
+msgid "Google Scholar profilim"
+msgstr "My Google Scholar profile"
+
+msgid "atıf"
+msgstr "citations"
+
+msgid "Hasta bilgilendirme <span class=\"accent-italic\">videolarım</span>"
+msgstr "My patient education <span class=\"accent-italic\">videos</span>"
+
+msgid "Tüm videolar"
+msgstr "All videos"
+
+msgid "Son Yazılar"
+msgstr "Recent Posts"
+
+msgid "Tüm yazılar"
+msgstr "All posts"
+
+msgid "Kısaca"
+msgstr "In Brief"
+
+msgid "Her hasta bir <span class=\"accent-italic\">hikâyedir</span>."
+msgstr "Every patient is a <span class=\"accent-italic\">story</span>."
+
+msgid "Hakkımda daha fazla"
+msgstr "Read more about me"
+
+msgid "Sağlığınız için bir adım atın."
+msgstr "Take a step for your health."
+
+msgid "Randevu talebiniz veya sorunuz için bize ulaşın. Her mesaj kısa süre içinde yanıtlanır."
+msgstr "Reach out for an appointment or any question — every message receives a prompt reply."
+
+msgid "Mesaj Gönder"
+msgstr "Send a Message"
+
+# ----------------------------------------------------------------
+# About page
+# ----------------------------------------------------------------
+msgid "Hikayem"
+msgstr "My Story"
+
+msgid "Hekimliğe giden <span class=\"accent-italic\">yol</span>."
+msgstr "The <span class=\"accent-italic\">path</span> to medicine."
+
+msgid "Temelini attığım <span class=\"accent-italic\">kurumlar</span>."
+msgstr "Where I <span class=\"accent-italic\">began</span>."
+
+msgid "Klinik <span class=\"accent-italic\">serüvenim</span>."
+msgstr "My clinical <span class=\"accent-italic\">journey</span>."
+
+msgid "güncel"
+msgstr "present"
+
+msgid "Aktif"
+msgstr "Active"
+
+msgid "Mesleki Üyelikler"
+msgstr "Professional Memberships"
+
+msgid "Üye olduğum dernekler"
+msgstr "Associations I am a member of"
+
+msgid "Sizi dinlemeye ve birlikte plan yapmaya hazırım."
+msgstr "I'm ready to listen and plan together with you."
+
+# ----------------------------------------------------------------
+# Expertise
+# ----------------------------------------------------------------
+msgid "Klinik Uzmanlık"
+msgstr "Clinical Expertise"
+
+msgid "Modern tekniklerle, <span class=\"accent-italic\">özen</span> ve <span class=\"accent-italic\">bilim</span>."
+msgstr "Modern techniques, <span class=\"accent-italic\">care</span> and <span class=\"accent-italic\">science</span>."
+
+msgid "Minimal invaziv cerrahi, endometriozis, robotik cerrahi ve kadın sağlığının her alanında kanıta dayalı, kişiye özel yaklaşım."
+msgstr "Evidence-based, personalized care in minimally invasive surgery, endometriosis, robotic surgery and every area of women's health."
+
+msgid "Detay"
+msgstr "Details"
+
+msgid "Detayları gör"
+msgstr "See details"
+
+msgid "Diğer Alanlar"
+msgstr "Other Areas"
+
+msgid "Hakkında"
+msgstr "About"
+
+msgid "Kısa bilgi"
+msgstr "Overview"
+
+msgid "Belirtiler"
+msgstr "Symptoms"
+
+msgid "Ne zaman dikkat etmeli?"
+msgstr "When to take notice?"
+
+msgid "Tedavi Yaklaşımım"
+msgstr "My Treatment Approach"
+
+msgid "Tedavi yaklaşımım"
+msgstr "My treatment approach"
+
+msgid "İyileşme"
+msgstr "Recovery"
+
+msgid "İyileşme süreci"
+msgstr "Recovery process"
+
+msgid "Sık sorulan sorular"
+msgstr "Frequently asked questions"
+
+msgid "Bu konuda size danışmanlık vermek için buradayım."
+msgstr "I'm here to advise you on this topic."
+
+msgid "İlgili Blog Yazıları"
+msgstr "Related Blog Posts"
+
+msgid "İlgili Uzmanlık Alanları"
+msgstr "Related Specialty Areas"
+
+msgid "İlgili uzmanlık"
+msgstr "Related specialty"
+
+# ----------------------------------------------------------------
+# Publications
+# ----------------------------------------------------------------
+msgid "Uluslararası <span class=\"accent-italic\">araştırmalarım</span>."
+msgstr "My international <span class=\"accent-italic\">research</span>."
+
+msgid "Google Scholar Profilim"
+msgstr "My Google Scholar Profile"
+
+msgid "Tüm yıllar"
+msgstr "All years"
+
+msgid "Tüm dergiler"
+msgstr "All journals"
+
+msgid "Yıla göre"
+msgstr "By year"
+
+msgid "Atıfa göre"
+msgstr "By citations"
+
+msgid "Filtrele"
+msgstr "Filter"
+
+msgid "Özeti oku"
+msgstr "Read abstract"
+
+msgid "Tam metin"
+msgstr "Full text"
+
+msgid "Özet"
+msgstr "Abstract"
+
+msgid "Seçilen filtrelerle eşleşen yayın bulunamadı."
+msgstr "No publications match the selected filters."
+
+# ----------------------------------------------------------------
+# Videos
+# ----------------------------------------------------------------
+msgid "Bilgilendirme Videoları"
+msgstr "Information Videos"
+
+msgid "Kadın sağlığını <span class=\"accent-italic\">kendi sesimle</span>."
+msgstr "Women's health <span class=\"accent-italic\">in my own voice</span>."
+
+msgid "Hasta bilgilendirme için hazırladığım videolara göz atın. Her video kısa, anlaşılır ve güncel bilgiler içerir."
+msgstr "Browse the videos I've prepared for patient education — short, clear, and up to date."
+
+msgid "Acıbadem Resmi Hesabında Yayınlandı"
+msgstr "Published on Acıbadem's Official Account"
+
+msgid "Orijinal paylaşımı gör"
+msgstr "View original post"
+
+msgid "Tümü"
+msgstr "All"
+
+msgid "Henüz video eklenmedi."
+msgstr "No videos added yet."
+
+msgid "Kapat"
+msgstr "Close"
+
+# ----------------------------------------------------------------
+# Blog
+# ----------------------------------------------------------------
+msgid "Kadın sağlığı üzerine <span class=\"accent-italic\">düşünceler</span>."
+msgstr "<span class=\"accent-italic\">Thoughts</span> on women's health."
+
+msgid "Tüm kategoriler"
+msgstr "All categories"
+
+msgid "Başlıkta ara..."
+msgstr "Search titles..."
+
+msgid "Ara"
+msgstr "Search"
+
+msgid "dk"
+msgstr "min"
+
+msgid "dk okuma"
+msgstr "min read"
+
+msgid "Yakında burada..."
+msgstr "Coming soon..."
+
+msgid "Blog yazılarım yakında yayımlanacak. O zamana kadar Instagram hesabımdan güncel içeriklere erişebilirsiniz."
+msgstr "My blog posts will be published soon. Until then you can follow updates on my Instagram."
+
+msgid "Videolarımı izle"
+msgstr "Watch my videos"
+
+msgid "Bu konuyu benimle konuşmak ister misiniz?"
+msgstr "Would you like to talk about this with me?"
+
+msgid "İlgili yazılar"
+msgstr "Related posts"
+
+# ----------------------------------------------------------------
+# FAQ
+# ----------------------------------------------------------------
+msgid "Sıkça sorulan <span class=\"accent-italic\">sorular</span>."
+msgstr "Frequently asked <span class=\"accent-italic\">questions</span>."
+
+msgid "Hastalarımdan en sık aldığım sorular ve cevapları. Aradığınızı bulamazsanız iletişim formundan bana yazabilirsiniz."
+msgstr "The questions I receive most often from my patients, with answers. If you can't find yours, send me a message."
+
+msgid "Diğer"
+msgstr "Other"
+
+msgid "Sorunuzun cevabı burada yoksa bana yazın."
+msgstr "If your answer isn't here, write to me."
+
+msgid "Soru Sor"
+msgstr "Ask a Question"
+
+msgid "Randevu"
+msgstr "Appointment"
+
+msgid "Acıbadem Maslak Hastanesi üzerinden çevrimiçi randevu"
+msgstr "Online appointments via Acıbadem Maslak Hospital"
+
+msgid "Randevu formuna git"
+msgstr "Go to appointment form"
+
+# ----------------------------------------------------------------
+# Contact
+# ----------------------------------------------------------------
+msgid "Sizinle iletişim kurmak <span class=\"accent-italic\">bir ayrıcalık</span>."
+msgstr "Reaching out to you is <span class=\"accent-italic\">a privilege</span>."
+
+msgid "Randevu, değerlendirme veya sorularınız için aşağıdaki formu kullanabilir ya da hastaneye doğrudan ulaşabilirsiniz."
+msgstr "Use the form below for appointments, assessments or questions — or contact the hospital directly."
+
+msgid "Hastane"
+msgstr "Hospital"
+
+msgid "Acıbadem Randevu Formu"
+msgstr "Acıbadem Appointment Form"
+
+msgid "Doğrudan İletişim"
+msgstr "Direct Contact"
+
+msgid "Ad Soyad"
+msgstr "Full Name"
+
+msgid "E-posta"
+msgstr "E-mail"
+
+msgid "Telefon"
+msgstr "Phone"
+
+msgid "Telefon (opsiyonel)"
+msgstr "Phone (optional)"
+
+msgid "Konu"
+msgstr "Subject"
+
+msgid "Konu (opsiyonel)"
+msgstr "Subject (optional)"
+
+msgid "Mesajınız"
+msgstr "Your Message"
+
+msgid "Aydınlatma Metni'ni okudum ve kabul ediyorum."
+msgstr "I have read and accept the Privacy Notice."
+
+msgid "Mesajı Gönder"
+msgstr "Send Message"
+
+msgid "Mesajınız alındı."
+msgstr "Your message has been received."
+
+msgid "Ekibimiz kısa süre içinde size geri dönecektir."
+msgstr "Our team will get back to you shortly."
+
+msgid "Aydınlatma Metni"
+msgstr "Privacy Notice"
+
+msgid "Gizlilik"
+msgstr "Privacy"
+
+msgid "Gizlilik Politikası"
+msgstr "Privacy Policy"
+
+msgid "'ni okudum ve kişisel verilerimin bu form kapsamında işlenmesini kabul ediyorum."
+msgstr " and consent to the processing of my personal data for this form."
+
+# ----------------------------------------------------------------
+# Cookies
+# ----------------------------------------------------------------
+msgid "Kabul Et"
+msgstr "Accept"
+
+msgid "Detaylar"
+msgstr "Details"
+
+# ----------------------------------------------------------------
+# Footer / legal
+# ----------------------------------------------------------------
+msgid "Tüm hakları saklıdır."
+msgstr "All rights reserved."
+
+msgid "Yasal"
+msgstr "Legal"
+
+msgid "Son güncelleme:"
+msgstr "Last updated:"
+
+msgid "Bu sayfada aydınlatma metni ve veri sorumlusunun yükümlülükleri yer alır."
+msgstr "This page contains the privacy notice and the data controller's obligations."
+
+msgid "6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında, bu web sitesinden iletilen formlar yoluyla toplanan ad, soyad, e-posta, telefon ve mesaj içeriği bilgileriniz yalnızca talebinize cevap verebilmek amacıyla işlenir. Bilgileriniz üçüncü şahıslarla paylaşılmaz ve talebiniz tamamlandığında makul bir süre içinde silinir."
+msgstr "Under the Turkish Personal Data Protection Law (KVKK), the name, e-mail, phone and message content submitted via the forms on this website are processed solely to respond to your request. Your data is not shared with third parties and is deleted within a reasonable period after your request is completed."
+
+msgid "Haklarınız"
+msgstr "Your Rights"
+
+msgid "Kişisel verilerinizin işlenip işlenmediğini öğrenme."
+msgstr "To learn whether your personal data is being processed."
+
+msgid "İşlenen verilerinize ilişkin bilgi talep etme."
+msgstr "To request information regarding the data processed."
+
+msgid "Verilerinizin düzeltilmesini veya silinmesini isteme."
+msgstr "To request correction or deletion of your data."
+
+msgid "Başvurularınızı"
+msgstr "You may send requests to"
+
+msgid "adresine iletebilirsiniz."
+msgstr "."
+
+# ----------------------------------------------------------------
+# Errors
+# ----------------------------------------------------------------
+msgid "Sayfa Bulunamadı"
+msgstr "Page Not Found"
+
+msgid "Aradığınız sayfa taşınmış veya kaldırılmış olabilir."
+msgstr "The page you're looking for may have been moved or removed."
+
+msgid "Ana Sayfaya Dön"
+msgstr "Return to Home"
+
+msgid "Sunucu Hatası"
+msgstr "Server Error"
+
+msgid "Bir Sorun Oluştu"
+msgstr "Something Went Wrong"
+
+msgid "Teknik ekibimiz bilgilendirildi, kısa sürede düzeltilecektir."
+msgstr "Our technical team has been notified and will fix it shortly."
+
+# ----------------------------------------------------------------
+# Doctor admin panel
+# ----------------------------------------------------------------
+msgid "Doktor Paneli"
+msgstr "Doctor Panel"
+
+msgid "Yönetim"
+msgstr "Administration"
+
+msgid "Profil"
+msgstr "Profile"
+
+msgid "Uzmanlık Alanları"
+msgstr "Specialty Areas"
+
+msgid "Üyelikler"
+msgstr "Memberships"
+
+msgid "Siteyi Görüntüle"
+msgstr "View Site"
+
+msgid "Admin Paneli"
+msgstr "Admin Panel"
+
+msgid "Çıkış Yap"
+msgstr "Log Out"
+
+msgid "Hoş geldiniz"
+msgstr "Welcome"
+
+msgid "Merhaba <span class=\"accent-italic\">Op. Dr. Savaş</span>."
+msgstr "Hello, <span class=\"accent-italic\">Dr. Savaş</span>."
+
+msgid "Buradan sitenizdeki içerikleri kolayca güncelleyebilirsiniz."
+msgstr "From here you can easily update the content on your site."
+
+msgid "Hakkımda Metni"
+msgstr "About Text"
+
+msgid "Biyografi, hero metinleri, görseller ve iletişim bilgileri."
+msgstr "Biography, hero text, images and contact info."
+
+msgid "Düzenle"
+msgstr "Edit"
+
+msgid "Yeni bir sertifika, kurs veya pozisyon ekleyin."
+msgstr "Add a new certificate, course or position."
+
+msgid "Yönet"
+msgstr "Manage"
+
+msgid "Yeni makalenizi tek formdan ekleyin."
+msgstr "Add a new article from a single form."
+
+msgid "Instagram Reels, YouTube ve Acıbadem videolarını yönetin."
+msgstr "Manage Instagram Reels, YouTube and Acıbadem videos."
+
+msgid "Blog Yazıları"
+msgstr "Blog Posts"
+
+msgid "Hasta bilgilendirme yazılarını yazın ve yayınlayın."
+msgstr "Write and publish patient education articles."
+
+msgid "SSS bölümüne yeni sorular ekleyin veya güncelleyin."
+msgstr "Add or update questions in the FAQ section."
+
+msgid "İçerik Özeti"
+msgstr "Content Summary"
+
+msgid "Yayın"
+msgstr "Publication"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Yazı"
+msgstr "Post"
+
+msgid "Pozisyon"
+msgstr "Position"
+
+msgid "Son Mesajlar"
+msgstr "Recent Messages"
+
+msgid "okunmamış"
+msgstr "unread"
+
+msgid "Henüz mesaj yok."
+msgstr "No messages yet."
+
+msgid "İçerik"
+msgstr "Content"
+
+msgid "Yeni Ekle"
+msgstr "Add New"
+
+msgid "Henüz kayıt yok."
+msgstr "No records yet."
+
+msgid "Sil"
+msgstr "Delete"
+
+msgid "Listeye dön"
+msgstr "Back to list"
+
+msgid "Vazgeç"
+msgstr "Cancel"
+
+msgid "Kaydet"
+msgstr "Save"
+
+msgid "Silme Onayı"
+msgstr "Confirm Deletion"
+
+msgid "Silme işlemini onaylayın"
+msgstr "Please confirm deletion"
+
+msgid "Aşağıdaki kayıt kalıcı olarak silinecek:"
+msgstr "The following record will be permanently deleted:"
+
+msgid "Evet, Sil"
+msgstr "Yes, Delete"
+
+msgid "Kendi sayfanızı düzenleyin"
+msgstr "Edit your page"
+
+msgid "Alanlar Türkçe (TR) ve İngilizce (EN) olarak ikiye ayrılmıştır. İki sürümü de doldurmak SEO için önerilir."
+msgstr "Fields are split into Turkish (TR) and English (EN). Filling both versions is recommended for SEO."
+
+msgid "Biyografi"
+msgstr "Biography"
+
+msgid "Sosyal"
+msgstr "Social"
+
+msgid "Görseller"
+msgstr "Images"
+
+msgid "Sayaçlar"
+msgstr "Counters"
+
+msgid "Profili Kaydet"
+msgstr "Save Profile"
+
+msgid "Mesajlar"
+msgstr "Messages"
+
+msgid "Gelen Kutusu"
+msgstr "Inbox"
+
+msgid "İletişim Mesajları"
+msgstr "Contact Messages"
+
+msgid "Mesaj"
+msgstr "Message"
+
+msgid "Tüm mesajlar"
+msgstr "All messages"
+
+msgid "Arşivle"
+msgstr "Archive"
+
+msgid "KVKK onayı verildi"
+msgstr "KVKK consent given"
+
+msgid "E-posta ile Yanıtla"
+msgstr "Reply via Email"
+
+msgid "Giriş"
+msgstr "Login"
+
+msgid "Kullanıcı Adı"
+msgstr "Username"
+
+msgid "Şifre"
+msgstr "Password"
+
+msgid "Giriş Yap"
+msgstr "Log In"
+
+msgid "Kullanıcı adı veya şifre yanlış."
+msgstr "Username or password is incorrect."
+
+msgid "Giriş bilgilerinizi kaybettiyseniz lütfen teknik ekiple iletişime geçin."
+msgstr "If you've lost your credentials, please contact the technical team."
+
+# ----------------------------------------------------------------
+# Hero badges / stats
+# ----------------------------------------------------------------
+msgid "Yıl Klinik Deneyim"
+msgstr "Years of Clinical Experience"
+
+msgid "Uluslararası Yayın"
+msgstr "International Publications"
+
+msgid "Università degli Studi dell'Insubria"
+msgstr "Università degli Studi dell'Insubria"
+
+msgid "Sağlık Grubu Uzman Hekimi"
+msgstr "Specialist Physician"
+
+msgid "Videolarımı İzle"
+msgstr "Watch My Videos"
+
+msgid "İtalya — Università degli Studi dell'Insubria"
+msgstr "Italy — Università degli Studi dell'Insubria"
+
+# ----------------------------------------------------------------
+# Plurals / blocktrans with variables
+# ----------------------------------------------------------------
+msgid "%(y)s+ yıl deneyim"
+msgstr "%(y)s+ years of experience"
+
+msgid "%(n)s+ uluslararası yayın"
+msgstr "%(n)s+ international publications"
+
+msgid "Journal of Minimally Invasive Gynecology başta olmak üzere <strong>%(total)s+ yayın</strong> ve <strong>%(cites)s+ atıf</strong>."
+msgstr "<strong>%(total)s+ publications</strong> and <strong>%(cites)s+ citations</strong> — led by the Journal of Minimally Invasive Gynecology."
