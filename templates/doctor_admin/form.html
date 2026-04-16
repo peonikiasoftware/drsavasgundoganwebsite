@@ -1,0 +1,61 @@
+{% extends "doctor_admin/_base_admin.html" %}
+{% load i18n widget_tweaks %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="mb-8 flex items-center justify-between gap-4">
+  <div>
+    <a href="{% url redirect_name %}" class="text-xs text-ink-500 hover:text-teal-700 inline-flex items-center gap-1">
+      <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> {% trans "Listeye dön" %}
+    </a>
+    <h1 class="font-serif text-3xl mt-1">{{ title }}</h1>
+  </div>
+</div>
+
+<form method="post" enctype="multipart/form-data" class="space-y-6" novalidate>
+  {% csrf_token %}
+
+  {% if form.non_field_errors %}
+    <div class="p-4 rounded-xl bg-red-50 border border-red-200 text-sm text-red-700">
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
+
+  <div class="bg-white border border-ink-100 rounded-2xl p-6 md:p-8 space-y-5">
+    {% for field in form %}
+      <div class="{% if field.name|slice:':6' == 'title_' or field.name|slice:':8' == 'content_' %}space-y-1{% endif %}">
+        <label class="form-label" for="{{ field.id_for_label }}">
+          {{ field.label }}{% if field.field.required %} *{% endif %}
+          {% if field.name|slice:'-3:' == '_tr' %}<span class="ml-1 text-[10px] uppercase tracking-[0.18em] text-teal-700">TR</span>{% endif %}
+          {% if field.name|slice:'-3:' == '_en' %}<span class="ml-1 text-[10px] uppercase tracking-[0.18em] text-gold-600">EN</span>{% endif %}
+        </label>
+        {% if field.field.widget.input_type == 'checkbox' %}
+          <label class="inline-flex items-center gap-2 cursor-pointer">
+            {% render_field field class="h-4 w-4 rounded border-ink-300 text-teal-500 focus:ring-teal-500" %}
+            <span class="text-sm text-ink-700">{{ field.help_text|default:"" }}</span>
+          </label>
+        {% else %}
+          {% render_field field class="form-input !py-2.5 !border border-ink-100 rounded-xl bg-white w-full" %}
+        {% endif %}
+        {% if field.help_text and field.field.widget.input_type != 'checkbox' %}
+          <p class="mt-1 text-xs text-ink-500">{{ field.help_text|safe }}</p>
+        {% endif %}
+        {% if field.errors %}
+          <p class="mt-1 text-xs text-red-600">{{ field.errors.0 }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="flex items-center justify-between gap-4 sticky bottom-6">
+    <a href="{% url redirect_name %}" class="btn-outline !py-2.5 text-sm">
+      <i data-lucide="x" class="w-4 h-4"></i> {% trans "Vazgeç" %}
+    </a>
+    <button type="submit" class="btn-primary !py-3 px-10">
+      <i data-lucide="check" class="w-4 h-4"></i>
+      {% trans "Kaydet" %}
+    </button>
+  </div>
+</form>
+{% endblock %}

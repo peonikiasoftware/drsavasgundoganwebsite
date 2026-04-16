@@ -1,0 +1,25 @@
+{% extends "doctor_admin/_base_admin.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Silme Onayı" %}{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto">
+  <div class="bg-white border border-red-200 rounded-2xl p-10">
+    <span class="icon-badge !bg-red-50 !text-red-600"><i data-lucide="alert-triangle" class="w-5 h-5"></i></span>
+    <h1 class="font-serif text-2xl mt-5">{% trans "Silme işlemini onaylayın" %}</h1>
+    <p class="mt-3 text-ink-700">{% trans "Aşağıdaki kayıt kalıcı olarak silinecek:" %}</p>
+    <p class="mt-4 p-4 bg-cream-50 rounded-xl text-ink-900 font-medium">{{ object }}</p>
+
+    <form method="post" class="mt-8 flex gap-3">
+      {% csrf_token %}
+      <a href="{% url redirect_name %}" class="btn-outline !py-2.5">
+        <i data-lucide="x" class="w-4 h-4"></i> {% trans "Vazgeç" %}
+      </a>
+      <button type="submit" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-red-600 text-white font-medium hover:bg-red-700 transition-colors duration-250">
+        <i data-lucide="trash-2" class="w-4 h-4"></i> {% trans "Evet, Sil" %}
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

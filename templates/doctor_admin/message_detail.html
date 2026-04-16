@@ -1,0 +1,48 @@
+{% extends "doctor_admin/_base_admin.html" %}
+{% load i18n %}
+
+{% block title %}{{ m.name }} — {% trans "Mesaj" %}{% endblock %}
+
+{% block content %}
+<a href="{% url 'doctor_admin:messages' %}" class="text-xs text-ink-500 hover:text-teal-700 inline-flex items-center gap-1">
+  <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> {% trans "Tüm mesajlar" %}
+</a>
+
+<div class="mt-4 bg-white border border-ink-100 rounded-2xl p-8 md:p-10">
+  <div class="flex items-start justify-between gap-6">
+    <div>
+      <p class="eyebrow">{{ m.created_at|date:"d F Y · H:i" }}</p>
+      <h1 class="mt-2 font-serif text-2xl">{{ m.name }}</h1>
+      <p class="mt-1 text-sm text-ink-700">
+        <a href="mailto:{{ m.email }}" class="hover:text-teal-700">{{ m.email }}</a>
+        {% if m.phone %} · {{ m.phone }}{% endif %}
+      </p>
+    </div>
+    {% if not m.is_archived %}
+      <a href="{% url 'doctor_admin:message_archive' m.pk %}" class="btn-outline !py-2 text-xs">
+        <i data-lucide="archive" class="w-4 h-4"></i> {% trans "Arşivle" %}
+      </a>
+    {% endif %}
+  </div>
+
+  {% if m.subject %}
+    <p class="mt-6 font-serif text-xl">{{ m.subject }}</p>
+  {% endif %}
+
+  <div class="mt-4 prose-clinic">
+    {{ m.message|linebreaks }}
+  </div>
+
+  <p class="mt-10 text-xs text-ink-500">
+    {% if m.kvkk_consent %}
+      <i data-lucide="shield-check" class="w-3.5 h-3.5 inline-block text-teal-500"></i>
+      {% trans "KVKK onayı verildi" %}
+    {% endif %}
+    {% if m.ip_address %} · IP: {{ m.ip_address }}{% endif %}
+  </p>
+
+  <a href="mailto:{{ m.email }}?subject=Re:%20{{ m.subject|default:'Mesajınız hakkında' }}" class="btn-primary mt-6 text-sm">
+    <i data-lucide="reply" class="w-4 h-4"></i> {% trans "E-posta ile Yanıtla" %}
+  </a>
+</div>
+{% endblock %}

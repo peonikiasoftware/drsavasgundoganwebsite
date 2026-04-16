@@ -1,0 +1,114 @@
+{% extends "doctor_admin/_base_admin.html" %}
+{% load i18n widget_tweaks %}
+
+{% block title %}{% trans "Profil" %}{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+  <span class="eyebrow">{% trans "Hakkımda" %}</span>
+  <h1 class="font-serif text-3xl mt-2">{% trans "Kendi sayfanızı düzenleyin" %}</h1>
+  <p class="mt-2 text-ink-700">{% trans "Alanlar Türkçe (TR) ve İngilizce (EN) olarak ikiye ayrılmıştır. İki sürümü de doldurmak SEO için önerilir." %}</p>
+</div>
+
+<form method="post" enctype="multipart/form-data" class="space-y-6" novalidate
+      x-data="{tab:'hero'}">
+  {% csrf_token %}
+
+  <div class="sticky top-0 z-10 -mx-6 lg:-mx-12 px-6 lg:px-12 py-3 bg-cream-50/90 backdrop-blur border-b border-ink-100">
+    <div class="flex flex-wrap gap-2 text-xs">
+      <button type="button" @click="tab='hero'" :class="tab==='hero'?'bg-teal-500 text-white':'bg-white text-ink-700'" class="px-4 h-9 rounded-full border border-ink-100 transition-all duration-250">Hero</button>
+      <button type="button" @click="tab='bio'" :class="tab==='bio'?'bg-teal-500 text-white':'bg-white text-ink-700'" class="px-4 h-9 rounded-full border border-ink-100 transition-all duration-250">{% trans "Biyografi" %}</button>
+      <button type="button" @click="tab='contact'" :class="tab==='contact'?'bg-teal-500 text-white':'bg-white text-ink-700'" class="px-4 h-9 rounded-full border border-ink-100 transition-all duration-250">{% trans "İletişim" %}</button>
+      <button type="button" @click="tab='social'" :class="tab==='social'?'bg-teal-500 text-white':'bg-white text-ink-700'" class="px-4 h-9 rounded-full border border-ink-100 transition-all duration-250">{% trans "Sosyal" %}</button>
+      <button type="button" @click="tab='media'" :class="tab==='media'?'bg-teal-500 text-white':'bg-white text-ink-700'" class="px-4 h-9 rounded-full border border-ink-100 transition-all duration-250">{% trans "Görseller" %}</button>
+      <button type="button" @click="tab='stats'" :class="tab==='stats'?'bg-teal-500 text-white':'bg-white text-ink-700'" class="px-4 h-9 rounded-full border border-ink-100 transition-all duration-250">{% trans "Sayaçlar" %}</button>
+    </div>
+  </div>
+
+  {# helper macro: render a field (not really macro but inline) #}
+  {% with form=form %}
+
+  <div x-show="tab==='hero'" class="space-y-5 bg-white border border-ink-100 rounded-2xl p-6 md:p-8">
+    {% for f in form %}
+      {% if f.name == 'full_name' or f.name|slice:':6' == 'title_' or f.name|slice:':5' == 'hero_' %}
+        <div>
+          <label class="form-label">{{ f.label }}
+            {% if f.name|slice:'-3:' == '_tr' %}<span class="ml-1 text-[10px] uppercase tracking-[0.18em] text-teal-700">TR</span>{% endif %}
+            {% if f.name|slice:'-3:' == '_en' %}<span class="ml-1 text-[10px] uppercase tracking-[0.18em] text-gold-600">EN</span>{% endif %}
+          </label>
+          {% render_field f class="form-input !py-2.5 !border border-ink-100 rounded-xl bg-white w-full" %}
+          {% if f.errors %}<p class="mt-1 text-xs text-red-600">{{ f.errors.0 }}</p>{% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div x-show="tab==='bio'" class="space-y-5 bg-white border border-ink-100 rounded-2xl p-6 md:p-8">
+    {% for f in form %}
+      {% if f.name|slice:':4' == 'bio_' or f.name|slice:':11' == 'philosophy_' %}
+        <div>
+          <label class="form-label">{{ f.label }}
+            {% if f.name|slice:'-3:' == '_tr' %}<span class="ml-1 text-[10px] uppercase tracking-[0.18em] text-teal-700">TR</span>{% endif %}
+            {% if f.name|slice:'-3:' == '_en' %}<span class="ml-1 text-[10px] uppercase tracking-[0.18em] text-gold-600">EN</span>{% endif %}
+          </label>
+          {% render_field f class="form-input !py-2.5 !border border-ink-100 rounded-xl bg-white w-full" %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div x-show="tab==='contact'" class="space-y-5 bg-white border border-ink-100 rounded-2xl p-6 md:p-8">
+    {% for f in form %}
+      {% if f.name == 'email_public' or f.name == 'phone_public' or f.name == 'appointment_url' or f.name|slice:':9' == 'hospital_' or f.name == 'google_maps_embed_url' %}
+        <div>
+          <label class="form-label">{{ f.label }}</label>
+          {% render_field f class="form-input !py-2.5 !border border-ink-100 rounded-xl bg-white w-full" %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div x-show="tab==='social'" class="space-y-5 bg-white border border-ink-100 rounded-2xl p-6 md:p-8">
+    {% for f in form %}
+      {% if 'instagram' in f.name or 'linkedin' in f.name or 'youtube' in f.name or 'facebook' in f.name or 'scholar' in f.name or 'acibadem_profile' in f.name %}
+        <div>
+          <label class="form-label">{{ f.label }}</label>
+          {% render_field f class="form-input !py-2.5 !border border-ink-100 rounded-xl bg-white w-full" %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div x-show="tab==='media'" class="space-y-5 bg-white border border-ink-100 rounded-2xl p-6 md:p-8">
+    {% for f in form %}
+      {% if f.name == 'portrait_photo' or f.name == 'hero_background' %}
+        <div>
+          <label class="form-label">{{ f.label }}</label>
+          {% render_field f class="block text-sm" %}
+          {% if f.help_text %}<p class="mt-1 text-xs text-ink-500">{{ f.help_text }}</p>{% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div x-show="tab==='stats'" class="space-y-5 bg-white border border-ink-100 rounded-2xl p-6 md:p-8">
+    {% for f in form %}
+      {% if f.name == 'years_of_experience' or f.name == 'publication_count' or f.name == 'procedures_count' %}
+        <div>
+          <label class="form-label">{{ f.label }}</label>
+          {% render_field f class="form-input !py-2.5 !border border-ink-100 rounded-xl bg-white w-full" %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  {% endwith %}
+
+  <div class="flex items-center justify-end gap-3 sticky bottom-6">
+    <button type="submit" class="btn-primary !py-3 px-10">
+      <i data-lucide="check" class="w-4 h-4"></i>
+      {% trans "Profili Kaydet" %}
+    </button>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "doctor_admin/_base_admin.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Mesajlar" %}{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+  <span class="eyebrow">{% trans "Gelen Kutusu" %}</span>
+  <h1 class="font-serif text-3xl mt-2">{% trans "İletişim Mesajları" %}</h1>
+</div>
+
+<div class="bg-white border border-ink-100 rounded-2xl divide-y divide-ink-100 overflow-hidden">
+  {% for m in messages_list %}
+    <a href="{% url 'doctor_admin:message_detail' m.pk %}"
+       class="flex items-center gap-4 px-6 py-4 hover:bg-cream-50 transition-colors duration-250">
+      <span class="w-9 h-9 rounded-full {% if not m.is_read %}bg-teal-500 text-white{% else %}bg-ink-100 text-ink-500{% endif %} inline-flex items-center justify-center shrink-0">
+        <i data-lucide="mail" class="w-4 h-4"></i>
+      </span>
+      <div class="flex-1 min-w-0">
+        <p class="{% if not m.is_read %}font-semibold{% endif %} text-ink-900 truncate">{{ m.name }}</p>
+        <p class="text-sm text-ink-500 truncate">{{ m.subject|default:m.message|truncatechars:80 }}</p>
+      </div>
+      <span class="text-xs text-ink-500 shrink-0">{{ m.created_at|date:"d M Y" }}</span>
+    </a>
+  {% empty %}
+    <p class="p-10 text-center text-ink-500">{% trans "Henüz mesaj yok." %}</p>
+  {% endfor %}
+</div>
+{% endblock %}

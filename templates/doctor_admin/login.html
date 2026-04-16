@@ -1,0 +1,42 @@
+{% extends "doctor_admin/_base_admin.html" %}
+{% load i18n widget_tweaks %}
+
+{% block title %}{% trans "Giriş" %}{% endblock %}
+
+{% block anon_content %}
+<section class="min-h-screen flex items-center justify-center bg-cream-50 p-6">
+  <div class="w-full max-w-md bg-white border border-ink-100 rounded-3xl p-10 shadow-soft-lift">
+    <div class="flex items-center gap-3 mb-8">
+      <span class="w-12 h-12 rounded-xl bg-teal-gradient text-white inline-flex items-center justify-center font-serif font-semibold text-lg">SG</span>
+      <div>
+        <p class="font-serif text-xl">{% trans "Doktor Paneli" %}</p>
+        <p class="text-xs uppercase tracking-[0.18em] text-teal-700">{% trans "Giriş" %}</p>
+      </div>
+    </div>
+
+    <form method="post" class="space-y-5" novalidate>
+      {% csrf_token %}
+      {% if form.errors %}
+        <p class="p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700">
+          {% trans "Kullanıcı adı veya şifre yanlış." %}
+        </p>
+      {% endif %}
+      <div>
+        <label class="form-label" for="id_username">{% trans "Kullanıcı Adı" %}</label>
+        {% render_field form.username class="form-input !py-3 !border border-ink-100 rounded-xl bg-white" autofocus="autofocus" %}
+      </div>
+      <div>
+        <label class="form-label" for="id_password">{% trans "Şifre" %}</label>
+        {% render_field form.password class="form-input !py-3 !border border-ink-100 rounded-xl bg-white" %}
+      </div>
+      <button type="submit" class="btn-primary w-full">
+        <i data-lucide="log-in" class="w-4 h-4"></i> {% trans "Giriş Yap" %}
+      </button>
+    </form>
+
+    <p class="mt-8 text-xs text-ink-500 text-center">
+      {% trans "Giriş bilgilerinizi kaybettiyseniz lütfen teknik ekiple iletişime geçin." %}
+    </p>
+  </div>
+</section>
+{% endblock %}

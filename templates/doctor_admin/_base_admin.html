@@ -1,0 +1,111 @@
+{% load static i18n %}<!doctype html>
+<html lang="tr" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}Doktor Paneli{% endblock %} — {{ doctor.full_name|default:"Dr. Savaş Gündoğan" }}</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:wght@500;600&display=swap">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+  <link rel="stylesheet" href="{% static 'dist/css/output.css' %}">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2300A0B0'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-family='Fraunces,serif' font-size='18' font-weight='600' fill='white'%3ESG%3C/text%3E%3C/svg%3E">
+</head>
+<body class="bg-cream-50 text-ink-900 font-sans">
+
+{% if user.is_authenticated %}
+<div class="min-h-screen flex flex-col lg:flex-row">
+  {# ---------- Sidebar ---------- #}
+  <aside class="lg:w-72 lg:min-h-screen bg-white lg:border-r border-ink-100 p-6 lg:p-8 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto">
+    <a href="{% url 'doctor_admin:dashboard' %}" class="flex items-center gap-3">
+      <span class="w-10 h-10 rounded-xl bg-teal-gradient text-white inline-flex items-center justify-center font-serif font-semibold">SG</span>
+      <span class="flex flex-col leading-tight">
+        <span class="font-serif text-base">{% trans "Doktor Paneli" %}</span>
+        <span class="text-[10px] uppercase tracking-[0.18em] text-teal-700">{% trans "Yönetim" %}</span>
+      </span>
+    </a>
+
+    <nav class="mt-10 space-y-1.5 text-sm">
+      <a href="{% url 'doctor_admin:dashboard' %}" class="admin-nav-link">
+        <i data-lucide="layout-dashboard" class="w-4 h-4"></i> {% trans "Ana Sayfa" %}
+      </a>
+      <a href="{% url 'doctor_admin:profile' %}" class="admin-nav-link">
+        <i data-lucide="user-round" class="w-4 h-4"></i> {% trans "Profil" %}
+      </a>
+      <a href="{% url 'doctor_admin:education_list' %}" class="admin-nav-link">
+        <i data-lucide="graduation-cap" class="w-4 h-4"></i> {% trans "Eğitim" %}
+      </a>
+      <a href="{% url 'doctor_admin:experience_list' %}" class="admin-nav-link">
+        <i data-lucide="briefcase-medical" class="w-4 h-4"></i> {% trans "Deneyim" %}
+      </a>
+      <a href="{% url 'doctor_admin:membership_list' %}" class="admin-nav-link">
+        <i data-lucide="badge-check" class="w-4 h-4"></i> {% trans "Üyelikler" %}
+      </a>
+      <a href="{% url 'doctor_admin:publication_list' %}" class="admin-nav-link">
+        <i data-lucide="book-marked" class="w-4 h-4"></i> {% trans "Yayınlar" %}
+      </a>
+      <a href="{% url 'doctor_admin:video_list' %}" class="admin-nav-link">
+        <i data-lucide="video" class="w-4 h-4"></i> {% trans "Videolar" %}
+      </a>
+      <a href="{% url 'doctor_admin:specialty_list' %}" class="admin-nav-link">
+        <i data-lucide="stethoscope" class="w-4 h-4"></i> {% trans "Uzmanlık Alanları" %}
+      </a>
+      <a href="{% url 'doctor_admin:blog_list' %}" class="admin-nav-link">
+        <i data-lucide="newspaper" class="w-4 h-4"></i> {% trans "Blog" %}
+      </a>
+      <a href="{% url 'doctor_admin:faq_list' %}" class="admin-nav-link">
+        <i data-lucide="help-circle" class="w-4 h-4"></i> {% trans "SSS" %}
+      </a>
+      <a href="{% url 'doctor_admin:messages' %}" class="admin-nav-link">
+        <i data-lucide="mail" class="w-4 h-4"></i> {% trans "Mesajlar" %}
+      </a>
+    </nav>
+
+    <div class="mt-10 pt-6 border-t border-ink-100 space-y-2 text-xs">
+      <a href="/" target="_blank" class="admin-nav-link !text-ink-500">
+        <i data-lucide="external-link" class="w-4 h-4"></i> {% trans "Siteyi Görüntüle" %}
+      </a>
+      {% if user.is_superuser %}
+      <a href="/admin/" class="admin-nav-link !text-ink-500">
+        <i data-lucide="shield" class="w-4 h-4"></i> {% trans "Admin Paneli" %}
+      </a>
+      {% endif %}
+      <form method="post" action="{% url 'doctor_admin:logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="admin-nav-link w-full !text-red-600 text-left">
+          <i data-lucide="log-out" class="w-4 h-4"></i> {% trans "Çıkış Yap" %}
+        </button>
+      </form>
+    </div>
+  </aside>
+
+  <main class="flex-1 p-6 lg:p-12 max-w-5xl mx-auto w-full">
+    {% if messages %}
+      <div class="mb-6 space-y-2">
+        {% for message in messages %}
+          <div class="p-4 rounded-xl bg-teal-50 border border-teal-200 text-sm text-teal-900 flex items-center gap-2">
+            <i data-lucide="check" class="w-4 h-4 text-teal-600"></i>
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+  </main>
+</div>
+
+<style>
+  .admin-nav-link{display:flex;align-items:center;gap:.65rem;padding:.625rem .875rem;border-radius:.75rem;color:rgb(58 69 81);transition:all .25s ease-out;}
+  .admin-nav-link:hover{background:rgb(230 247 248);color:rgb(0 123 138);}
+</style>
+{% else %}
+  {% block anon_content %}{% endblock %}
+{% endif %}
+
+<script>
+  document.addEventListener('DOMContentLoaded',()=>window.lucide&&lucide.createIcons());
+</script>
+</body>
+</html>
