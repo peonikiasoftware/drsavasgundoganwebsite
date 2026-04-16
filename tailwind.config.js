@@ -22,10 +22,10 @@ module.exports = {
           900: '#00434D',
         },
         cream: {
-          50:  '#FDFCF9',
-          100: '#F8F5EF',
-          200: '#F0EBE0',
-          300: '#E4DDCE',
+          50:  '#F8F3E7',    // warmer base — detectable against pure white
+          100: '#F1E9D3',    // deeper warm beige
+          200: '#E6DBBE',    // stronger contrast tier
+          300: '#D7C89E',
         },
         ink: {
           900: '#0F1720',

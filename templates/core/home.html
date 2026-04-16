@@ -68,30 +68,22 @@
         </div>
       </div>
 
-      {# Right — Instagram Reel card ~40% #}
+      {# Right — Instagram Reel ~40%, iframe only (Instagram's own chrome is rich) #}
       {% if hero_video %}
-      <div class="lg:col-span-5">
-        <div class="relative bg-white rounded-3xl p-3 ring-1 ring-gold-400/40 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.5)]">
+      <div class="lg:col-span-5 max-w-md lg:max-w-none mx-auto w-full">
+        <div class="relative rounded-[28px] overflow-hidden ring-1 ring-gold-400/50 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.55)]">
           {% if hero_video.is_official_acibadem %}
-          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold-500 text-ink-900 text-[10px] font-semibold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full shadow-gold-glow whitespace-nowrap">
+          <span class="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-gold-500 text-ink-900 text-[10px] font-semibold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full shadow-gold-glow whitespace-nowrap">
             {% trans "Acıbadem Resmi Hesabında Yayınlandı" %}
           </span>
           {% endif %}
-
-          <div class="overflow-hidden rounded-2xl bg-ink-900 aspect-[9/16] max-h-[560px] relative">
-            <iframe src="{{ hero_video.embed_url }}"
-                    class="w-full h-full"
-                    frameborder="0"
-                    allowtransparency="true"
-                    allow="encrypted-media"
-                    loading="lazy"
-                    title="{{ hero_video.title }}"></iframe>
-          </div>
-
-          <div class="p-4 pt-5">
-            <p class="font-serif text-lg text-ink-900">{{ hero_video.title }}</p>
-            <p class="mt-1.5 text-sm text-ink-700 leading-relaxed">{{ hero_video.description|truncatechars:120 }}</p>
-          </div>
+          <iframe src="{{ hero_video.embed_url }}"
+                  class="block w-full aspect-[9/16] max-h-[600px]"
+                  frameborder="0"
+                  allowtransparency="true"
+                  allow="encrypted-media"
+                  loading="lazy"
+                  title="{{ hero_video.title }}"></iframe>
         </div>
       </div>
       {% endif %}
@@ -102,7 +94,7 @@
 
 
 {# 2) TRUST STRIP — 4 stats with counter animation #}
-<section class="bg-white border-y border-ink-100">
+<section class="bg-cream-100 border-y border-ink-100">
   <div class="container-main grid grid-cols-2 lg:grid-cols-4 divide-x divide-ink-100 border-x border-ink-100">
     <div x-data="counter({{ doctor.years_of_experience }})" class="trust-stat">
       <span class="trust-stat-value"><span x-text="current">{{ doctor.years_of_experience }}</span>+</span>
@@ -285,7 +277,7 @@
 
 {# 6) Videos — featured grid #}
 {% if featured_videos %}
-<section id="videolar" class="section-padding bg-white">
+<section id="videolar" class="section-padding bg-cream-100">
   <div class="container-main">
     <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
       <div class="max-w-2xl">
