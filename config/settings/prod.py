@@ -64,7 +64,10 @@ else:
 STORAGES = {
     "default": {"BACKEND": DEFAULT_MEDIA_BACKEND},
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        # Non-manifest: gzip/brotli compress but don't post-process.
+        # Jazzmin / third-party apps ship minified JS referencing .map
+        # files they don't include; the manifest variant would fail on those.
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
 
