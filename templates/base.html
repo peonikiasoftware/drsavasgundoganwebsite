@@ -25,8 +25,7 @@
   <script src="https://unpkg.com/htmx.org@2.0.3" defer></script>
   <script src="{% static 'src/js/htmx-config.js' %}" defer></script>
 
-  {# Alpine — our components file must load BEFORE the core so the
-     alpine:init listener is registered before Alpine fires it. #}
+  {# Alpine — components file loads before core so alpine:init listener is set up first. #}
   <script defer src="{% static 'src/js/alpine-components.js' %}"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
 
