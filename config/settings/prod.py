@@ -37,12 +37,32 @@ if DATABASE_URL:
     }
 
 # ---------------------------------------------------------------------------
+# Cloudinary (optional — falls back to in-memory null storage if missing,
+# so the build doesn't fail when credentials aren't configured yet)
+# ---------------------------------------------------------------------------
+_cloudinary_cloud = env("CLOUDINARY_CLOUD_NAME", default="")
+_cloudinary_key = env("CLOUDINARY_API_KEY", default="")
+_cloudinary_secret = env("CLOUDINARY_API_SECRET", default="")
+
+if _cloudinary_cloud and _cloudinary_key and _cloudinary_secret:
+    CLOUDINARY_STORAGE = {
+        "CLOUD_NAME": _cloudinary_cloud,
+        "API_KEY": _cloudinary_key,
+        "API_SECRET": _cloudinary_secret,
+    }
+    DEFAULT_MEDIA_BACKEND = "cloudinary_storage.storage.MediaCloudinaryStorage"
+else:
+    # No Cloudinary configured — use local filesystem. On Vercel this is
+    # ephemeral (writes disappear between invocations) but at least the
+    # site won't crash when rendering pages that don't actually have
+    # any uploaded media yet.
+    DEFAULT_MEDIA_BACKEND = "django.core.files.storage.FileSystemStorage"
+
+# ---------------------------------------------------------------------------
 # Static files — WhiteNoise
 # ---------------------------------------------------------------------------
 STORAGES = {
-    "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
-    },
+    "default": {"BACKEND": DEFAULT_MEDIA_BACKEND},
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
@@ -53,15 +73,6 @@ if "whitenoise.middleware.WhiteNoiseMiddleware" not in MIDDLEWARE:
     MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
 
 WHITENOISE_MANIFEST_STRICT = False
-
-# ---------------------------------------------------------------------------
-# Cloudinary
-# ---------------------------------------------------------------------------
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": env("CLOUDINARY_CLOUD_NAME", default=""),
-    "API_KEY": env("CLOUDINARY_API_KEY", default=""),
-    "API_SECRET": env("CLOUDINARY_API_SECRET", default=""),
-}
 
 # ---------------------------------------------------------------------------
 # Email — SMTP via Resend / SendGrid
