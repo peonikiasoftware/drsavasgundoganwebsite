@@ -1,0 +1,61 @@
+{% load i18n %}
+<header x-data="headerShadow"
+        :class="scrolled ? 'shadow-soft-lift' : ''"
+        class="sticky top-0 z-40 bg-white/92 backdrop-blur-md border-b border-ink-100 transition-shadow duration-250">
+  <div class="container-main">
+    <div class="flex items-center justify-between h-16 lg:h-[72px] gap-6">
+
+      {# ---------- Logo ---------- #}
+      <a href="{% url 'core:home' %}" class="flex items-center gap-3 group shrink-0">
+        <span class="relative w-10 h-10 rounded-xl bg-teal-gradient flex items-center justify-center text-white font-serif font-semibold text-base shadow-soft-lift group-hover:scale-[1.04] transition-transform duration-250">
+          SG
+        </span>
+        <span class="hidden sm:flex flex-col leading-tight">
+          <span class="font-serif text-[15px] text-ink-900">{{ doctor.full_name }}</span>
+          <span class="text-[11px] uppercase tracking-[0.14em] text-teal-700">{{ doctor.hospital_name }}</span>
+        </span>
+      </a>
+
+      {# ---------- Desktop nav ---------- #}
+      <nav class="hidden xl:flex items-center gap-7 text-sm text-ink-700">
+        <a href="{% url 'core:home' %}" class="hover:text-teal-700 transition-colors duration-250{% if request.resolver_match.view_name == 'core:home' %} text-teal-700 font-medium{% endif %}">{% trans "Ana Sayfa" %}</a>
+        <a href="{% url 'core:about' %}" class="hover:text-teal-700 transition-colors duration-250{% if request.resolver_match.view_name == 'core:about' %} text-teal-700 font-medium{% endif %}">{% trans "Hakkımda" %}</a>
+        <a href="{% url 'expertise:list' %}" class="hover:text-teal-700 transition-colors duration-250{% if 'expertise' in request.resolver_match.namespace %} text-teal-700 font-medium{% endif %}">{% trans "Uzmanlık" %}</a>
+        <a href="{% url 'experience:timeline' %}" class="hover:text-teal-700 transition-colors duration-250{% if 'experience' in request.resolver_match.namespace %} text-teal-700 font-medium{% endif %}">{% trans "Kariyer" %}</a>
+        <a href="{% url 'publications:list' %}" class="hover:text-teal-700 transition-colors duration-250{% if 'publications' in request.resolver_match.namespace %} text-teal-700 font-medium{% endif %}">{% trans "Yayınlar" %}</a>
+        <a href="{% url 'media_library:list' %}" class="hover:text-teal-700 transition-colors duration-250{% if 'media_library' in request.resolver_match.namespace %} text-teal-700 font-medium{% endif %}">{% trans "Videolar" %}</a>
+        <a href="{% url 'blog:list' %}" class="hover:text-teal-700 transition-colors duration-250{% if 'blog' in request.resolver_match.namespace %} text-teal-700 font-medium{% endif %}">{% trans "Blog" %}</a>
+        <a href="{% url 'faq:list' %}" class="hover:text-teal-700 transition-colors duration-250{% if 'faq' in request.resolver_match.namespace %} text-teal-700 font-medium{% endif %}">{% trans "SSS" %}</a>
+        <a href="{% url 'core:contact' %}" class="hover:text-teal-700 transition-colors duration-250{% if request.resolver_match.view_name == 'core:contact' %} text-teal-700 font-medium{% endif %}">{% trans "İletişim" %}</a>
+      </nav>
+
+      {# ---------- Right actions ---------- #}
+      <div class="flex items-center gap-3 shrink-0">
+        {% include "partials/_language_toggle.html" %}
+
+        <a href="{{ doctor.instagram_url }}" target="_blank" rel="noopener"
+           class="hidden sm:inline-flex w-10 h-10 items-center justify-center rounded-full border border-ink-100 text-ink-700 hover:text-teal-700 hover:border-teal-200 transition-all duration-250"
+           aria-label="Instagram">
+          <i data-lucide="instagram" class="w-4 h-4"></i>
+        </a>
+
+        <a href="{{ doctor.appointment_url }}" target="_blank" rel="noopener"
+           class="hidden md:inline-flex btn-primary !px-5 !py-2.5 text-sm">
+          <i data-lucide="calendar-check" class="w-4 h-4"></i>
+          {% trans "Randevu Al" %}
+        </a>
+
+        {# Mobile hamburger #}
+        <button type="button"
+                x-data="{}"
+                @click="$dispatch('open-mobile-nav')"
+                class="xl:hidden w-10 h-10 inline-flex items-center justify-center rounded-full border border-ink-100 text-ink-700 hover:text-teal-700 hover:border-teal-200 transition-all duration-250"
+                aria-label="{% trans 'Menüyü aç' %}">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+{% include "partials/_mobile_menu.html" %}

@@ -1,0 +1,61 @@
+{% load i18n %}
+<div x-data="mobileNav"
+     @open-mobile-nav.window="toggle()"
+     @keydown.escape.window="close()"
+     class="xl:hidden">
+
+  {# Backdrop #}
+  <div x-show="open"
+       x-transition.opacity
+       @click="close()"
+       class="fixed inset-0 z-50 bg-ink-900/50 backdrop-blur-sm"
+       style="display:none"></div>
+
+  {# Drawer #}
+  <aside x-show="open"
+         x-transition:enter="transition transform duration-300 ease-out"
+         x-transition:enter-start="translate-x-full"
+         x-transition:enter-end="translate-x-0"
+         x-transition:leave="transition transform duration-250 ease-in"
+         x-transition:leave-start="translate-x-0"
+         x-transition:leave-end="translate-x-full"
+         class="fixed top-0 right-0 bottom-0 z-[60] w-full max-w-sm bg-white shadow-2xl flex flex-col"
+         style="display:none">
+
+    <div class="flex items-center justify-between px-6 h-16 border-b border-ink-100">
+      <span class="font-serif text-base text-ink-900">{{ doctor.full_name }}</span>
+      <button @click="close()"
+              class="w-10 h-10 inline-flex items-center justify-center rounded-full border border-ink-100 hover:border-teal-200 hover:text-teal-700 transition-all duration-250"
+              aria-label="{% trans 'Menüyü kapat' %}">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <nav class="flex-1 overflow-y-auto px-6 py-8 flex flex-col gap-2 text-lg text-ink-900">
+      <a @click="close()" href="{% url 'core:home' %}" class="py-2 border-b border-ink-100">{% trans "Ana Sayfa" %}</a>
+      <a @click="close()" href="{% url 'core:about' %}" class="py-2 border-b border-ink-100">{% trans "Hakkımda" %}</a>
+      <a @click="close()" href="{% url 'expertise:list' %}" class="py-2 border-b border-ink-100">{% trans "Uzmanlık Alanlarım" %}</a>
+      <a @click="close()" href="{% url 'experience:timeline' %}" class="py-2 border-b border-ink-100">{% trans "Eğitim & Deneyim" %}</a>
+      <a @click="close()" href="{% url 'publications:list' %}" class="py-2 border-b border-ink-100">{% trans "Akademik Yayınlar" %}</a>
+      <a @click="close()" href="{% url 'media_library:list' %}" class="py-2 border-b border-ink-100">{% trans "Videolar" %}</a>
+      <a @click="close()" href="{% url 'blog:list' %}" class="py-2 border-b border-ink-100">{% trans "Blog" %}</a>
+      <a @click="close()" href="{% url 'faq:list' %}" class="py-2 border-b border-ink-100">{% trans "Sıkça Sorulan Sorular" %}</a>
+      <a @click="close()" href="{% url 'core:contact' %}" class="py-2">{% trans "İletişim" %}</a>
+    </nav>
+
+    <div class="px-6 py-6 border-t border-ink-100 flex flex-col gap-3">
+      <a href="{{ doctor.appointment_url }}" target="_blank" rel="noopener" class="btn-primary w-full">
+        <i data-lucide="calendar-check" class="w-4 h-4"></i>
+        {% trans "Randevu Al" %}
+      </a>
+      <div class="flex items-center justify-between text-sm text-ink-700">
+        <a href="{{ doctor.instagram_url }}" target="_blank" rel="noopener" class="flex items-center gap-2 hover:text-teal-700">
+          <i data-lucide="instagram" class="w-4 h-4"></i> {{ doctor.instagram_handle }}
+        </a>
+        <a href="{{ doctor.google_scholar_url }}" target="_blank" rel="noopener" class="flex items-center gap-2 hover:text-teal-700">
+          <i data-lucide="graduation-cap" class="w-4 h-4"></i> Scholar
+        </a>
+      </div>
+    </div>
+  </aside>
+</div>

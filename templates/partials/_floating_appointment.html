@@ -1,0 +1,13 @@
+{% load i18n %}
+{# Floating appointment CTA — mobile sticky-bottom bar + desktop round FAB #}
+<a href="{{ doctor.appointment_url }}" target="_blank" rel="noopener"
+   class="xl:hidden fixed bottom-0 left-0 right-0 z-30 py-3.5 bg-teal-500 text-white text-center font-medium flex items-center justify-center gap-2 shadow-teal-glow">
+  <i data-lucide="calendar-check" class="w-4 h-4"></i>
+  {% trans "Randevu Al — Acıbadem" %}
+</a>
+
+<a href="{{ doctor.appointment_url }}" target="_blank" rel="noopener"
+   class="hidden xl:inline-flex fixed bottom-8 right-8 z-30 h-14 px-6 items-center justify-center rounded-full bg-teal-500 text-white font-medium shadow-teal-glow hover:bg-teal-600 hover:-translate-y-0.5 transition-all duration-250 group">
+  <i data-lucide="calendar-check" class="w-5 h-5 mr-2 group-hover:rotate-6 transition-transform duration-250"></i>
+  {% trans "Randevu Al" %}
+</a>

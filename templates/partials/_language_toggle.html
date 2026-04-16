@@ -1,0 +1,30 @@
+{% load i18n %}
+<div x-data="{open:false}" @click.outside="open=false" class="relative">
+  <button type="button" @click="open=!open"
+          class="inline-flex items-center gap-1.5 h-10 px-3 rounded-full border border-ink-100 text-xs font-medium text-ink-700 hover:text-teal-700 hover:border-teal-200 transition-all duration-250 uppercase tracking-wider"
+          aria-haspopup="true" :aria-expanded="open">
+    <i data-lucide="globe" class="w-4 h-4"></i>
+    <span>{{ LANGUAGE_CODE|upper }}</span>
+    <i data-lucide="chevron-down" class="w-3 h-3"></i>
+  </button>
+
+  <div x-show="open"
+       x-transition.opacity
+       class="absolute right-0 mt-2 w-40 rounded-xl border border-ink-100 bg-white shadow-soft-lift p-1 z-50"
+       style="display:none">
+    {% get_available_languages as LANGUAGES_AVAILABLE %}
+    {% for code, name in LANGUAGES_AVAILABLE %}
+      <form action="{% url 'set_language' %}" method="post" class="block">
+        {% csrf_token %}
+        <input type="hidden" name="language" value="{{ code }}">
+        <input type="hidden" name="next" value="{{ request.path|slice:'3:' }}">
+        <button type="submit"
+                class="w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-teal-50 flex items-center gap-2 {% if LANGUAGE_CODE == code %}text-teal-700 font-medium{% else %}text-ink-700{% endif %}">
+          <span class="text-xs uppercase tracking-wider w-6">{{ code }}</span>
+          <span>{{ name }}</span>
+          {% if LANGUAGE_CODE == code %}<i data-lucide="check" class="w-3.5 h-3.5 ml-auto"></i>{% endif %}
+        </button>
+      </form>
+    {% endfor %}
+  </div>
+</div>

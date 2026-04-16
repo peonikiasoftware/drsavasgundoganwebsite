@@ -1,0 +1,98 @@
+{% load i18n %}
+<footer class="bg-ink-900 text-ink-100 mt-24">
+  <div class="container-main py-16 lg:py-20">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-14">
+
+      {# ---------- Brand ---------- #}
+      <div class="md:col-span-4 space-y-4">
+        <a href="{% url 'core:home' %}" class="inline-flex items-center gap-3">
+          <span class="w-11 h-11 rounded-xl bg-teal-gradient flex items-center justify-center font-serif font-semibold text-white">SG</span>
+          <span class="flex flex-col leading-tight">
+            <span class="font-serif text-lg text-white">{{ doctor.full_name }}</span>
+            <span class="text-[11px] uppercase tracking-[0.18em] text-gold-400">{{ doctor.title_long }}</span>
+          </span>
+        </a>
+        <p class="text-sm text-ink-300 leading-relaxed max-w-xs">
+          {{ doctor.bio_short|truncatewords:26 }}
+        </p>
+        <div class="flex gap-2 pt-2">
+          <a href="{{ doctor.instagram_url }}" target="_blank" rel="noopener"
+             class="w-10 h-10 inline-flex items-center justify-center rounded-full border border-white/15 hover:border-teal-400 hover:text-teal-300 transition-all duration-250" aria-label="Instagram">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+          </a>
+          <a href="{{ doctor.google_scholar_url }}" target="_blank" rel="noopener"
+             class="w-10 h-10 inline-flex items-center justify-center rounded-full border border-white/15 hover:border-teal-400 hover:text-teal-300 transition-all duration-250" aria-label="Google Scholar">
+            <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+          </a>
+          {% if doctor.linkedin_url %}
+          <a href="{{ doctor.linkedin_url }}" target="_blank" rel="noopener"
+             class="w-10 h-10 inline-flex items-center justify-center rounded-full border border-white/15 hover:border-teal-400 hover:text-teal-300 transition-all duration-250" aria-label="LinkedIn">
+            <i data-lucide="linkedin" class="w-4 h-4"></i>
+          </a>
+          {% endif %}
+        </div>
+      </div>
+
+      {# ---------- Quick links ---------- #}
+      <div class="md:col-span-3">
+        <p class="text-xs uppercase tracking-[0.2em] text-gold-500 mb-5">{% trans "Gezinme" %}</p>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="{% url 'core:about' %}" class="hover:text-teal-300 transition-colors duration-250">{% trans "Hakkımda" %}</a></li>
+          <li><a href="{% url 'expertise:list' %}" class="hover:text-teal-300 transition-colors duration-250">{% trans "Uzmanlık Alanlarım" %}</a></li>
+          <li><a href="{% url 'experience:timeline' %}" class="hover:text-teal-300 transition-colors duration-250">{% trans "Eğitim & Deneyim" %}</a></li>
+          <li><a href="{% url 'publications:list' %}" class="hover:text-teal-300 transition-colors duration-250">{% trans "Yayınlar" %}</a></li>
+          <li><a href="{% url 'media_library:list' %}" class="hover:text-teal-300 transition-colors duration-250">{% trans "Videolar" %}</a></li>
+          <li><a href="{% url 'blog:list' %}" class="hover:text-teal-300 transition-colors duration-250">{% trans "Blog" %}</a></li>
+          <li><a href="{% url 'faq:list' %}" class="hover:text-teal-300 transition-colors duration-250">{% trans "Sıkça Sorulan Sorular" %}</a></li>
+        </ul>
+      </div>
+
+      {# ---------- Contact ---------- #}
+      <div class="md:col-span-3">
+        <p class="text-xs uppercase tracking-[0.2em] text-gold-500 mb-5">{% trans "İletişim" %}</p>
+        <ul class="space-y-3 text-sm text-ink-300">
+          <li class="flex items-start gap-2">
+            <i data-lucide="map-pin" class="w-4 h-4 mt-0.5 text-teal-300 shrink-0"></i>
+            <span>{{ doctor.hospital_name }}<br>{{ doctor.hospital_address }}</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <i data-lucide="mail" class="w-4 h-4 text-teal-300 shrink-0"></i>
+            <a href="mailto:{{ doctor.email_public }}" class="hover:text-teal-300 break-all">{{ doctor.email_public }}</a>
+          </li>
+          {% if doctor.phone_public %}
+          <li class="flex items-center gap-2">
+            <i data-lucide="phone" class="w-4 h-4 text-teal-300 shrink-0"></i>
+            <a href="tel:{{ doctor.phone_public }}" class="hover:text-teal-300">{{ doctor.phone_public }}</a>
+          </li>
+          {% endif %}
+        </ul>
+        <a href="{{ doctor.appointment_url }}" target="_blank" rel="noopener"
+           class="btn-primary !px-5 !py-2.5 text-sm mt-6">
+          <i data-lucide="calendar-check" class="w-4 h-4"></i>
+          {% trans "Randevu Al" %}
+        </a>
+      </div>
+
+      {# ---------- Academic & social ---------- #}
+      <div class="md:col-span-2">
+        <p class="text-xs uppercase tracking-[0.2em] text-gold-500 mb-5">{% trans "Akademik" %}</p>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="{{ doctor.google_scholar_url }}" target="_blank" rel="noopener" class="hover:text-teal-300 transition-colors duration-250">Google Scholar</a></li>
+          <li><a href="{{ doctor.acibadem_profile_tr }}" target="_blank" rel="noopener" class="hover:text-teal-300 transition-colors duration-250">Acıbadem TR</a></li>
+          <li><a href="{{ doctor.acibadem_profile_en }}" target="_blank" rel="noopener" class="hover:text-teal-300 transition-colors duration-250">Acıbadem EN</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="container-main py-5 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-ink-300">
+      <p>© {{ CURRENT_YEAR }} {{ doctor.full_name }} — {% trans "Tüm hakları saklıdır." %}</p>
+      <div class="flex gap-5">
+        <a href="{% url 'core:kvkk' %}" class="hover:text-teal-300">{% trans "Aydınlatma Metni" %}</a>
+        <a href="{% url 'core:privacy' %}" class="hover:text-teal-300">{% trans "Gizlilik" %}</a>
+        <a href="{% url 'faq:list' %}" class="hover:text-teal-300">{% trans "SSS" %}</a>
+      </div>
+    </div>
+  </div>
+</footer>

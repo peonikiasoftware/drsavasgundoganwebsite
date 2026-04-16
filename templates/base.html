@@ -1,0 +1,72 @@
+{% load static i18n %}<!doctype html>
+<html lang="{{ LANGUAGE_CODE|default:'tr' }}" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#00A0B0">
+
+  {% block seo %}
+    {% include "partials/_seo_meta.html" %}
+  {% endblock %}
+
+  {# Google Fonts — Inter + Fraunces. Keep CDN as base; self-hosted woff2 can replace later. #}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&display=swap">
+
+  {# Lucide icons via CDN #}
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+
+  {# Tailwind build output #}
+  <link rel="stylesheet" href="{% static 'dist/css/output.css' %}">
+
+  {# HTMX + Alpine #}
+  <script src="https://unpkg.com/htmx.org@2.0.3" defer></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+  <script defer src="https://unpkg.com/@alpinejs/intersect@3.14.1/dist/cdn.min.js"></script>
+  <script defer src="{% static 'src/js/alpine-components.js' %}"></script>
+  <script src="{% static 'src/js/htmx-config.js' %}" defer></script>
+
+  {# Analytics (optional) #}
+  {% if site_settings.google_analytics_id %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ site_settings.google_analytics_id }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{{ site_settings.google_analytics_id }}');
+    </script>
+  {% endif %}
+
+  {# Favicon placeholder (data-uri SVG — replace with real icon set later) #}
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2300A0B0'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-family='Fraunces,serif' font-size='18' font-weight='600' fill='white'%3ESG%3C/text%3E%3C/svg%3E">
+
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body class="bg-cream-50 text-ink-900 font-sans antialiased"
+      hx-headers='{"X-Requested-With":"XMLHttpRequest"}'>
+
+  {% include "partials/_header.html" %}
+
+  <main id="content" class="min-h-[60vh]">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include "partials/_footer.html" %}
+  {% include "partials/_floating_appointment.html" %}
+  {% include "partials/_cookie_banner.html" %}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) { window.lucide.createIcons(); }
+    });
+    document.body.addEventListener('htmx:afterSwap', () => {
+      if (window.lucide) { window.lucide.createIcons(); }
+    });
+  </script>
+
+  {% block extra_body %}{% endblock %}
+</body>
+</html>

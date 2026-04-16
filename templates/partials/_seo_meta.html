@@ -1,0 +1,52 @@
+{% load i18n %}
+<title>{% block title %}{{ doctor.full_name }} — {{ doctor.title_long }}{% endblock %}</title>
+
+<meta name="description" content="{% block meta_description %}{{ site_settings.default_meta_description|default:doctor.bio_short|truncatechars:160 }}{% endblock %}">
+<meta name="author" content="{{ doctor.full_name }}">
+<meta name="robots" content="index, follow, max-image-preview:large">
+
+<link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+
+{# Open Graph / Twitter #}
+<meta property="og:site_name" content="{{ site_settings.site_name }}">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="{{ LANGUAGE_CODE|default:'tr' }}_{{ LANGUAGE_CODE|upper|default:'TR' }}">
+<meta property="og:title" content="{% block og_title %}{{ doctor.full_name }} — {{ doctor.title_long }}{% endblock %}">
+<meta property="og:description" content="{% block og_description %}{{ site_settings.default_meta_description|default:doctor.bio_short|truncatechars:200 }}{% endblock %}">
+<meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+{% if site_settings.default_og_image %}
+  <meta property="og:image" content="{{ site_settings.default_og_image.url }}">
+{% endif %}
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{% block twitter_title %}{{ doctor.full_name }}{% endblock %}">
+<meta name="twitter:description" content="{% block twitter_description %}{{ doctor.bio_short|truncatechars:160 }}{% endblock %}">
+
+{# Alternate language links #}
+{% get_available_languages as LANGUAGES_AVAILABLE %}
+{% for code, name in LANGUAGES_AVAILABLE %}
+  <link rel="alternate" hreflang="{{ code }}" href="/{{ code }}{{ request.path|slice:'3:' }}">
+{% endfor %}
+
+{# Schema.org Person markup #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Physician",
+  "name": "{{ doctor.full_name }}",
+  "jobTitle": "{{ doctor.title_long }}",
+  "email": "{{ doctor.email_public }}",
+  "url": "{{ request.scheme }}://{{ request.get_host }}",
+  "sameAs": [
+    "{{ doctor.instagram_url }}",
+    "{{ doctor.google_scholar_url }}",
+    "{{ doctor.acibadem_profile_tr }}"
+  ],
+  "worksFor": {
+    "@type": "Hospital",
+    "name": "{{ doctor.hospital_name }}",
+    "address": "{{ doctor.hospital_address }}"
+  },
+  "medicalSpecialty": "Gynecology"
+}
+</script>
