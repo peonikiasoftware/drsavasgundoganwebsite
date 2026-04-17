@@ -299,3 +299,8 @@ JAZZMIN_UI_TWEAKS = {
         "success": "btn-success",
     },
 }
+
+# Upload size limits — kept under Vercel's 4.5MB serverless payload limit.
+# Client-side compression in doctor_admin also keeps uploads small.
+DATA_UPLOAD_MAX_MEMORY_SIZE = 4 * 1024 * 1024   # 4 MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 4 * 1024 * 1024   # 4 MB

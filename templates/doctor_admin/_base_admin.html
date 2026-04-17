@@ -112,6 +112,52 @@
 
 <script>
   document.addEventListener('DOMContentLoaded',()=>window.lucide&&lucide.createIcons());
+
+  // Auto-compress uploaded images client-side so Vercel's 4.5MB function
+  // payload limit is never hit. SVGs are skipped, already-small files too.
+  (function(){
+    const MAX_DIM = 2000;           // px on longest side
+    const COMPRESS_THRESHOLD = 400 * 1024; // only compress files > 400 KB
+    async function compress(file){
+      if (!file || !file.type.startsWith('image/')) return file;
+      if (file.type === 'image/svg+xml') return file;
+      if (file.size < COMPRESS_THRESHOLD) return file;
+      try {
+        const bitmap = await createImageBitmap(file);
+        let w = bitmap.width, h = bitmap.height;
+        if (w > MAX_DIM || h > MAX_DIM){
+          const s = Math.min(MAX_DIM/w, MAX_DIM/h);
+          w = Math.round(w*s); h = Math.round(h*s);
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(bitmap, 0, 0, w, h);
+        const outType = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+        const q = outType === 'image/jpeg' ? 0.85 : undefined;
+        const blob = await new Promise(r => canvas.toBlob(r, outType, q));
+        if (!blob || blob.size >= file.size) return file;
+        const ext = outType === 'image/png' ? '.png' : '.jpg';
+        const name = file.name.replace(/\.[^.]+$/, '') + ext;
+        return new File([blob], name, { type: outType });
+      } catch(e){ console.warn('compress failed, using original', e); return file; }
+    }
+    document.addEventListener('change', async function(e){
+      const inp = e.target;
+      if (inp.tagName !== 'INPUT' || inp.type !== 'file') return;
+      if (!inp.files || !inp.files.length) return;
+      const out = [];
+      for (const f of inp.files){
+        const c = await compress(f);
+        out.push(c);
+        console.log(`[compress] ${f.name}: ${(f.size/1024).toFixed(0)}KB -> ${(c.size/1024).toFixed(0)}KB`);
+      }
+      const dt = new DataTransfer();
+      out.forEach(f => dt.items.add(f));
+      inp.files = dt.files;
+      const disp = document.querySelector(`[data-filename-for="${inp.id}"]`);
+      if (disp && out[0]) disp.textContent = `${out[0].name} (${(out[0].size/1024).toFixed(0)} KB)`;
+    }, true);
+  })();
 </script>
 </body>
 </html>
