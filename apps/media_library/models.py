@@ -38,7 +38,8 @@ class Video(models.Model):
         help_text=_("Varsa buraya iframe HTML'i yapıştırın."),
     )
     thumbnail = CloudinaryField(
-        _("Kapak Görseli"), blank=True, null=True, folder="videos"
+        _("Kapak Görseli"), blank=True, null=True, folder="videos",
+        help_text=_("Sitede görünür: Videolar sayfasındaki video kartı küçük resmi (thumbnail). Ana sayfa video bölümünde öne çıkanlarda da kullanılır."),
     )
     category = models.ForeignKey(
         VideoCategory,

@@ -14,7 +14,7 @@ from django.db.models.functions import TruncDate
 from django.utils import timezone
 
 from apps.blog.models import BlogPost
-from apps.core.models import ContactMessage, DoctorProfile, PageView
+from apps.core.models import ContactMessage, DoctorProfile, PageView, SiteSettings
 from apps.experience.models import Education, Experience, Membership
 from apps.expertise.models import SpecialtyArea
 from apps.faq.models import FAQItem
@@ -24,6 +24,7 @@ from apps.publications.models import Publication
 from .decorators import doctor_required
 from .forms import (
     BlogPostForm,
+    BrandingForm,
     DoctorProfileForm,
     EducationForm,
     ExperienceForm,
@@ -184,6 +185,18 @@ def analytics(request):
 # ------------------------------------------------------------------
 # Doctor profile (single-object edit)
 # ------------------------------------------------------------------
+@doctor_required
+def branding_edit(request):
+    """Site-wide branding: logo, favicon, social icons, OG image."""
+    instance = SiteSettings.load()
+    form = BrandingForm(request.POST or None, request.FILES or None, instance=instance)
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Marka görselleri güncellendi.")
+        return redirect("doctor_admin:branding")
+    return render(request, "doctor_admin/branding_edit.html", {"form": form})
+
+
 @doctor_required
 def profile_edit(request):
     instance = DoctorProfile.load()

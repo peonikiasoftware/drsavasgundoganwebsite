@@ -51,3 +51,7 @@ htmlcov/
 Thumbs.db
 
 .vercel
+
+# Private docs (contains secrets) — never commit
+_private_docs/
+*.docx

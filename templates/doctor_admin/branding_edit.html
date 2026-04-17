@@ -1,0 +1,49 @@
+{% extends "doctor_admin/_base_admin.html" %}
+{% load i18n widget_tweaks %}
+
+{% block title %}{% trans "Marka Görselleri" %}{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+  <span class="eyebrow">{% trans "Marka & Görseller" %}</span>
+  <h1 class="font-serif text-3xl mt-2">{% trans "Logo, Favicon ve Sosyal Medya İkonları" %}</h1>
+  <p class="mt-2 text-ink-700 max-w-2xl">
+    {% blocktrans %}Her görselin altında sitede hangi bölümde göründüğü yazıyor. Yüklediğiniz dosyalar <strong>Cloudinary</strong> hesabında saklanır ve sitede otomatik olarak güncellenir.{% endblocktrans %}
+  </p>
+</div>
+
+<form method="post" enctype="multipart/form-data" class="space-y-5" novalidate>
+  {% csrf_token %}
+
+  {% if form.non_field_errors %}
+    <div class="p-4 rounded-xl bg-red-50 border border-red-200 text-sm text-red-700">
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
+
+  <section class="space-y-4">
+    <h2 class="font-serif text-xl">{% trans "Logo & Favicon" %}</h2>
+    {% for f in form %}
+      {% if f.name == 'site_logo' or f.name == 'site_logo_light' or f.name == 'favicon' or f.name == 'default_og_image' %}
+        {% include "doctor_admin/_image_field.html" with field=f %}
+      {% endif %}
+    {% endfor %}
+  </section>
+
+  <section class="space-y-4 pt-4">
+    <h2 class="font-serif text-xl">{% trans "Sosyal Medya İkonları" %}</h2>
+    {% for f in form %}
+      {% if f.name|slice:':12' == 'social_icon_' %}
+        {% include "doctor_admin/_image_field.html" with field=f %}
+      {% endif %}
+    {% endfor %}
+  </section>
+
+  <div class="flex items-center justify-end gap-3 sticky bottom-6">
+    <button type="submit" class="btn-primary !py-3 px-10">
+      <i data-lucide="check" class="w-4 h-4"></i>
+      {% trans "Kaydet" %}
+    </button>
+  </div>
+</form>
+{% endblock %}

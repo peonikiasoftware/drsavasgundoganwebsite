@@ -57,13 +57,16 @@ class DoctorProfile(SingletonMixin, models.Model):
 
     # Visuals
     portrait_photo = CloudinaryField(
-        _("Portre Fotoğraf"), blank=True, null=True, folder="doctor"
+        _("Portre Fotoğraf"), blank=True, null=True, folder="doctor",
+        help_text=_("Sitede görünür: Ana sayfa kısa biyografi bölümü, Hakkımda hero, Blog yazar kartı."),
     )
     hero_background = CloudinaryField(
-        _("Hero Arka Plan"), blank=True, null=True, folder="doctor"
+        _("Hero Arka Plan"), blank=True, null=True, folder="doctor",
+        help_text=_("Sitede görünür: Ana sayfanın en üstündeki büyük hero bölümünün arka plan görseli."),
     )
     signature_image = CloudinaryField(
-        _("İmza Görseli"), blank=True, null=True, folder="doctor"
+        _("İmza Görseli"), blank=True, null=True, folder="doctor",
+        help_text=_("Sitede görünür: Hakkımda sayfası alt bölüm imza alanı (opsiyonel)."),
     )
 
     # Biography
@@ -145,38 +148,44 @@ class SiteSettings(SingletonMixin, models.Model):
         _("Varsayılan Meta Açıklama"), blank=True
     )
     default_og_image = CloudinaryField(
-        _("Varsayılan OG Görseli"), blank=True, null=True, folder="site"
+        _("Varsayılan OG Görseli"), blank=True, null=True, folder="site",
+        help_text=_("Sitede görünür: Sosyal medyada (Facebook, WhatsApp, LinkedIn) paylaşıldığında çıkan önizleme görseli."),
     )
 
     # Branding — uploaded via admin, served from Cloudinary
     site_logo = CloudinaryField(
         _("Site Logosu (Açık Zemin)"), blank=True, null=True, folder="branding",
-        help_text=_("Header için logo. Boşsa 'SG' gradient rozeti gösterilir."),
+        help_text=_("Sitede görünür: Header (üst menü) logosu. Boşsa 'SG' gradient rozeti gösterilir."),
     )
     site_logo_light = CloudinaryField(
         _("Site Logosu (Koyu Zemin)"), blank=True, null=True, folder="branding",
-        help_text=_("Footer/koyu arka plan için açık renkli logo."),
+        help_text=_("Sitede görünür: Footer (alt bölüm, koyu arka plan) logosu. Açık renkli bir versiyon yükleyin."),
     )
     favicon = CloudinaryField(
         _("Favicon"), blank=True, null=True, folder="branding",
-        help_text=_("Tarayıcı sekmesi ikonu (kare, tercihen 512x512 PNG)."),
+        help_text=_("Sitede görünür: Tarayıcı sekmesi ikonu (kare, tercihen 512x512 PNG)."),
     )
 
     # Social media icons — upload your own SVG/PNG per platform
     social_icon_instagram = CloudinaryField(
         _("Instagram İkonu"), blank=True, null=True, folder="branding/social",
+        help_text=_("Sitede görünür: Header, footer ve mobil menüde Instagram linkinin yanındaki ikon."),
     )
     social_icon_scholar = CloudinaryField(
         _("Google Scholar İkonu"), blank=True, null=True, folder="branding/social",
+        help_text=_("Sitede görünür: Footer ve mobil menüde Google Scholar linkinin yanındaki ikon."),
     )
     social_icon_linkedin = CloudinaryField(
         _("LinkedIn İkonu"), blank=True, null=True, folder="branding/social",
+        help_text=_("Sitede görünür: Footer LinkedIn linkinin yanındaki ikon (LinkedIn URL girildiğinde)."),
     )
     social_icon_youtube = CloudinaryField(
         _("YouTube İkonu"), blank=True, null=True, folder="branding/social",
+        help_text=_("Sitede görünür: Footer YouTube linkinin yanındaki ikon (YouTube URL girildiğinde)."),
     )
     social_icon_facebook = CloudinaryField(
         _("Facebook İkonu"), blank=True, null=True, folder="branding/social",
+        help_text=_("Sitede görünür: Footer Facebook linkinin yanındaki ikon (Facebook URL girildiğinde)."),
     )
     cookie_banner_text = models.TextField(
         _("Çerez Banner Metni"),

@@ -45,7 +45,8 @@ class SpecialtyArea(models.Model):
     treatment_approach = RichTextField(_("Tedavi Yaklaşımım"), blank=True)
     recovery_info = RichTextField(_("İyileşme Süreci"), blank=True)
     hero_image = CloudinaryField(
-        _("Kapak Görseli"), blank=True, null=True, folder="expertise"
+        _("Kapak Görseli"), blank=True, null=True, folder="expertise",
+        help_text=_("Sitede görünür: Uzmanlık alanları liste kartı ve bu uzmanlık alanı detay sayfasının üst görseli. Ana sayfada öne çıkan kartlarda da kullanılır."),
     )
     order = models.PositiveIntegerField(_("Sıra"), default=0)
     is_featured = models.BooleanField(_("Öne Çıkan"), default=False)

@@ -24,6 +24,9 @@
 
   <div class="bg-white border border-ink-100 rounded-2xl p-6 md:p-8 space-y-5">
     {% for field in form %}
+      {% if field.field.widget.input_type == 'file' %}
+        {% include "doctor_admin/_image_field.html" with field=field %}
+      {% else %}
       <div class="{% if field.name|slice:':6' == 'title_' or field.name|slice:':8' == 'content_' %}space-y-1{% endif %}">
         <label class="form-label" for="{{ field.id_for_label }}">
           {{ field.label }}{% if field.field.required %} *{% endif %}
@@ -45,6 +48,7 @@
           <p class="mt-1 text-xs text-red-600">{{ field.errors.0 }}</p>
         {% endif %}
       </div>
+      {% endif %}
     {% endfor %}
   </div>
 

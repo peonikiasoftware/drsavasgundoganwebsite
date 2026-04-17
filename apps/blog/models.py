@@ -47,7 +47,8 @@ class BlogPost(models.Model):
     excerpt = models.TextField(_("Özet"), max_length=320, blank=True)
     content = RichTextField(_("İçerik"))
     featured_image = CloudinaryField(
-        _("Kapak Görseli"), blank=True, null=True, folder="blog"
+        _("Kapak Görseli"), blank=True, null=True, folder="blog",
+        help_text=_("Sitede görünür: Blog liste kartı, blog detay sayfası üst görseli ve sosyal medya paylaşım önizlemesi."),
     )
     author_name = models.CharField(
         _("Yazar"), max_length=160, default="Op. Dr. Savaş Gündoğan"

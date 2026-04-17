@@ -79,14 +79,13 @@
     {% endfor %}
   </div>
 
-  <div x-show="tab==='media'" class="space-y-5 bg-white border border-ink-100 rounded-2xl p-6 md:p-8">
+  <div x-show="tab==='media'" class="space-y-5">
+    <p class="text-sm text-ink-700 bg-white border border-ink-100 rounded-xl p-4">
+      {% blocktrans %}Aşağıdaki her görselin altında sitede nerede göründüğü yazıyor. Yüklediğiniz görseller <strong>Cloudinary</strong> hesabında saklanır ve tüm sitede otomatik güncellenir.{% endblocktrans %}
+    </p>
     {% for f in form %}
-      {% if f.name == 'portrait_photo' or f.name == 'hero_background' %}
-        <div>
-          <label class="form-label">{{ f.label }}</label>
-          {% render_field f class="block text-sm" %}
-          {% if f.help_text %}<p class="mt-1 text-xs text-ink-500">{{ f.help_text }}</p>{% endif %}
-        </div>
+      {% if f.name == 'portrait_photo' or f.name == 'hero_background' or f.name == 'signature_image' %}
+        {% include "doctor_admin/_image_field.html" with field=f %}
       {% endif %}
     {% endfor %}
   </div>

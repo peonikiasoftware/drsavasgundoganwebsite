@@ -10,6 +10,7 @@ urlpatterns = [
     path("logout/", views.DoctorLogoutView.as_view(), name="logout"),
 
     path("profile/", views.profile_edit, name="profile"),
+    path("branding/", views.branding_edit, name="branding"),
     path("analytics/", views.analytics, name="analytics"),
 
     path("messages/", views.messages_inbox, name="messages"),

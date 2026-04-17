@@ -2,7 +2,7 @@ from ckeditor.widgets import CKEditorWidget
 from django import forms
 
 from apps.blog.models import BlogPost
-from apps.core.models import DoctorProfile
+from apps.core.models import DoctorProfile, SiteSettings
 from apps.experience.models import Education, Experience, Membership
 from apps.expertise.models import SpecialtyArea
 from apps.faq.models import FAQItem
@@ -39,13 +39,23 @@ class DoctorProfileForm(forms.ModelForm):
             "linkedin_url", "youtube_url", "facebook_url",
             "google_scholar_url",
             "acibadem_profile_tr", "acibadem_profile_en",
-            "portrait_photo", "hero_background",
+            "portrait_photo", "hero_background", "signature_image",
             "years_of_experience", "publication_count", "procedures_count",
         )
         widgets = {
             "bio_long_tr": CKEditorWidget(config_name="doctor"),
             "bio_long_en": CKEditorWidget(config_name="doctor"),
         }
+
+
+class BrandingForm(forms.ModelForm):
+    class Meta:
+        model = SiteSettings
+        fields = (
+            "site_logo", "site_logo_light", "favicon", "default_og_image",
+            "social_icon_instagram", "social_icon_scholar",
+            "social_icon_linkedin", "social_icon_youtube", "social_icon_facebook",
+        )
 
 
 class EducationForm(forms.ModelForm):
