@@ -61,7 +61,9 @@ echo "--- [4/5] migrate + seed ---"
 "$PY" manage.py migrate --noinput            || echo "WARN: migrate failed — check DATABASE_URL env var."
 "$PY" manage.py create_initial_users         || echo "INFO: users already exist or env vars missing."
 "$PY" manage.py seed_doctor_data             || echo "WARN: seed failed — run manually later."
-"$PY" manage.py seed_placeholder_images      || echo "INFO: placeholder images skipped."
+# Placeholder image seeding is DISABLED — images are now managed manually via admin.
+# Re-enabling re-uploads generic Unsplash photos to Cloudinary on every deploy.
+# "$PY" manage.py seed_placeholder_images    || echo "INFO: placeholder images skipped."
 
 # ---------------------------------------------------------------
 # 6. compilemessages — gettext missing on Vercel; .mo files are
