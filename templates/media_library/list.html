@@ -17,12 +17,15 @@
       </p>
     </div>
 
-    {# ---------- HERO VIDEO — Acıbadem official ---------- #}
+    {# ---------- HERO VIDEO — Acıbadem official Instagram reel ---------- #}
     {% if hero_video %}
     <article class="featured-card mb-14 grid md:grid-cols-2 gap-0 items-stretch">
-      <div class="relative aspect-[9/16] md:aspect-auto md:min-h-[520px] bg-ink-900">
+      <div class="relative {% if hero_video.platform == 'instagram' %}aspect-[9/16]{% else %}aspect-video{% endif %} md:aspect-auto md:min-h-[520px] bg-ink-900">
         <iframe src="{{ hero_video.embed_url }}" class="w-full h-full"
-                frameborder="0" allow="encrypted-media" loading="lazy"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin"
                 title="{{ hero_video.title }}"></iframe>
       </div>
       <div class="p-8 md:p-12 flex flex-col justify-center">
@@ -63,21 +66,30 @@
     {# ---------- Grid ---------- #}
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {% for v in videos %}
-      <button type="button" @click='show("{{ v.embed_url|escapejs }}")' class="group editorial-card text-left">
-        <div class="relative aspect-[4/5] bg-ink-900 overflow-hidden">
-          {% if v.thumbnail %}
-            <img src="{{ v.thumbnail.url }}" alt="{{ v.title }}"
+      <button type="button"
+              @click="show('{{ v.embed_url|escapejs }}', {% if v.platform == 'instagram' %}true{% else %}false{% endif %})"
+              class="group editorial-card text-left">
+        <div class="relative {% if v.platform == 'instagram' %}aspect-[9/16]{% else %}aspect-video{% endif %} bg-ink-900 overflow-hidden">
+          {% if v.thumbnail_url %}
+            <img src="{{ v.thumbnail_url }}" alt="{{ v.title }}"
                  class="w-full h-full object-cover opacity-85 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-[600ms]">
+          {% elif v.platform == 'instagram' %}
+            {# No public thumbnail API for Instagram — embed the reel at first frame (muted) as a live preview #}
+            <iframe src="{{ v.embed_url }}"
+                    class="absolute inset-0 w-full h-full pointer-events-none"
+                    frameborder="0" loading="lazy" tabindex="-1"
+                    allow="encrypted-media"
+                    aria-hidden="true"></iframe>
           {% else %}
             <div class="absolute inset-0 bg-gradient-to-br from-teal-900 via-ink-900 to-[#001419]"></div>
           {% endif %}
-          <div class="absolute inset-0 flex items-center justify-center">
-            <span class="w-14 h-14 rounded-full bg-white/90 text-teal-700 inline-flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+          <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <span class="w-14 h-14 rounded-full bg-white/90 text-teal-700 inline-flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
               <i data-lucide="play" class="w-5 h-5 fill-current"></i>
             </span>
           </div>
           {% if v.is_official_acibadem %}
-            <span class="absolute top-3 left-3 bg-gold-500 text-ink-900 text-[10px] font-semibold uppercase tracking-wider px-3 py-1 rounded-full">Acıbadem</span>
+            <span class="absolute top-3 left-3 bg-gold-500 text-ink-900 text-[10px] font-semibold uppercase tracking-wider px-3 py-1 rounded-full z-10">Acıbadem</span>
           {% endif %}
         </div>
         <div class="p-5">

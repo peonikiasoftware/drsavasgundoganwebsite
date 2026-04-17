@@ -303,23 +303,30 @@
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" x-data="videoModal">
       {% for video in featured_videos %}
-        <button type="button" @click='show("{{ video.embed_url|escapejs }}", {{ video.embed_code|default_if_none:""|length }})'
+        <button type="button"
+                @click="show('{{ video.embed_url|escapejs }}', {% if video.platform == 'instagram' %}true{% else %}false{% endif %})"
                 class="group editorial-card text-left">
-          <div class="relative aspect-[4/5] bg-ink-900 overflow-hidden">
-            {% if video.thumbnail %}
-              <img src="{{ video.thumbnail.url }}" alt="{{ video.title }}"
-                   class="w-full h-full object-cover opacity-85 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-[600ms]">
+          <div class="relative {% if video.platform == 'instagram' %}aspect-[9/16]{% else %}aspect-video{% endif %} bg-ink-900 overflow-hidden">
+            {% if video.thumbnail_url %}
+              <img src="{{ video.thumbnail_url }}" alt="{{ video.title }}"
+                   class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-[600ms]">
+            {% elif video.platform == 'instagram' %}
+              <iframe src="{{ video.embed_url }}"
+                      class="absolute inset-0 w-full h-full pointer-events-none"
+                      frameborder="0" loading="lazy" tabindex="-1"
+                      allow="encrypted-media"
+                      aria-hidden="true"></iframe>
             {% else %}
               <div class="absolute inset-0 bg-gradient-to-br from-teal-900 via-ink-900 to-[#001419]"></div>
               <div class="absolute inset-0 opacity-20 bg-cream-pattern"></div>
             {% endif %}
-            <div class="absolute inset-0 flex items-center justify-center">
-              <span class="w-16 h-16 rounded-full bg-white/90 text-teal-700 inline-flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <span class="w-16 h-16 rounded-full bg-white/90 text-teal-700 inline-flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
                 <i data-lucide="play" class="w-6 h-6 fill-current"></i>
               </span>
             </div>
             {% if video.is_official_acibadem %}
-              <span class="absolute top-3 left-3 bg-gold-500 text-ink-900 text-[10px] font-semibold uppercase tracking-wider px-3 py-1 rounded-full">
+              <span class="absolute top-3 left-3 bg-gold-500 text-ink-900 text-[10px] font-semibold uppercase tracking-wider px-3 py-1 rounded-full z-10">
                 Acıbadem
               </span>
             {% endif %}

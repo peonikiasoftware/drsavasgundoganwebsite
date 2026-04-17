@@ -55,9 +55,11 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('videoModal', () => ({
     open: false,
     src: '',
+    portrait: true,      // 9:16 by default (Instagram reel)
     embedCode: '',
-    show(src, embedCode = '') {
+    show(src, portrait = true, embedCode = '') {
       this.src = src || '';
+      this.portrait = !!portrait;
       this.embedCode = embedCode || '';
       this.open = true;
       document.body.classList.add('overflow-hidden');

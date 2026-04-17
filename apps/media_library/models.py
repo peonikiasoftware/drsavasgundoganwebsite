@@ -67,6 +67,22 @@ class Video(models.Model):
         return self.title
 
     @property
+    def youtube_id(self) -> str:
+        """Extract the YouTube video id from video_url (empty if not YouTube)."""
+        if self.platform not in ("youtube", "youtube_short"):
+            return ""
+        url = self.video_url or ""
+        if "youtu.be/" in url:
+            return url.split("youtu.be/")[-1].split("?")[0].split("/")[0]
+        if "watch?v=" in url:
+            return url.split("watch?v=")[-1].split("&")[0]
+        if "/shorts/" in url:
+            return url.split("/shorts/")[-1].split("?")[0].split("/")[0]
+        if "/embed/" in url:
+            return url.split("/embed/")[-1].split("?")[0].split("/")[0]
+        return ""
+
+    @property
     def embed_url(self) -> str:
         """Return a safe iframe src URL for the video."""
         if self.embed_code:
@@ -75,14 +91,29 @@ class Video(models.Model):
         if self.platform == "instagram" and "/reel/" in url:
             reel_id = url.rstrip("/").split("/reel/")[-1].split("/")[0]
             return f"https://www.instagram.com/reel/{reel_id}/embed"
-        if self.platform in ("youtube", "youtube_short"):
-            vid = ""
-            if "youtu.be/" in url:
-                vid = url.split("youtu.be/")[-1].split("?")[0].split("/")[0]
-            elif "watch?v=" in url:
-                vid = url.split("watch?v=")[-1].split("&")[0]
-            elif "/shorts/" in url:
-                vid = url.split("/shorts/")[-1].split("?")[0].split("/")[0]
-            if vid:
-                return f"https://www.youtube.com/embed/{vid}?rel=0"
+        vid = self.youtube_id
+        if vid:
+            # youtube-nocookie + parameters for reliable inline playback
+            return (
+                f"https://www.youtube-nocookie.com/embed/{vid}"
+                f"?rel=0&modestbranding=1&playsinline=1"
+            )
         return url
+
+    @property
+    def thumbnail_url(self) -> str:
+        """Effective preview image URL.
+        Priority: manually uploaded Cloudinary thumbnail →
+                  YouTube auto-thumbnail (hqdefault) → empty string.
+        For Instagram reels we cannot derive a thumbnail without the Graph API
+        so the template should fall back to showing the iframe or a gradient.
+        """
+        if self.thumbnail:
+            try:
+                return self.thumbnail.url
+            except Exception:
+                pass
+        vid = self.youtube_id
+        if vid:
+            return f"https://img.youtube.com/vi/{vid}/hqdefault.jpg"
+        return ""

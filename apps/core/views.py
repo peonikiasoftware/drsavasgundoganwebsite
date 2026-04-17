@@ -33,7 +33,14 @@ def home(request):
     featured_videos = (
         Video.objects.filter(is_featured=True).order_by("-is_official_acibadem", "order")[:4]
     )
-    hero_video = Video.objects.filter(is_official_acibadem=True).first() or featured_videos.first() if featured_videos else None
+    # Hero on the home page is always the Acıbadem Instagram Reel — YouTube
+    # videos show only in the "Videolar" section below, never in the hero slot.
+    hero_video = (
+        Video.objects.filter(platform="instagram", is_official_acibadem=True)
+        .order_by("-is_featured", "order").first()
+        or Video.objects.filter(platform="instagram")
+        .order_by("-is_featured", "-publish_date").first()
+    )
     featured_publications = (
         Publication.objects.filter(is_featured=True).order_by("-year")[:3]
     )
