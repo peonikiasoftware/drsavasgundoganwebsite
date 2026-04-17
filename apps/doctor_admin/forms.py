@@ -17,6 +17,21 @@ def _input_attrs(extra=None):
     return attrs
 
 
+# Shared help text for the "Sıra" (order) field — applied via __init__
+ORDER_HELP_TEXT = (
+    "Sıralama numarası. Küçük numaralar önce gösterilir "
+    "(örn. 0 en önde, 10 sonra gelir). Aynı numaraya sahip kayıtlar "
+    "kendi içinde tarihe veya başlığa göre sıralanır. 10'ar 10'ar "
+    "artırarak (0, 10, 20...) daha sonra araya ekleme yapmak kolaylaşır."
+)
+
+
+def _apply_order_help(form):
+    """Attach the shared help text to the 'order' field if present."""
+    if "order" in form.fields:
+        form.fields["order"].help_text = ORDER_HELP_TEXT
+
+
 class DoctorProfileForm(forms.ModelForm):
     class Meta:
         model = DoctorProfile
@@ -70,6 +85,7 @@ class EducationForm(forms.ModelForm):
             "description_tr", "description_en",
             "is_highlight", "order",
         )
+        help_texts = {"order": ORDER_HELP_TEXT}
 
 
 class ExperienceForm(forms.ModelForm):
@@ -83,12 +99,14 @@ class ExperienceForm(forms.ModelForm):
             "description_tr", "description_en",
             "is_highlight", "order",
         )
+        help_texts = {"order": ORDER_HELP_TEXT}
 
 
 class MembershipForm(forms.ModelForm):
     class Meta:
         model = Membership
         fields = ("name_tr", "name_en", "url", "year_joined", "order")
+        help_texts = {"order": ORDER_HELP_TEXT}
 
 
 class PublicationForm(forms.ModelForm):
@@ -104,6 +122,7 @@ class PublicationForm(forms.ModelForm):
             "full_url",
             "is_featured", "order",
         )
+        help_texts = {"order": ORDER_HELP_TEXT}
 
 
 class VideoForm(forms.ModelForm):
@@ -117,6 +136,16 @@ class VideoForm(forms.ModelForm):
             "is_featured", "is_official_acibadem",
             "publish_date", "order",
         )
+        help_texts = {
+            "order": ORDER_HELP_TEXT,
+            "title_tr": "Zorunlu alan. Video için Türkçe başlık.",
+            "video_url": "Zorunlu alan. Instagram Reel veya YouTube video bağlantısının tamamı (örn. https://www.instagram.com/reel/XXXX/).",
+            "platform": "Videonun kaynağı — Instagram, YouTube veya Acıbadem resmi.",
+            "embed_code": "İsteğe bağlı. Platform iframe'i otomatik oluşturulamıyorsa özel HTML buraya yapıştırılabilir.",
+            "is_featured": "İşaretlenirse ana sayfa video bölümünde ve liste başında öne çıkar.",
+            "is_official_acibadem": "Bu video Acıbadem resmi hesabında yayınlandıysa işaretleyin (ekstra rozet alır).",
+            "publish_date": "Videonun yayınlandığı tarih (opsiyonel — liste sıralamasını etkiler).",
+        }
 
 
 class BlogPostForm(forms.ModelForm):
@@ -137,6 +166,15 @@ class BlogPostForm(forms.ModelForm):
             "content_tr": CKEditorWidget(config_name="doctor"),
             "content_en": CKEditorWidget(config_name="doctor"),
         }
+        help_texts = {
+            "title_tr": "Zorunlu alan. Yazının Türkçe başlığı.",
+            "slug": "URL dostu kısa ad (küçük harf, tire ile ayrılmış). Boş bırakılırsa başlıktan otomatik üretilir.",
+            "excerpt_tr": "Blog liste kartında görünecek 2-3 cümlelik özet (Türkçe).",
+            "status": "'Taslak' siteye çıkmaz, 'Yayında' siteye çıkar, 'Arşiv' gizlenir.",
+            "published_at": "Yayın tarihi. Boş bırakılırsa 'Yayında' seçildiğinde otomatik o an atanır.",
+            "read_time_minutes": "Okuyucuya gösterilecek yaklaşık okuma süresi (dakika).",
+            "is_featured": "İşaretlenirse ana sayfadaki blog bölümünde öne çıkar.",
+        }
 
 
 class FAQItemForm(forms.ModelForm):
@@ -149,6 +187,7 @@ class FAQItemForm(forms.ModelForm):
             "related_video", "related_specialty",
             "is_featured", "order",
         )
+        help_texts = {"order": ORDER_HELP_TEXT}
 
 
 class SpecialtyAreaForm(forms.ModelForm):
@@ -166,3 +205,4 @@ class SpecialtyAreaForm(forms.ModelForm):
             "hero_image",
             "is_featured", "order",
         )
+        help_texts = {"order": ORDER_HELP_TEXT}

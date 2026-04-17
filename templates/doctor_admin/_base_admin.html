@@ -10,7 +10,11 @@
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
   <link rel="stylesheet" href="{% static 'dist/css/output.css' %}">
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2300A0B0'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-family='Fraunces,serif' font-size='18' font-weight='600' fill='white'%3ESG%3C/text%3E%3C/svg%3E">
+  {% if site_settings.favicon %}
+    <link rel="icon" href="{{ site_settings.favicon.url }}">
+  {% else %}
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2300A0B0'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-family='Fraunces,serif' font-size='18' font-weight='600' fill='white'%3ESG%3C/text%3E%3C/svg%3E">
+  {% endif %}
 </head>
 <body class="bg-cream-50 text-ink-900 font-sans">
 
@@ -19,7 +23,11 @@
   {# ---------- Sidebar ---------- #}
   <aside class="lg:w-72 lg:min-h-screen bg-white lg:border-r border-ink-100 p-6 lg:p-8 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto">
     <a href="{% url 'doctor_admin:dashboard' %}" class="flex items-center gap-3">
-      <span class="w-10 h-10 rounded-xl bg-teal-gradient text-white inline-flex items-center justify-center font-serif font-semibold">SG</span>
+      {% if site_settings.site_logo %}
+        <img src="{{ site_settings.site_logo.url }}" alt="{{ doctor.full_name }}" class="w-10 h-10 object-contain">
+      {% else %}
+        <span class="w-10 h-10 rounded-xl bg-teal-gradient text-white inline-flex items-center justify-center font-serif font-semibold">SG</span>
+      {% endif %}
       <span class="flex flex-col leading-tight">
         <span class="font-serif text-base">{% trans "Doktor Paneli" %}</span>
         <span class="text-[10px] uppercase tracking-[0.18em] text-teal-700">{% trans "Yönetim" %}</span>

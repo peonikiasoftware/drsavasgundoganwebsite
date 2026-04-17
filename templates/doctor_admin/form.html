@@ -16,9 +16,21 @@
 <form method="post" enctype="multipart/form-data" class="space-y-6" novalidate>
   {% csrf_token %}
 
-  {% if form.non_field_errors %}
-    <div class="p-4 rounded-xl bg-red-50 border border-red-200 text-sm text-red-700">
-      {{ form.non_field_errors }}
+  {% if form.errors %}
+    <div class="p-4 rounded-xl bg-red-50 border border-red-200 text-sm text-red-800 space-y-2">
+      <p class="font-semibold flex items-center gap-2">
+        <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+        {% trans "Formda eksik veya hatalı alanlar var — kayıt tamamlanmadı." %}
+      </p>
+      <p class="text-xs text-red-700">{% trans "Aşağıda kırmızı işaretli alanları düzeltip tekrar 'Kaydet' düğmesine basın." %}</p>
+      {% if form.non_field_errors %}<div>{{ form.non_field_errors }}</div>{% endif %}
+      <ul class="text-xs list-disc pl-5 space-y-0.5">
+        {% for field in form %}
+          {% if field.errors %}
+            <li><strong>{{ field.label }}:</strong> {{ field.errors.0 }}</li>
+          {% endif %}
+        {% endfor %}
+      </ul>
     </div>
   {% endif %}
 
