@@ -126,6 +126,19 @@ class PublicationForm(forms.ModelForm):
 
 
 class VideoForm(forms.ModelForm):
+    """Video form — adds an optional 'new category' field so the doctor can
+    create a new VideoCategory inline without leaving the page."""
+
+    new_category = forms.CharField(
+        label="Yeni Kategori (opsiyonel)",
+        required=False,
+        max_length=120,
+        help_text=(
+            "Yukarıdaki listede uygun kategori yoksa yeni kategori adını buraya "
+            "yazın — kaydedilince otomatik oluşturulur ve bu videoya atanır."
+        ),
+    )
+
     class Meta:
         model = Video
         fields = (
@@ -142,10 +155,28 @@ class VideoForm(forms.ModelForm):
             "video_url": "Zorunlu alan. Instagram Reel veya YouTube video bağlantısının tamamı (örn. https://www.instagram.com/reel/XXXX/).",
             "platform": "Videonun kaynağı — Instagram, YouTube veya Acıbadem resmi.",
             "embed_code": "İsteğe bağlı. Platform iframe'i otomatik oluşturulamıyorsa özel HTML buraya yapıştırılabilir.",
+            "category": "Mevcut kategoriyi seçin veya aşağıdaki 'Yeni Kategori' alanını doldurun.",
+            "thumbnail": "İsteğe bağlı. Boş bırakılırsa YouTube videoları için otomatik kapak kullanılır, Instagram için ilk kare gösterilir.",
             "is_featured": "İşaretlenirse ana sayfa video bölümünde ve liste başında öne çıkar.",
             "is_official_acibadem": "Bu video Acıbadem resmi hesabında yayınlandıysa işaretleyin (ekstra rozet alır).",
             "publish_date": "Videonun yayınlandığı tarih (opsiyonel — liste sıralamasını etkiler).",
         }
+
+    def save(self, commit=True):
+        from django.utils.text import slugify
+        from apps.media_library.models import VideoCategory
+
+        new_name = (self.cleaned_data.get("new_category") or "").strip()
+        if new_name:
+            base_slug = slugify(new_name) or "kategori"
+            slug = base_slug
+            i = 2
+            while VideoCategory.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{i}"
+                i += 1
+            cat = VideoCategory.objects.create(name=new_name, slug=slug)
+            self.instance.category = cat
+        return super().save(commit=commit)
 
 
 class BlogPostForm(forms.ModelForm):

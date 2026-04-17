@@ -311,11 +311,12 @@
               <img src="{{ video.thumbnail_url }}" alt="{{ video.title }}"
                    class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-[600ms]">
             {% elif video.platform == 'instagram' %}
-              <iframe src="{{ video.embed_url }}"
-                      class="absolute inset-0 w-full h-full pointer-events-none"
-                      frameborder="0" loading="lazy" tabindex="-1"
-                      allow="encrypted-media"
-                      aria-hidden="true"></iframe>
+              {# Stylized Instagram reel placeholder — gradient + platform icon #}
+              <div class="absolute inset-0 bg-gradient-to-br from-[#833ab4] via-[#fd1d1d] to-[#fcb045]"></div>
+              <div class="absolute inset-0 flex flex-col items-center justify-center text-white/90">
+                <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                <span class="mt-2 text-[11px] uppercase tracking-[0.2em]">Instagram Reel</span>
+              </div>
             {% else %}
               <div class="absolute inset-0 bg-gradient-to-br from-teal-900 via-ink-900 to-[#001419]"></div>
               <div class="absolute inset-0 opacity-20 bg-cream-pattern"></div>

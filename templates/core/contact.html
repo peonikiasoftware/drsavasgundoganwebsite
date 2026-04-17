@@ -61,8 +61,19 @@
         {% if doctor.google_maps_embed_url %}
         <div class="rounded-2xl overflow-hidden border border-ink-100 bg-white">
           <iframe src="{{ doctor.google_maps_embed_url }}"
-                  class="w-full h-64" frameborder="0" loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"></iframe>
+                  class="w-full h-72" frameborder="0" loading="lazy"
+                  allowfullscreen
+                  referrerpolicy="no-referrer-when-downgrade"
+                  title="Acıbadem Maslak Hastanesi — Harita"></iframe>
+          <div class="p-4 border-t border-ink-100 flex items-center justify-between gap-3 text-sm">
+            <span class="text-ink-700 leading-snug">{{ doctor.hospital_address }}</span>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=Ac%C4%B1badem+Maslak+Hastanesi+B%C3%BCy%C3%BCkdere+Cad+No+40+Sar%C4%B1yer+%C4%B0stanbul"
+               target="_blank" rel="noopener"
+               class="btn-outline !py-2 !px-4 text-xs shrink-0">
+              <i data-lucide="navigation" class="w-3.5 h-3.5"></i>
+              {% trans "Yol Tarifi Al" %}
+            </a>
+          </div>
         </div>
         {% endif %}
       </div>

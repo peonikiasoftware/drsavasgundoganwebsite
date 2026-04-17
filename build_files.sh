@@ -60,7 +60,11 @@ mkdir -p staticfiles_build/static
 echo "--- [4/5] migrate + seed ---"
 "$PY" manage.py migrate --noinput            || echo "WARN: migrate failed — check DATABASE_URL env var."
 "$PY" manage.py create_initial_users         || echo "INFO: users already exist or env vars missing."
-"$PY" manage.py seed_doctor_data             || echo "WARN: seed failed — run manually later."
+# seed_doctor_data is DISABLED — it wipes and re-creates Video/FAQ/Specialty/
+# Education/Experience/Membership/Publication tables on every run, so any data
+# added via admin (or by fill_* commands) gets deleted. Initial seed already
+# ran on the very first deploy; subsequent deploys must not re-seed.
+# "$PY" manage.py seed_doctor_data           || echo "WARN: seed failed — run manually later."
 # Placeholder image seeding is DISABLED — images are now managed manually via admin.
 # Re-enabling re-uploads generic Unsplash photos to Cloudinary on every deploy.
 # "$PY" manage.py seed_placeholder_images    || echo "INFO: placeholder images skipped."
