@@ -147,6 +147,37 @@ class SiteSettings(SingletonMixin, models.Model):
     default_og_image = CloudinaryField(
         _("Varsayılan OG Görseli"), blank=True, null=True, folder="site"
     )
+
+    # Branding — uploaded via admin, served from Cloudinary
+    site_logo = CloudinaryField(
+        _("Site Logosu (Açık Zemin)"), blank=True, null=True, folder="branding",
+        help_text=_("Header için logo. Boşsa 'SG' gradient rozeti gösterilir."),
+    )
+    site_logo_light = CloudinaryField(
+        _("Site Logosu (Koyu Zemin)"), blank=True, null=True, folder="branding",
+        help_text=_("Footer/koyu arka plan için açık renkli logo."),
+    )
+    favicon = CloudinaryField(
+        _("Favicon"), blank=True, null=True, folder="branding",
+        help_text=_("Tarayıcı sekmesi ikonu (kare, tercihen 512x512 PNG)."),
+    )
+
+    # Social media icons — upload your own SVG/PNG per platform
+    social_icon_instagram = CloudinaryField(
+        _("Instagram İkonu"), blank=True, null=True, folder="branding/social",
+    )
+    social_icon_scholar = CloudinaryField(
+        _("Google Scholar İkonu"), blank=True, null=True, folder="branding/social",
+    )
+    social_icon_linkedin = CloudinaryField(
+        _("LinkedIn İkonu"), blank=True, null=True, folder="branding/social",
+    )
+    social_icon_youtube = CloudinaryField(
+        _("YouTube İkonu"), blank=True, null=True, folder="branding/social",
+    )
+    social_icon_facebook = CloudinaryField(
+        _("Facebook İkonu"), blank=True, null=True, folder="branding/social",
+    )
     cookie_banner_text = models.TextField(
         _("Çerez Banner Metni"),
         default=(

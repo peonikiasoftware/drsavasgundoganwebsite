@@ -6,7 +6,12 @@
       {# ---------- Brand ---------- #}
       <div class="md:col-span-4 space-y-4">
         <a href="{% url 'core:home' %}" class="inline-flex items-center gap-3">
+          {% if site_settings.site_logo_light or site_settings.site_logo %}
+          <img src="{{ site_settings.site_logo_light.url|default:site_settings.site_logo.url }}"
+               alt="{{ doctor.full_name }}" class="w-11 h-11 object-contain">
+          {% else %}
           <span class="w-11 h-11 rounded-xl bg-teal-gradient flex items-center justify-center font-serif font-semibold text-white">SG</span>
+          {% endif %}
           <span class="flex flex-col leading-tight">
             <span class="font-serif text-lg text-white">{{ doctor.full_name }}</span>
             <span class="text-[11px] uppercase tracking-[0.18em] text-gold-400">{{ doctor.title_long }}</span>
@@ -18,16 +23,48 @@
         <div class="flex gap-2 pt-2">
           <a href="{{ doctor.instagram_url }}" target="_blank" rel="noopener"
              class="w-10 h-10 inline-flex items-center justify-center rounded-full border border-white/15 hover:border-teal-400 hover:text-teal-300 transition-all duration-250" aria-label="Instagram">
-            <i data-lucide="instagram" class="w-4 h-4"></i>
+            {% if site_settings.social_icon_instagram %}
+              <img src="{{ site_settings.social_icon_instagram.url }}" alt="Instagram" class="w-4 h-4 object-contain invert">
+            {% else %}
+              <i data-lucide="instagram" class="w-4 h-4"></i>
+            {% endif %}
           </a>
           <a href="{{ doctor.google_scholar_url }}" target="_blank" rel="noopener"
              class="w-10 h-10 inline-flex items-center justify-center rounded-full border border-white/15 hover:border-teal-400 hover:text-teal-300 transition-all duration-250" aria-label="Google Scholar">
-            <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+            {% if site_settings.social_icon_scholar %}
+              <img src="{{ site_settings.social_icon_scholar.url }}" alt="Google Scholar" class="w-4 h-4 object-contain invert">
+            {% else %}
+              <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+            {% endif %}
           </a>
           {% if doctor.linkedin_url %}
           <a href="{{ doctor.linkedin_url }}" target="_blank" rel="noopener"
              class="w-10 h-10 inline-flex items-center justify-center rounded-full border border-white/15 hover:border-teal-400 hover:text-teal-300 transition-all duration-250" aria-label="LinkedIn">
-            <i data-lucide="linkedin" class="w-4 h-4"></i>
+            {% if site_settings.social_icon_linkedin %}
+              <img src="{{ site_settings.social_icon_linkedin.url }}" alt="LinkedIn" class="w-4 h-4 object-contain invert">
+            {% else %}
+              <i data-lucide="linkedin" class="w-4 h-4"></i>
+            {% endif %}
+          </a>
+          {% endif %}
+          {% if doctor.youtube_url %}
+          <a href="{{ doctor.youtube_url }}" target="_blank" rel="noopener"
+             class="w-10 h-10 inline-flex items-center justify-center rounded-full border border-white/15 hover:border-teal-400 hover:text-teal-300 transition-all duration-250" aria-label="YouTube">
+            {% if site_settings.social_icon_youtube %}
+              <img src="{{ site_settings.social_icon_youtube.url }}" alt="YouTube" class="w-4 h-4 object-contain invert">
+            {% else %}
+              <i data-lucide="youtube" class="w-4 h-4"></i>
+            {% endif %}
+          </a>
+          {% endif %}
+          {% if doctor.facebook_url %}
+          <a href="{{ doctor.facebook_url }}" target="_blank" rel="noopener"
+             class="w-10 h-10 inline-flex items-center justify-center rounded-full border border-white/15 hover:border-teal-400 hover:text-teal-300 transition-all duration-250" aria-label="Facebook">
+            {% if site_settings.social_icon_facebook %}
+              <img src="{{ site_settings.social_icon_facebook.url }}" alt="Facebook" class="w-4 h-4 object-contain invert">
+            {% else %}
+              <i data-lucide="facebook" class="w-4 h-4"></i>
+            {% endif %}
           </a>
           {% endif %}
         </div>

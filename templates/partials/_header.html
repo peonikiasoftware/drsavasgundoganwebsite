@@ -7,9 +7,14 @@
 
       {# ---------- Logo ---------- #}
       <a href="{% url 'core:home' %}" class="flex items-center gap-3 group shrink-0">
+        {% if site_settings.site_logo %}
+        <img src="{{ site_settings.site_logo.url }}" alt="{{ doctor.full_name }}"
+             class="w-10 h-10 object-contain group-hover:scale-[1.04] transition-transform duration-250">
+        {% else %}
         <span class="relative w-10 h-10 rounded-xl bg-teal-gradient flex items-center justify-center text-white font-serif font-semibold text-base shadow-soft-lift group-hover:scale-[1.04] transition-transform duration-250">
           SG
         </span>
+        {% endif %}
         <span class="hidden sm:flex flex-col leading-tight">
           <span class="font-serif text-[15px] text-ink-900">{{ doctor.full_name }}</span>
           <span class="text-[11px] uppercase tracking-[0.14em] text-teal-700">{{ doctor.hospital_name }}</span>
@@ -36,7 +41,11 @@
         <a href="{{ doctor.instagram_url }}" target="_blank" rel="noopener"
            class="hidden sm:inline-flex w-10 h-10 items-center justify-center rounded-full border border-ink-100 text-ink-700 hover:text-teal-700 hover:border-teal-200 transition-all duration-250"
            aria-label="Instagram">
-          <i data-lucide="instagram" class="w-4 h-4"></i>
+          {% if site_settings.social_icon_instagram %}
+            <img src="{{ site_settings.social_icon_instagram.url }}" alt="Instagram" class="w-4 h-4 object-contain">
+          {% else %}
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+          {% endif %}
         </a>
 
         <a href="{{ doctor.appointment_url }}" target="_blank" rel="noopener"

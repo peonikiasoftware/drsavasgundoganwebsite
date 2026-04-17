@@ -67,6 +67,20 @@ class SiteSettingsAdmin(TabbedTranslationAdmin):
     fieldsets = (
         ("Genel", {"fields": ("site_name", "maintenance_mode")}),
         ("SEO", {"fields": ("default_meta_title", "default_meta_description", "default_og_image")}),
+        ("Marka / Logo", {
+            "fields": ("site_logo", "site_logo_light", "favicon"),
+            "description": "Header, footer ve tarayıcı sekmesi için logolar. Boş bırakılırsa 'SG' gradient rozeti fallback olarak kullanılır.",
+        }),
+        ("Sosyal Medya İkonları", {
+            "fields": (
+                "social_icon_instagram",
+                "social_icon_scholar",
+                "social_icon_linkedin",
+                "social_icon_youtube",
+                "social_icon_facebook",
+            ),
+            "description": "Her platform için özel ikon (SVG veya PNG). Boşsa Lucide icon fallback gösterilir.",
+        }),
         ("Yasal Metinler", {"fields": ("cookie_banner_text", "kvkk_body", "privacy_body")}),
         ("Diğer", {"fields": ("newsletter_enabled", "google_analytics_id")}),
     )

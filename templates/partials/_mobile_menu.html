@@ -50,10 +50,20 @@
       </a>
       <div class="flex items-center justify-between text-sm text-ink-700">
         <a href="{{ doctor.instagram_url }}" target="_blank" rel="noopener" class="flex items-center gap-2 hover:text-teal-700">
-          <i data-lucide="instagram" class="w-4 h-4"></i> {{ doctor.instagram_handle }}
+          {% if site_settings.social_icon_instagram %}
+            <img src="{{ site_settings.social_icon_instagram.url }}" alt="" class="w-4 h-4 object-contain">
+          {% else %}
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+          {% endif %}
+          {{ doctor.instagram_handle }}
         </a>
         <a href="{{ doctor.google_scholar_url }}" target="_blank" rel="noopener" class="flex items-center gap-2 hover:text-teal-700">
-          <i data-lucide="graduation-cap" class="w-4 h-4"></i> Scholar
+          {% if site_settings.social_icon_scholar %}
+            <img src="{{ site_settings.social_icon_scholar.url }}" alt="" class="w-4 h-4 object-contain">
+          {% else %}
+            <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+          {% endif %}
+          Scholar
         </a>
       </div>
     </div>
