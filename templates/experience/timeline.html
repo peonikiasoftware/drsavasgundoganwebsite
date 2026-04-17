@@ -25,7 +25,7 @@
           <ol class="space-y-8">
             {% for ed in educations %}
             <li class="relative">
-              <span class="absolute -left-[3px] top-1.5 w-2.5 h-2.5 rounded-full bg-teal-500 ring-4 ring-cream-50"></span>
+              <span class="absolute -left-[21px] top-2 w-2.5 h-2.5 rounded-full bg-teal-500 ring-4 ring-cream-50"></span>
               <p class="font-serif text-xl text-teal-700 num-tabular">
                 {{ ed.year_start }}{% if ed.year_end %}–{{ ed.year_end }}{% endif %}
               </p>
@@ -49,7 +49,7 @@
           <ol class="space-y-8">
             {% for exp in experiences %}
             <li class="relative">
-              <span class="absolute -left-[3px] top-1.5 w-2.5 h-2.5 rounded-full {% if exp.is_current %}bg-gold-500{% else %}bg-teal-500{% endif %} ring-4 ring-cream-50"></span>
+              <span class="absolute -left-[21px] top-2 w-2.5 h-2.5 rounded-full {% if exp.is_current %}bg-gold-500{% else %}bg-teal-500{% endif %} ring-4 ring-cream-50"></span>
               <p class="font-serif text-xl text-teal-700 num-tabular">
                 {{ exp.year_start }}{% if exp.year_end %}–{{ exp.year_end }}{% elif exp.is_current %}<span class="text-sm italic text-gold-600 ml-1">· {% trans "güncel" %}</span>{% endif %}
               </p>
