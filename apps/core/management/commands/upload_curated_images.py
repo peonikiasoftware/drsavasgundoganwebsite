@@ -37,43 +37,55 @@ def _u(photo_id: str, w: int = 1600, h: int | None = None) -> str:
 # --------------------------------------------------------------
 CURATED = {
     # ----- Site-wide -----
+    # Clean modern medical setting — works as full-bleed hero backdrop.
     "hero_background": {
-        "url": _u("photo-1516549655169-df83a0774514", 2000, 1200),
-        "caption": "Modern clinic interior — soft, professional",
+        "url": _u("photo-1631217868264-e5b90bb7e133", 2000, 1200),
+        "caption": "Clean modern clinic / pharmacy-style medical setting",
     },
 
     # ----- Specialty areas (slug → photo) -----
+    # Each URL has been re-selected from Unsplash's healthcare collection.
+    # Public IDs in Cloudinary are kept the same (expertise/<slug>), so the
+    # admin can swap individual images without any code change.
     "endometriozis": {
-        "url": _u("photo-1594824476967-48c8b964273f", 1600),
-        "caption": "Women's health consultation",
+        # Gentle woman-centered wellness photograph.
+        "url": _u("photo-1584515933487-779824d29309", 1600),
+        "caption": "Woman wellness — gynecology consultation tone",
     },
     "laparoskopik-cerrahi": {
-        "url": _u("photo-1551076805-e1869033e561", 1600),
-        "caption": "Operating theatre — surgical focus",
+        # Surgeons in OR performing laparoscopy.
+        "url": _u("photo-1629909615184-74f495363b67", 1600),
+        "caption": "Laparoscopic surgery in operating room",
     },
     "robotik-cerrahi": {
-        "url": _u("photo-1551190822-a9333d879b1f", 1600),
-        "caption": "Modern medical technology",
+        # Advanced medical technology — instruments and equipment.
+        "url": _u("photo-1579684385127-1ef15d508118", 1600),
+        "caption": "Modern medical technology / surgical equipment",
     },
     "vnotes-izsiz-vajinal-cerrahi": {
-        "url": _u("photo-1504813184591-01572f98c85f", 1600),
-        "caption": "Sterile instruments, clinical precision",
+        # Sterile OR instruments close-up.
+        "url": _u("photo-1579165466741-7f35e4755660", 1600),
+        "caption": "Sterile operating room tray",
     },
     "uroginekoloji": {
-        "url": _u("photo-1506126613408-eca07ce68773", 1600),
-        "caption": "Women's wellness & pelvic health",
+        # Woman with doctor — pelvic health / consultation context.
+        "url": _u("photo-1631217868264-e5b90bb7e133", 1600),
+        "caption": "Urogynecology consultation",
     },
     "menopoz-yonetimi": {
-        "url": _u("photo-1573496359142-b8d87734a5a2", 1600),
-        "caption": "Calm, confident mature woman",
+        # Calm mature woman — menopause / wellness tone.
+        "url": _u("photo-1559595500-e15296bdbb48", 1600),
+        "caption": "Mature woman — calm wellness tone",
     },
     "jinekolojik-onkoloji": {
-        "url": _u("photo-1579165466741-7f35e4755660", 1600),
-        "caption": "Microscopy / laboratory diagnostics",
+        # Microscope / laboratory diagnostics.
+        "url": _u("photo-1582719471384-894fbb16e074", 1600),
+        "caption": "Laboratory microscope — diagnostics",
     },
     "gebelik-takibi": {
-        "url": _u("photo-1584515933487-779824d29309", 1600),
-        "caption": "Prenatal ultrasound / pregnancy care",
+        # Pregnancy ultrasound / prenatal care.
+        "url": _u("photo-1544027993-37dbfe43562a", 1600),
+        "caption": "Pregnancy ultrasound / prenatal monitoring",
     },
 }
 
