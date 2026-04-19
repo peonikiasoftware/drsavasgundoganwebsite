@@ -7,20 +7,20 @@
 <section class="section-padding bg-cream-50" x-data="videoModal">
 
   <div class="container-main">
-    <div class="max-w-3xl mb-14">
+    <div class="max-w-3xl mb-10 sm:mb-14 js-reveal">
       <span class="eyebrow">{% trans "Bilgilendirme Videoları" %}</span>
       <h1 class="h-display mt-4">
         {% blocktrans %}Kadın sağlığını <span class="accent-italic">kendi sesimle</span>.{% endblocktrans %}
       </h1>
-      <p class="mt-5 text-ink-700 text-lg">
+      <p class="mt-4 sm:mt-5 text-ink-700 text-base sm:text-lg">
         {% trans "Hasta bilgilendirme için hazırladığım videolara göz atın. Her video kısa, anlaşılır ve güncel bilgiler içerir." %}
       </p>
     </div>
 
     {# ---------- HERO VIDEO — Acıbadem official Instagram reel ---------- #}
     {% if hero_video %}
-    <article class="featured-card mb-14 grid md:grid-cols-2 gap-0 items-stretch">
-      <div class="relative {% if hero_video.platform == 'instagram' %}aspect-[9/16]{% else %}aspect-video{% endif %} md:aspect-auto md:min-h-[520px] bg-ink-900">
+    <article class="featured-card mb-10 sm:mb-14 grid md:grid-cols-2 gap-0 items-stretch js-reveal">
+      <div class="relative {% if hero_video.platform == 'instagram' %}aspect-[9/16] max-h-[70vh]{% else %}aspect-video{% endif %} md:aspect-auto md:max-h-none md:min-h-[520px] bg-ink-900">
         <iframe src="{{ hero_video.embed_url }}" class="w-full h-full"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -28,34 +28,34 @@
                 referrerpolicy="strict-origin-when-cross-origin"
                 title="{{ hero_video.title }}"></iframe>
       </div>
-      <div class="p-8 md:p-12 flex flex-col justify-center">
+      <div class="p-6 sm:p-8 md:p-12 flex flex-col justify-center">
         <span class="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-gold-600">
           <span class="w-6 h-px bg-gold-500"></span>
           {% trans "Acıbadem Resmi Hesabında Yayınlandı" %}
         </span>
-        <h2 class="h-h2 mt-4">{{ hero_video.title }}</h2>
-        <p class="mt-4 text-ink-700 leading-relaxed">{{ hero_video.description }}</p>
+        <h2 class="h-h2 mt-3 sm:mt-4">{{ hero_video.title }}</h2>
+        <p class="mt-3 sm:mt-4 text-ink-700 text-sm sm:text-base leading-relaxed">{{ hero_video.description }}</p>
         {% if hero_video.publish_date %}
-          <p class="mt-5 text-xs text-ink-500">{{ hero_video.publish_date|date:"d F Y" }}</p>
+          <p class="mt-4 sm:mt-5 text-xs text-ink-500">{{ hero_video.publish_date|date:"d F Y" }}</p>
         {% endif %}
-        <a href="{{ hero_video.video_url }}" target="_blank" rel="noopener" class="btn-ghost mt-5">
+        <a href="{{ hero_video.video_url }}" target="_blank" rel="noopener" class="btn-ghost mt-4 sm:mt-5 self-start">
           {% trans "Orijinal paylaşımı gör" %} <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
         </a>
       </div>
     </article>
     {% endif %}
 
-    {# ---------- Category filter ---------- #}
+    {# ---------- Category filter — horizontally scrollable on mobile ---------- #}
     {% if categories %}
-    <div class="flex flex-wrap gap-2 mb-10">
+    <div class="flex gap-2 mb-8 sm:mb-10 overflow-x-auto pb-1 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap">
       <a href="{% url 'media_library:list' %}"
-         class="inline-flex items-center px-4 h-9 rounded-full border text-sm transition-all duration-250
+         class="inline-flex items-center whitespace-nowrap px-4 h-9 rounded-full border text-sm transition-all duration-250 shrink-0
                 {% if not current_category %}bg-teal-500 border-teal-500 text-white{% else %}bg-white border-ink-100 text-ink-700 hover:border-teal-200 hover:text-teal-700{% endif %}">
         {% trans "Tümü" %}
       </a>
       {% for c in categories %}
         <a href="?category={{ c.slug }}"
-           class="inline-flex items-center px-4 h-9 rounded-full border text-sm transition-all duration-250
+           class="inline-flex items-center whitespace-nowrap px-4 h-9 rounded-full border text-sm transition-all duration-250 shrink-0
                   {% if current_category == c.slug %}bg-teal-500 border-teal-500 text-white{% else %}bg-white border-ink-100 text-ink-700 hover:border-teal-200 hover:text-teal-700{% endif %}">
           {{ c.name }}
         </a>
@@ -64,11 +64,11 @@
     {% endif %}
 
     {# ---------- Grid ---------- #}
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
       {% for v in videos %}
       <button type="button"
               @click="show('{{ v.embed_url|escapejs }}', {% if v.platform == 'instagram' %}true{% else %}false{% endif %})"
-              class="group editorial-card text-left">
+              class="group editorial-card text-left js-reveal">
         <div class="relative {% if v.platform == 'instagram' %}aspect-[9/16]{% else %}aspect-video{% endif %} bg-ink-900 overflow-hidden">
           {% if v.thumbnail_url %}
             <img src="{{ v.thumbnail_url }}" alt="{{ v.title }}"

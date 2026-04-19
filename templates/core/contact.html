@@ -7,19 +7,19 @@
 {% block content %}
 <section class="section-padding bg-cream-50">
   <div class="container-main">
-    <div class="max-w-2xl mb-14">
+    <div class="max-w-2xl mb-10 sm:mb-14 js-reveal">
       <span class="eyebrow">{% trans "İletişim" %}</span>
       <h1 class="h-display mt-4">
         {% blocktrans %}Sizinle iletişim kurmak <span class="accent-italic">bir ayrıcalık</span>.{% endblocktrans %}
       </h1>
-      <p class="mt-4 text-ink-700">{% trans "Randevu, değerlendirme veya sorularınız için aşağıdaki formu kullanabilir ya da hastaneye doğrudan ulaşabilirsiniz." %}</p>
+      <p class="mt-4 text-ink-700 text-sm sm:text-base">{% trans "Randevu, değerlendirme veya sorularınız için aşağıdaki formu kullanabilir ya da hastaneye doğrudan ulaşabilirsiniz." %}</p>
     </div>
 
-    <div class="grid lg:grid-cols-12 gap-10 lg:gap-14">
+    <div class="grid lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14">
 
       {# ---------- Form ---------- #}
-      <div class="lg:col-span-7">
-        <div class="bg-white border border-ink-100 rounded-2xl p-8 lg:p-10 shadow-soft-lift">
+      <div class="lg:col-span-7 js-reveal">
+        <div class="bg-white border border-ink-100 rounded-2xl p-5 sm:p-8 lg:p-10 shadow-soft-lift">
           <div id="contact-form-wrap">
             {% include "core/_contact_form_partial.html" %}
           </div>
@@ -27,49 +27,49 @@
       </div>
 
       {# ---------- Info ---------- #}
-      <div class="lg:col-span-5 space-y-6">
-        <article class="bg-white border border-ink-100 rounded-2xl p-8">
-          <h2 class="font-serif text-xl text-ink-900">{% trans "Hastane" %}</h2>
-          <p class="mt-4 font-serif text-lg text-teal-700">{{ doctor.hospital_name }}</p>
+      <div class="lg:col-span-5 space-y-4 sm:space-y-6">
+        <article class="bg-white border border-ink-100 rounded-2xl p-5 sm:p-8 js-reveal">
+          <h2 class="font-serif text-lg sm:text-xl text-ink-900">{% trans "Hastane" %}</h2>
+          <p class="mt-3 sm:mt-4 font-serif text-base sm:text-lg text-teal-700">{{ doctor.hospital_name }}</p>
           <p class="mt-1 text-sm text-ink-700">{{ doctor.hospital_address }}</p>
-          <a href="{{ doctor.appointment_url }}" target="_blank" rel="noopener" class="btn-primary mt-6 w-full">
+          <a href="{{ doctor.appointment_url }}" target="_blank" rel="noopener" class="btn-primary mt-5 sm:mt-6 w-full">
             <i data-lucide="calendar-check" class="w-4 h-4"></i>
             {% trans "Acıbadem Randevu Formu" %}
           </a>
         </article>
 
-        <article class="bg-white border border-ink-100 rounded-2xl p-8">
-          <h2 class="font-serif text-xl text-ink-900">{% trans "Doğrudan İletişim" %}</h2>
-          <ul class="mt-4 space-y-3 text-sm">
+        <article class="bg-white border border-ink-100 rounded-2xl p-5 sm:p-8 js-reveal">
+          <h2 class="font-serif text-lg sm:text-xl text-ink-900">{% trans "Doğrudan İletişim" %}</h2>
+          <ul class="mt-3 sm:mt-4 space-y-3 text-sm">
             <li class="flex items-center gap-3">
-              <span class="icon-badge !w-10 !h-10"><i data-lucide="mail" class="w-4 h-4"></i></span>
+              <span class="icon-badge !w-9 !h-9 sm:!w-10 sm:!h-10 shrink-0"><i data-lucide="mail" class="w-4 h-4"></i></span>
               <a href="mailto:{{ doctor.email_public }}" class="hover:text-teal-700 break-all">{{ doctor.email_public }}</a>
             </li>
             {% if doctor.phone_public %}
             <li class="flex items-center gap-3">
-              <span class="icon-badge !w-10 !h-10"><i data-lucide="phone" class="w-4 h-4"></i></span>
+              <span class="icon-badge !w-9 !h-9 sm:!w-10 sm:!h-10 shrink-0"><i data-lucide="phone" class="w-4 h-4"></i></span>
               <a href="tel:{{ doctor.phone_public }}" class="hover:text-teal-700">{{ doctor.phone_public }}</a>
             </li>
             {% endif %}
             <li class="flex items-center gap-3">
-              <span class="icon-badge !w-10 !h-10"><i data-lucide="instagram" class="w-4 h-4"></i></span>
+              <span class="icon-badge !w-9 !h-9 sm:!w-10 sm:!h-10 shrink-0"><i data-lucide="instagram" class="w-4 h-4"></i></span>
               <a href="{{ doctor.instagram_url }}" target="_blank" rel="noopener" class="hover:text-teal-700">{{ doctor.instagram_handle }}</a>
             </li>
           </ul>
         </article>
 
         {% if doctor.google_maps_embed_url %}
-        <div class="rounded-2xl overflow-hidden border border-ink-100 bg-white">
+        <div class="rounded-2xl overflow-hidden border border-ink-100 bg-white js-reveal">
           <iframe src="{{ doctor.google_maps_embed_url }}"
-                  class="w-full h-72" frameborder="0" loading="lazy"
+                  class="w-full h-56 sm:h-72" frameborder="0" loading="lazy"
                   allowfullscreen
                   referrerpolicy="no-referrer-when-downgrade"
                   title="Acıbadem Maslak Hastanesi — Harita"></iframe>
-          <div class="p-4 border-t border-ink-100 flex items-center justify-between gap-3 text-sm">
+          <div class="p-3 sm:p-4 border-t border-ink-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3 text-sm">
             <span class="text-ink-700 leading-snug">{{ doctor.hospital_address }}</span>
             <a href="https://www.google.com/maps/dir/?api=1&destination=Ac%C4%B1badem+Maslak+Hastanesi+B%C3%BCy%C3%BCkdere+Cad+No+40+Sar%C4%B1yer+%C4%B0stanbul"
                target="_blank" rel="noopener"
-               class="btn-outline !py-2 !px-4 text-xs shrink-0">
+               class="btn-outline !py-2 !px-4 text-xs shrink-0 self-start sm:self-auto">
               <i data-lucide="navigation" class="w-3.5 h-3.5"></i>
               {% trans "Yol Tarifi Al" %}
             </a>

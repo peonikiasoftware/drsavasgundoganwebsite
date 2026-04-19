@@ -31,6 +31,32 @@
       radial-gradient(circle at 0% 0%, rgba(0, 160, 176, 0.04) 0%, transparent 55%),
       radial-gradient(circle at 100% 100%, rgba(201, 169, 97, 0.06) 0%, transparent 50%);
     background-attachment: fixed;
+    /* Never let the sticky mobile "Randevu Al" bar cover content. */
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Mobile sticky appointment bar is ~56px tall (xl and below) — reserve room
+     so the last section's CTAs, cookie banner & footer aren't covered. */
+  @media (max-width: 1279px) {
+    body {
+      padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+    }
+  }
+
+  /* Prevent accidental horizontal scroll from decorative absolute elements.
+     Use `clip` instead of `hidden` so position:sticky keeps working on the
+     header (clip doesn't establish a scroll container). Falls back to hidden
+     on older browsers. */
+  html, body { overflow-x: hidden; overflow-x: clip; }
+
+  /* Respect user motion preferences — pause our keyframe animations. */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 
   ::selection {
@@ -62,16 +88,16 @@
 
   /* ---------- Buttons ---------- */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 px-8 py-3.5
-           bg-teal-500 text-white font-medium rounded-full
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-8 sm:py-3.5
+           bg-teal-500 text-white font-medium rounded-full text-sm sm:text-base
            transition-all duration-250
            hover:bg-teal-600 hover:-translate-y-0.5 hover:shadow-teal-glow
            focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-500/30;
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 px-8 py-3.5
-           border-2 border-teal-500 text-teal-700 font-medium rounded-full
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-8 sm:py-3.5
+           border-2 border-teal-500 text-teal-700 font-medium rounded-full text-sm sm:text-base
            bg-transparent transition-all duration-250
            hover:bg-teal-500 hover:text-white hover:border-teal-500
            focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-500/30;
@@ -93,15 +119,15 @@
 
   /* ---------- Layout ---------- */
   .section-padding {
-    @apply py-14 md:py-20 lg:py-24;
+    @apply py-12 sm:py-14 md:py-20 lg:py-24;
   }
 
   .container-main {
-    @apply max-w-main mx-auto px-6 lg:px-8;
+    @apply max-w-main mx-auto px-4 sm:px-6 lg:px-8;
   }
 
   .container-narrow {
-    @apply max-w-prose-reading mx-auto px-6 lg:px-8;
+    @apply max-w-prose-reading mx-auto px-4 sm:px-6 lg:px-8;
   }
 
   /* ---------- Typography helpers ---------- */
@@ -129,7 +155,7 @@
 
   .icon-card {
     @apply relative bg-gradient-to-br from-white to-cream-50
-           rounded-2xl border border-cream-200 p-8
+           rounded-2xl border border-cream-200 p-6 sm:p-8
            transition-all duration-400 ease-out
            shadow-[0_1px_0_0_rgba(15,23,32,0.04)]
            hover:-translate-y-1 hover:shadow-teal-glow hover:border-teal-300;
@@ -138,7 +164,7 @@
   /* Academic / editorial list item: warmer gradient + left teal rail */
   .paper-card {
     @apply relative bg-gradient-to-br from-white via-cream-50 to-cream-100
-           rounded-2xl border border-cream-200 p-6 pl-8
+           rounded-2xl border border-cream-200 p-5 pl-6 sm:p-6 sm:pl-8
            transition-all duration-400 ease-out
            shadow-[0_1px_0_0_rgba(15,23,32,0.04)]
            hover:-translate-y-1 hover:shadow-teal-glow hover:border-teal-300;
@@ -169,7 +195,8 @@
 
   /* Bento grid items — set spans via utility classes on the item */
   .bento-grid {
-    @apply grid grid-cols-6 gap-6 md:gap-8 auto-rows-[minmax(200px,auto)];
+    @apply grid grid-cols-6 gap-4 sm:gap-6 md:gap-8
+           auto-rows-[minmax(180px,auto)] md:auto-rows-[minmax(200px,auto)];
   }
 
   /* ---------- Forms ---------- */
@@ -195,23 +222,43 @@
 
   /* ---------- Trust strip ---------- */
   .trust-stat {
-    @apply flex flex-col items-center text-center px-4 py-6;
+    @apply flex flex-col items-center text-center px-3 py-5 sm:px-4 sm:py-6;
   }
   .trust-stat-value {
-    @apply font-serif text-4xl md:text-5xl text-teal-700 num-tabular;
+    @apply font-serif text-3xl sm:text-4xl md:text-5xl text-teal-700 num-tabular leading-tight;
   }
   .trust-stat-label {
-    @apply mt-2 text-sm text-ink-700;
+    @apply mt-1.5 sm:mt-2 text-xs sm:text-sm text-ink-700 leading-snug;
   }
 
   /* ---------- Hero section ---------- */
   .hero-section {
-    @apply relative min-h-[88vh] flex items-center overflow-hidden;
+    /* Mobile: compact, content-led. Desktop: cinematic. */
+    @apply relative flex items-center overflow-hidden
+           min-h-[calc(100svh-64px)] md:min-h-[78vh] lg:min-h-[88vh];
   }
 
   .hero-overlay {
     @apply absolute inset-0 bg-gradient-to-br
-           from-ink-900/80 via-ink-900/55 to-teal-900/75;
+           from-ink-900/85 via-ink-900/60 to-teal-900/80;
+  }
+
+  /* ---------- Scroll-reveal helper ----------
+     Add class="js-reveal" to any element and it will fade-up into view
+     when it enters the viewport. Works on mobile because we use
+     IntersectionObserver with generous rootMargin. Honors reduced motion. */
+  .js-reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 700ms ease-out, transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    will-change: opacity, transform;
+  }
+  .js-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .js-reveal { opacity: 1; transform: none; transition: none; }
   }
 
   /* ---------- Prose overrides (for blog & rich text) ---------- */

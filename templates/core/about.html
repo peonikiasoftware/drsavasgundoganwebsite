@@ -7,42 +7,42 @@
 {% block content %}
 
 {# ---------- HERO — portrait + intro ---------- #}
-<section class="relative bg-cream-50 pt-20 md:pt-28 pb-20 md:pb-28 overflow-hidden">
+<section class="relative bg-cream-50 pt-12 pb-12 sm:pt-20 sm:pb-20 md:pt-28 md:pb-28 overflow-hidden">
   <div class="container-main">
-    <div class="grid lg:grid-cols-12 gap-12 items-center">
-      <div class="lg:col-span-5">
+    <div class="grid lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-center">
+      <div class="lg:col-span-5 js-reveal">
         {% if doctor.portrait_photo %}
-          <div class="relative">
-            <div class="absolute -inset-5 -z-10 rounded-[3rem] bg-teal-50"></div>
-            <div class="absolute -top-6 -right-6 w-36 h-36 rounded-full bg-gold-500/25 -z-10"></div>
+          <div class="relative max-w-xs sm:max-w-md lg:max-w-none mx-auto">
+            <div class="absolute -inset-3 sm:-inset-5 -z-10 rounded-[2.5rem] sm:rounded-[3rem] bg-teal-50"></div>
+            <div class="absolute -top-4 -right-4 sm:-top-6 sm:-right-6 w-24 h-24 sm:w-36 sm:h-36 rounded-full bg-gold-500/25 -z-10"></div>
             <img src="{{ doctor.portrait_photo.url }}" alt="{{ doctor.full_name }}"
-                 class="w-full rounded-[2.5rem] object-cover aspect-[4/5] ring-4 ring-white shadow-[0_40px_80px_-30px_rgba(0,0,0,0.25)]">
+                 class="w-full rounded-[2rem] sm:rounded-[2.5rem] object-cover aspect-[4/5] ring-2 sm:ring-4 ring-white shadow-[0_30px_60px_-25px_rgba(0,0,0,0.25)] sm:shadow-[0_40px_80px_-30px_rgba(0,0,0,0.25)]">
           </div>
         {% else %}
-          <div class="aspect-[4/5] rounded-[2.5rem] bg-gradient-to-br from-teal-500 to-teal-800 flex items-center justify-center text-white ring-4 ring-white shadow-soft-lift">
-            <span class="font-serif text-[10rem] leading-none">SG</span>
+          <div class="aspect-[4/5] max-w-xs sm:max-w-md lg:max-w-none mx-auto rounded-[2rem] sm:rounded-[2.5rem] bg-gradient-to-br from-teal-500 to-teal-800 flex items-center justify-center text-white ring-2 sm:ring-4 ring-white shadow-soft-lift">
+            <span class="font-serif text-7xl sm:text-[10rem] leading-none">SG</span>
           </div>
         {% endif %}
       </div>
 
-      <div class="lg:col-span-7">
+      <div class="lg:col-span-7 js-reveal">
         <span class="eyebrow">{{ doctor.hospital_name }}</span>
         <h1 class="h-display mt-4">{{ doctor.full_name }}</h1>
-        <p class="mt-3 font-serif italic text-xl text-teal-700">{{ doctor.title_long }}</p>
-        <p class="mt-8 text-ink-700 text-lg leading-relaxed max-w-xl">
+        <p class="mt-3 font-serif italic text-lg sm:text-xl text-teal-700">{{ doctor.title_long }}</p>
+        <p class="mt-6 sm:mt-8 text-ink-700 text-base sm:text-lg leading-relaxed max-w-xl">
           {{ doctor.bio_short }}
         </p>
-        <div class="mt-8 flex flex-wrap gap-3 items-center">
+        <div class="mt-6 sm:mt-8 flex flex-wrap gap-2 sm:gap-3 items-center">
           <a href="{{ doctor.instagram_url }}" target="_blank" rel="noopener"
-             class="inline-flex items-center gap-2 px-5 h-11 rounded-full border border-ink-100 bg-white hover:border-teal-200 hover:text-teal-700 transition-all duration-250 text-sm">
+             class="inline-flex items-center gap-2 px-4 sm:px-5 h-10 sm:h-11 rounded-full border border-ink-100 bg-white hover:border-teal-200 hover:text-teal-700 transition-all duration-250 text-xs sm:text-sm">
             <i data-lucide="instagram" class="w-4 h-4"></i> {{ doctor.instagram_handle }}
           </a>
           <a href="{{ doctor.google_scholar_url }}" target="_blank" rel="noopener"
-             class="inline-flex items-center gap-2 px-5 h-11 rounded-full border border-ink-100 bg-white hover:border-teal-200 hover:text-teal-700 transition-all duration-250 text-sm">
+             class="inline-flex items-center gap-2 px-4 sm:px-5 h-10 sm:h-11 rounded-full border border-ink-100 bg-white hover:border-teal-200 hover:text-teal-700 transition-all duration-250 text-xs sm:text-sm">
             <i data-lucide="graduation-cap" class="w-4 h-4"></i> Google Scholar
           </a>
           <a href="{{ doctor.acibadem_profile_tr }}" target="_blank" rel="noopener"
-             class="inline-flex items-center gap-2 px-5 h-11 rounded-full border border-ink-100 bg-white hover:border-teal-200 hover:text-teal-700 transition-all duration-250 text-sm">
+             class="inline-flex items-center gap-2 px-4 sm:px-5 h-10 sm:h-11 rounded-full border border-ink-100 bg-white hover:border-teal-200 hover:text-teal-700 transition-all duration-250 text-xs sm:text-sm">
             <i data-lucide="link" class="w-4 h-4"></i> Acıbadem
           </a>
         </div>
@@ -55,15 +55,15 @@
 {# ---------- "My story" — long bio ---------- #}
 {% if doctor.bio_long %}
 <section class="section-padding bg-white border-y border-ink-100">
-  <div class="container-main grid lg:grid-cols-12 gap-12">
-    <div class="lg:col-span-4">
+  <div class="container-main grid lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12">
+    <div class="lg:col-span-4 js-reveal">
       <span class="eyebrow">{% trans "Hikayem" %}</span>
       <h2 class="h-display mt-4">
         {% blocktrans %}Hekimliğe giden <span class="accent-italic">yol</span>.{% endblocktrans %}
       </h2>
-      <div class="mt-6 w-14 h-0.5 bg-teal-500"></div>
+      <div class="mt-5 sm:mt-6 w-14 h-0.5 bg-teal-500"></div>
     </div>
-    <div class="lg:col-span-8 prose-clinic text-ink-700 text-lg">
+    <div class="lg:col-span-8 prose-clinic text-ink-700 text-base sm:text-lg js-reveal">
       {{ doctor.bio_long|safe }}
     </div>
   </div>
@@ -73,13 +73,13 @@
 
 {# ---------- Philosophy quote ---------- #}
 {% if doctor.philosophy_quote %}
-<section class="py-20 md:py-24 bg-cream-100">
-  <div class="container-main max-w-4xl text-center">
-    <i data-lucide="quote" class="w-10 h-10 mx-auto text-gold-500"></i>
-    <blockquote class="mt-6 font-serif text-2xl md:text-4xl italic text-ink-900 leading-tight">
+<section class="py-14 sm:py-20 md:py-24 bg-cream-100">
+  <div class="container-main max-w-4xl text-center js-reveal">
+    <i data-lucide="quote" class="w-8 h-8 sm:w-10 sm:h-10 mx-auto text-gold-500"></i>
+    <blockquote class="mt-5 sm:mt-6 font-serif text-xl sm:text-2xl md:text-4xl italic text-ink-900 leading-tight text-balance">
       "{{ doctor.philosophy_quote }}"
     </blockquote>
-    <p class="mt-6 text-ink-500 text-sm">— {{ doctor.full_name }}</p>
+    <p class="mt-5 sm:mt-6 text-ink-500 text-sm">— {{ doctor.full_name }}</p>
   </div>
 </section>
 {% endif %}
@@ -89,24 +89,24 @@
 {% if educations %}
 <section class="section-padding bg-white">
   <div class="container-main">
-    <div class="max-w-2xl mb-12">
+    <div class="max-w-2xl mb-10 sm:mb-12 js-reveal">
       <span class="eyebrow">{% trans "Eğitim" %}</span>
       <h2 class="h-display mt-4">
         {% blocktrans %}Eğitim <span class="accent-italic">yolculuğum</span>.{% endblocktrans %}
       </h2>
     </div>
 
-    <div class="relative pl-6 lg:pl-0">
-      <div class="absolute left-2 lg:left-1/2 top-2 bottom-2 w-px bg-ink-100 lg:-translate-x-px"></div>
-      <ol class="space-y-10">
+    <div class="relative pl-5 sm:pl-6 lg:pl-0">
+      <div class="absolute left-1.5 sm:left-2 lg:left-1/2 top-2 bottom-2 w-px bg-ink-100 lg:-translate-x-px"></div>
+      <ol class="space-y-8 sm:space-y-10">
         {% for ed in educations %}
-        <li class="relative lg:grid lg:grid-cols-2 lg:gap-16">
-          <span class="absolute -left-[3px] lg:left-1/2 lg:-translate-x-1/2 top-1.5 w-2.5 h-2.5 rounded-full bg-teal-500 ring-4 ring-cream-50"></span>
+        <li class="relative lg:grid lg:grid-cols-2 lg:gap-16 js-reveal">
+          <span class="absolute -left-[12px] sm:-left-[14px] lg:left-1/2 lg:-translate-x-1/2 top-1.5 w-2.5 h-2.5 rounded-full bg-teal-500 ring-4 ring-cream-50"></span>
           <div class="{% cycle 'lg:text-right lg:pr-10' 'lg:col-start-2 lg:pl-10' %}">
-            <p class="font-serif text-2xl text-teal-700 num-tabular">
+            <p class="font-serif text-xl sm:text-2xl text-teal-700 num-tabular">
               {{ ed.year_start }}{% if ed.year_end %}–{{ ed.year_end }}{% endif %}
             </p>
-            <p class="mt-2 font-serif text-xl text-ink-900">{{ ed.degree }}</p>
+            <p class="mt-1.5 sm:mt-2 font-serif text-lg sm:text-xl text-ink-900">{{ ed.degree }}</p>
             <p class="mt-1 text-sm text-ink-700">{{ ed.institution }}</p>
             {% if ed.location %}<p class="text-sm text-ink-500">{{ ed.location }}</p>{% endif %}
             {% if ed.description %}<p class="mt-2 text-sm text-ink-700">{{ ed.description }}</p>{% endif %}
@@ -124,27 +124,27 @@
 {% if experiences %}
 <section class="section-padding bg-cream-50">
   <div class="container-main">
-    <div class="max-w-2xl mb-12">
+    <div class="max-w-2xl mb-10 sm:mb-12 js-reveal">
       <span class="eyebrow">{% trans "Deneyim" %}</span>
       <h2 class="h-display mt-4">
         {% blocktrans %}Klinik <span class="accent-italic">serüvenim</span>.{% endblocktrans %}
       </h2>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-6">
+    <div class="grid sm:grid-cols-2 gap-4 sm:gap-6">
       {% for exp in experiences %}
-      <article class="bg-white border border-ink-100 rounded-2xl p-6 hover:border-teal-200 hover:shadow-soft-lift transition-all duration-250">
-        <div class="flex items-center justify-between">
-          <p class="font-serif text-xl text-teal-700 num-tabular">
-            {{ exp.year_start }}{% if exp.year_end %}–{{ exp.year_end }}{% elif exp.is_current %}<span class="text-sm italic text-gold-600"> · {% trans "güncel" %}</span>{% endif %}
+      <article class="bg-white border border-ink-100 rounded-2xl p-5 sm:p-6 hover:border-teal-200 hover:shadow-soft-lift transition-all duration-250 js-reveal">
+        <div class="flex items-center justify-between gap-2">
+          <p class="font-serif text-lg sm:text-xl text-teal-700 num-tabular">
+            {{ exp.year_start }}{% if exp.year_end %}–{{ exp.year_end }}{% elif exp.is_current %}<span class="text-xs sm:text-sm italic text-gold-600"> · {% trans "güncel" %}</span>{% endif %}
           </p>
           {% if exp.is_current %}
-            <span class="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-teal-500 text-white">
+            <span class="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full bg-teal-500 text-white shrink-0">
               <span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span> {% trans "Aktif" %}
             </span>
           {% endif %}
         </div>
-        <p class="mt-3 font-serif text-lg text-ink-900">{{ exp.position }}</p>
+        <p class="mt-3 font-serif text-base sm:text-lg text-ink-900">{{ exp.position }}</p>
         <p class="mt-1 text-sm text-ink-700">{{ exp.institution }}</p>
         {% if exp.location %}<p class="text-sm text-ink-500">{{ exp.location }}</p>{% endif %}
         {% if exp.description %}<p class="mt-3 text-sm text-ink-700 leading-relaxed">{{ exp.description }}</p>{% endif %}
@@ -160,14 +160,14 @@
 {% if memberships %}
 <section class="section-padding bg-white border-t border-ink-100">
   <div class="container-main">
-    <div class="max-w-2xl mb-10">
+    <div class="max-w-2xl mb-8 sm:mb-10 js-reveal">
       <span class="eyebrow">{% trans "Mesleki Üyelikler" %}</span>
       <h2 class="h-display mt-4">{% trans "Üye olduğum dernekler" %}</h2>
     </div>
-    <div class="flex flex-wrap gap-3">
+    <div class="flex flex-wrap gap-2 sm:gap-3">
       {% for m in memberships %}
         <a href="{{ m.url|default:'#' }}" {% if m.url %}target="_blank" rel="noopener"{% endif %}
-           class="inline-flex items-center gap-2 px-5 h-11 rounded-full border border-ink-100 bg-cream-50 hover:border-teal-200 hover:text-teal-700 transition-all duration-250 text-sm">
+           class="inline-flex items-center gap-2 px-4 sm:px-5 h-10 sm:h-11 rounded-full border border-ink-100 bg-cream-50 hover:border-teal-200 hover:text-teal-700 transition-all duration-250 text-xs sm:text-sm">
           <i data-lucide="award" class="w-4 h-4 text-gold-500"></i>
           {{ m.name }}
         </a>
@@ -179,20 +179,20 @@
 
 
 {# ---------- CTA ---------- #}
-<section class="py-20 bg-teal-gradient text-white">
-  <div class="container-main grid md:grid-cols-2 gap-10 items-center">
+<section class="py-14 sm:py-20 bg-teal-gradient text-white">
+  <div class="container-main grid md:grid-cols-2 gap-6 sm:gap-10 items-center js-reveal">
     <div>
-      <h2 class="font-serif text-3xl md:text-4xl tracking-tight">
+      <h2 class="font-serif text-2xl sm:text-3xl md:text-4xl tracking-tight text-balance">
         {% trans "Sizi dinlemeye ve birlikte plan yapmaya hazırım." %}
       </h2>
     </div>
     <div class="flex flex-wrap gap-3 md:justify-end">
       <a href="{{ doctor.appointment_url }}" target="_blank" rel="noopener"
-         class="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white text-teal-700 font-medium hover:-translate-y-0.5 transition-all duration-250">
+         class="inline-flex items-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-white text-teal-700 font-medium text-sm sm:text-base hover:-translate-y-0.5 transition-all duration-250">
         <i data-lucide="calendar-check" class="w-4 h-4"></i> {% trans "Randevu Al" %}
       </a>
       <a href="{{ doctor.instagram_url }}" target="_blank" rel="noopener"
-         class="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border-2 border-white/50 text-white font-medium hover:bg-white/10 transition-all duration-250">
+         class="inline-flex items-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full border-2 border-white/50 text-white font-medium text-sm sm:text-base hover:bg-white/10 transition-all duration-250">
         <i data-lucide="instagram" class="w-4 h-4"></i> Instagram
       </a>
     </div>

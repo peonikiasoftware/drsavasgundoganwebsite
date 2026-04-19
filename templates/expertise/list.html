@@ -7,28 +7,28 @@
 {% block content %}
 <section class="section-padding bg-cream-50">
   <div class="container-main">
-    <div class="max-w-3xl mb-14">
+    <div class="max-w-3xl mb-10 sm:mb-14 js-reveal">
       <span class="eyebrow">{% trans "Klinik Uzmanlık" %}</span>
       <h1 class="h-display mt-4">
         {% blocktrans %}Modern tekniklerle, <span class="accent-italic">özen</span> ve <span class="accent-italic">bilim</span>.{% endblocktrans %}
       </h1>
-      <p class="mt-6 text-ink-700 text-lg leading-relaxed">{% trans "Minimal invaziv cerrahi, endometriozis, robotik cerrahi ve kadın sağlığının her alanında kanıta dayalı, kişiye özel yaklaşım." %}</p>
+      <p class="mt-5 sm:mt-6 text-ink-700 text-base sm:text-lg leading-relaxed">{% trans "Minimal invaziv cerrahi, endometriozis, robotik cerrahi ve kadın sağlığının her alanında kanıta dayalı, kişiye özel yaklaşım." %}</p>
     </div>
 
     {% for cat in categories %}
       {% if cat.areas.all %}
-      <div class="mb-20">
-        <div class="flex items-center gap-4 mb-8">
-          <span class="icon-badge !w-12 !h-12"><i data-lucide="{{ cat.icon|default:'stethoscope' }}" class="w-5 h-5"></i></span>
+      <div class="mb-14 sm:mb-20">
+        <div class="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8 js-reveal">
+          <span class="icon-badge !w-10 !h-10 sm:!w-12 sm:!h-12 shrink-0"><i data-lucide="{{ cat.icon|default:'stethoscope' }}" class="w-5 h-5"></i></span>
           <h2 class="h-h2">{{ cat.name }}</h2>
         </div>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {% for area in cat.areas.all %}
-            <a href="{{ area.get_absolute_url }}" class="icon-card group">
+            <a href="{{ area.get_absolute_url }}" class="icon-card group js-reveal">
               <span class="icon-badge"><i data-lucide="{{ area.icon|default:'stethoscope' }}" class="w-5 h-5"></i></span>
-              <h3 class="mt-5 font-serif text-xl text-ink-900">{{ area.title }}</h3>
-              <p class="mt-3 text-sm text-ink-700 leading-relaxed">{{ area.short_description }}</p>
-              <span class="mt-6 inline-flex items-center gap-1 text-sm text-teal-700 border-b border-teal-500/40 pb-0.5 group-hover:border-teal-500">
+              <h3 class="mt-4 sm:mt-5 font-serif text-lg sm:text-xl text-ink-900">{{ area.title }}</h3>
+              <p class="mt-2 sm:mt-3 text-sm text-ink-700 leading-relaxed">{{ area.short_description }}</p>
+              <span class="mt-4 sm:mt-6 inline-flex items-center gap-1 text-sm text-teal-700 border-b border-teal-500/40 pb-0.5 group-hover:border-teal-500">
                 {% trans "Detayları gör" %} <i data-lucide="arrow-right" class="w-4 h-4"></i>
               </span>
             </a>
@@ -40,13 +40,13 @@
 
     {% if uncategorized %}
       <div class="mb-10">
-        <h2 class="h-h2 mb-8">{% trans "Diğer Alanlar" %}</h2>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <h2 class="h-h2 mb-6 sm:mb-8 js-reveal">{% trans "Diğer Alanlar" %}</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {% for area in uncategorized %}
-            <a href="{{ area.get_absolute_url }}" class="icon-card group">
+            <a href="{{ area.get_absolute_url }}" class="icon-card group js-reveal">
               <span class="icon-badge"><i data-lucide="{{ area.icon|default:'stethoscope' }}" class="w-5 h-5"></i></span>
-              <h3 class="mt-5 font-serif text-xl">{{ area.title }}</h3>
-              <p class="mt-3 text-sm text-ink-700">{{ area.short_description }}</p>
+              <h3 class="mt-4 sm:mt-5 font-serif text-lg sm:text-xl">{{ area.title }}</h3>
+              <p class="mt-2 sm:mt-3 text-sm text-ink-700">{{ area.short_description }}</p>
             </a>
           {% endfor %}
         </div>

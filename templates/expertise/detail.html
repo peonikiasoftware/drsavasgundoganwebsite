@@ -12,81 +12,83 @@
     <div class="absolute inset-0">
       <img src="{{ area.hero_image.url }}" alt="{{ area.title }}"
            class="w-full h-full object-cover opacity-50">
-      <div class="absolute inset-0 bg-gradient-to-br from-ink-900/80 via-ink-900/60 to-teal-900/70"></div>
+      <div class="absolute inset-0 bg-gradient-to-br from-ink-900/85 via-ink-900/65 to-teal-900/75"></div>
     </div>
   {% else %}
     <div class="absolute inset-0 bg-gradient-to-br from-ink-900 via-teal-900 to-[#001419]"></div>
     <div class="absolute inset-0 opacity-10 bg-cream-pattern"></div>
   {% endif %}
 
-  <div class="relative container-main py-24 lg:py-32">
-    <nav class="text-xs uppercase tracking-[0.2em] text-gold-400 mb-8">
+  <div class="relative container-main py-14 sm:py-20 lg:py-32">
+    <nav class="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-gold-400 mb-6 sm:mb-8 flex flex-wrap gap-x-2 gap-y-1 items-center">
       <a href="{% url 'expertise:list' %}" class="hover:text-white transition-colors">{% trans "Uzmanlık Alanlarım" %}</a>
-      <span class="mx-3 text-white/30">/</span>
-      <span class="text-white">{{ area.category.name|default:'' }}</span>
+      {% if area.category.name %}
+        <span class="text-white/30">/</span>
+        <span class="text-white">{{ area.category.name }}</span>
+      {% endif %}
     </nav>
     <span class="icon-badge !bg-white/15 !text-white">
       <i data-lucide="{{ area.icon|default:'stethoscope' }}" class="w-6 h-6"></i>
     </span>
-    <h1 class="h-hero mt-6 text-white max-w-3xl">{{ area.title }}</h1>
-    <p class="mt-6 font-serif italic text-xl lg:text-2xl text-teal-100 max-w-3xl">{{ area.short_description }}</p>
+    <h1 class="h-hero mt-5 sm:mt-6 text-white max-w-3xl text-balance">{{ area.title }}</h1>
+    <p class="mt-5 sm:mt-6 font-serif italic text-lg sm:text-xl lg:text-2xl text-teal-100 max-w-3xl">{{ area.short_description }}</p>
   </div>
 </section>
 
 
 {# ---------- BODY ---------- #}
 <section class="section-padding bg-white">
-  <div class="container-main grid lg:grid-cols-12 gap-14">
+  <div class="container-main grid lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14">
 
-    <article class="lg:col-span-8 space-y-14">
+    <article class="lg:col-span-8 space-y-10 sm:space-y-14">
       {% if area.full_description %}
-      <div>
+      <div class="js-reveal">
         <span class="eyebrow">{% trans "Hakkında" %}</span>
-        <h2 class="h-h2 mt-3 mb-5">{% trans "Kısa bilgi" %}</h2>
-        <div class="prose-clinic">{{ area.full_description|safe }}</div>
+        <h2 class="h-h2 mt-3 mb-4 sm:mb-5">{% trans "Kısa bilgi" %}</h2>
+        <div class="prose-clinic prose-base sm:prose-lg">{{ area.full_description|safe }}</div>
       </div>
       {% endif %}
 
       {% if area.symptoms %}
-      <div>
+      <div class="js-reveal">
         <span class="eyebrow text-gold-600">{% trans "Belirtiler" %}</span>
-        <h2 class="h-h2 mt-3 mb-5">{% trans "Ne zaman dikkat etmeli?" %}</h2>
-        <div class="prose-clinic bg-cream-50 border-l-2 border-gold-500 pl-6 py-5 rounded-r-xl">
+        <h2 class="h-h2 mt-3 mb-4 sm:mb-5">{% trans "Ne zaman dikkat etmeli?" %}</h2>
+        <div class="prose-clinic prose-base sm:prose-lg bg-cream-50 border-l-2 border-gold-500 pl-5 sm:pl-6 py-4 sm:py-5 rounded-r-xl">
           {{ area.symptoms|safe }}
         </div>
       </div>
       {% endif %}
 
       {% if area.treatment_approach %}
-      <div>
+      <div class="js-reveal">
         <span class="eyebrow">{% trans "Tedavi Yaklaşımım" %}</span>
-        <h2 class="h-h2 mt-3 mb-5">{% trans "Tedavi yaklaşımım" %}</h2>
-        <div class="prose-clinic">{{ area.treatment_approach|safe }}</div>
+        <h2 class="h-h2 mt-3 mb-4 sm:mb-5">{% trans "Tedavi yaklaşımım" %}</h2>
+        <div class="prose-clinic prose-base sm:prose-lg">{{ area.treatment_approach|safe }}</div>
       </div>
       {% endif %}
 
       {% if area.recovery_info %}
-      <div>
+      <div class="js-reveal">
         <span class="eyebrow">{% trans "İyileşme" %}</span>
-        <h2 class="h-h2 mt-3 mb-5">{% trans "İyileşme süreci" %}</h2>
-        <div class="prose-clinic">{{ area.recovery_info|safe }}</div>
+        <h2 class="h-h2 mt-3 mb-4 sm:mb-5">{% trans "İyileşme süreci" %}</h2>
+        <div class="prose-clinic prose-base sm:prose-lg">{{ area.recovery_info|safe }}</div>
       </div>
       {% endif %}
 
       {% if related_faqs %}
-      <div>
+      <div class="js-reveal">
         <span class="eyebrow">{% trans "SSS" %}</span>
-        <h2 class="h-h2 mt-3 mb-5">{% trans "Sık sorulan sorular" %}</h2>
+        <h2 class="h-h2 mt-3 mb-4 sm:mb-5">{% trans "Sık sorulan sorular" %}</h2>
         <div class="space-y-3" x-data="{open:null}">
           {% for faq in related_faqs %}
             <article class="bg-cream-50 rounded-xl border border-ink-100">
               <button type="button" @click="open = open === {{ faq.id }} ? null : {{ faq.id }}"
-                      class="w-full px-5 py-4 text-left font-serif text-lg flex items-center justify-between gap-4">
+                      class="w-full px-4 sm:px-5 py-4 text-left font-serif text-base sm:text-lg flex items-center justify-between gap-3 sm:gap-4">
                 <span>{{ faq.question }}</span>
-                <i data-lucide="plus" class="w-4 h-4 transition-transform duration-300"
+                <i data-lucide="plus" class="w-4 h-4 transition-transform duration-300 shrink-0"
                    :class="open === {{ faq.id }} && 'rotate-45'"></i>
               </button>
-              <div x-show="open === {{ faq.id }}" x-collapse class="px-5 pb-5 prose-clinic">
+              <div x-show="open === {{ faq.id }}" x-collapse class="px-4 sm:px-5 pb-5 prose-clinic prose-sm sm:prose-base">
                 {{ faq.answer|safe }}
               </div>
             </article>
@@ -98,23 +100,23 @@
 
 
     {# ---------- Sidebar ---------- #}
-    <aside class="lg:col-span-4 space-y-6 lg:sticky lg:top-24 h-fit">
-      <div class="bg-teal-gradient text-white rounded-2xl p-7">
-        <p class="font-serif text-2xl leading-tight">{% trans "Bu konuda size danışmanlık vermek için buradayım." %}</p>
+    <aside class="lg:col-span-4 space-y-4 sm:space-y-6 lg:sticky lg:top-24 h-fit">
+      <div class="bg-teal-gradient text-white rounded-2xl p-6 sm:p-7 js-reveal">
+        <p class="font-serif text-xl sm:text-2xl leading-tight">{% trans "Bu konuda size danışmanlık vermek için buradayım." %}</p>
         <a href="{{ doctor.appointment_url }}" target="_blank" rel="noopener"
-           class="inline-flex items-center gap-2 px-6 py-3 mt-6 rounded-full bg-white text-teal-700 font-medium hover:-translate-y-0.5 transition-all duration-250">
+           class="inline-flex items-center gap-2 px-5 sm:px-6 py-3 mt-5 sm:mt-6 rounded-full bg-white text-teal-700 font-medium text-sm sm:text-base hover:-translate-y-0.5 transition-all duration-250">
           <i data-lucide="calendar-check" class="w-4 h-4"></i> {% trans "Randevu Al" %}
         </a>
       </div>
 
       {% if related_posts %}
-      <div class="bg-white border border-ink-100 rounded-2xl p-7">
+      <div class="bg-white border border-ink-100 rounded-2xl p-6 sm:p-7 js-reveal">
         <p class="eyebrow">{% trans "İlgili Blog Yazıları" %}</p>
-        <ul class="mt-4 space-y-4">
+        <ul class="mt-3 sm:mt-4 space-y-3 sm:space-y-4">
           {% for p in related_posts %}
             <li>
               <a href="{{ p.get_absolute_url }}" class="group block">
-                <p class="font-serif text-base text-ink-900 group-hover:text-teal-700 transition-colors">{{ p.title }}</p>
+                <p class="font-serif text-sm sm:text-base text-ink-900 group-hover:text-teal-700 transition-colors">{{ p.title }}</p>
                 <p class="mt-1 text-xs text-ink-500">{{ p.published_at|date:"d F Y" }}</p>
               </a>
             </li>
@@ -124,14 +126,14 @@
       {% endif %}
 
       {% if related %}
-      <div class="bg-white border border-ink-100 rounded-2xl p-7">
+      <div class="bg-white border border-ink-100 rounded-2xl p-6 sm:p-7 js-reveal">
         <p class="eyebrow">{% trans "İlgili Uzmanlık Alanları" %}</p>
-        <ul class="mt-4 space-y-3">
+        <ul class="mt-3 sm:mt-4 space-y-3">
           {% for r in related %}
             <li>
               <a href="{{ r.get_absolute_url }}" class="group flex items-center gap-3">
-                <span class="icon-badge !w-9 !h-9"><i data-lucide="{{ r.icon|default:'stethoscope' }}" class="w-4 h-4"></i></span>
-                <span class="font-serif text-base text-ink-900 group-hover:text-teal-700">{{ r.title }}</span>
+                <span class="icon-badge !w-9 !h-9 shrink-0"><i data-lucide="{{ r.icon|default:'stethoscope' }}" class="w-4 h-4"></i></span>
+                <span class="font-serif text-sm sm:text-base text-ink-900 group-hover:text-teal-700">{{ r.title }}</span>
               </a>
             </li>
           {% endfor %}

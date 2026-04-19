@@ -39,38 +39,38 @@
        :style="'width:' + w + '%'"></div>
 </div>
 
-<article class="pb-24">
+<article class="pb-14 sm:pb-24">
 
   {# ---------- BREADCRUMB ---------- #}
-  <nav class="container-main pt-8 text-xs uppercase tracking-[0.2em] text-ink-500">
+  <nav class="container-main pt-6 sm:pt-8 text-[10px] sm:text-xs uppercase tracking-[0.2em] text-ink-500 flex flex-wrap gap-x-2 gap-y-1 items-center">
     <a href="{% url 'core:home' %}" class="hover:text-teal-700">{% trans "Ana Sayfa" %}</a>
-    <span class="mx-2 text-ink-300">/</span>
+    <span class="text-ink-300">/</span>
     <a href="{% url 'blog:list' %}" class="hover:text-teal-700">Blog</a>
     {% if post.category %}
-      <span class="mx-2 text-ink-300">/</span>
+      <span class="text-ink-300">/</span>
       <a href="{% url 'blog:list' %}?category={{ post.category.slug }}" class="hover:text-teal-700">{{ post.category.name }}</a>
     {% endif %}
   </nav>
 
   {# ---------- HERO ---------- #}
-  <section class="pt-10 pb-16">
-    <div class="container-narrow text-center">
+  <section class="pt-8 pb-10 sm:pt-10 sm:pb-16">
+    <div class="container-narrow text-center js-reveal">
       {% if post.category %}
         <a href="{% url 'blog:list' %}?category={{ post.category.slug }}"
            class="inline-block eyebrow hover:text-teal-500">{{ post.category.name }}</a>
       {% endif %}
-      <h1 class="mt-4 font-serif text-4xl md:text-5xl lg:text-6xl tracking-tight text-ink-900 leading-[1.05]">
+      <h1 class="mt-3 sm:mt-4 font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight text-ink-900 leading-[1.1] sm:leading-[1.05] text-balance">
         {{ post.title }}
       </h1>
       {% if post.excerpt %}
-        <p class="mt-6 text-lg md:text-xl text-ink-700 leading-relaxed max-w-2xl mx-auto">
+        <p class="mt-5 sm:mt-6 text-base sm:text-lg md:text-xl text-ink-700 leading-relaxed max-w-2xl mx-auto">
           {{ post.excerpt }}
         </p>
       {% endif %}
 
-      <div class="mt-8 flex flex-wrap justify-center items-center gap-4 text-sm text-ink-500">
+      <div class="mt-6 sm:mt-8 flex flex-wrap justify-center items-center gap-x-3 sm:gap-x-4 gap-y-2 text-xs sm:text-sm text-ink-500">
         <span class="inline-flex items-center gap-2">
-          <span class="w-8 h-8 rounded-full bg-teal-gradient text-white inline-flex items-center justify-center text-[10px] font-serif font-semibold">SG</span>
+          <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-teal-gradient text-white inline-flex items-center justify-center text-[10px] font-serif font-semibold">SG</span>
           {{ post.author_name }}
         </span>
         <span class="w-1 h-1 rounded-full bg-ink-300"></span>
@@ -83,8 +83,8 @@
           <i data-lucide="clock" class="w-3.5 h-3.5"></i>
           {{ post.read_time_minutes }} {% trans "dk okuma" %}
         </span>
-        <span class="w-1 h-1 rounded-full bg-ink-300"></span>
-        <span class="inline-flex items-center gap-1.5">
+        <span class="w-1 h-1 rounded-full bg-ink-300 hidden sm:inline-block"></span>
+        <span class="hidden sm:inline-flex items-center gap-1.5">
           <i data-lucide="eye" class="w-3.5 h-3.5"></i>
           {{ post.view_count }}
         </span>
@@ -94,15 +94,15 @@
 
   {# ---------- FEATURED IMAGE ---------- #}
   {% if post.featured_image %}
-  <div class="container-main mb-14">
+  <div class="container-main mb-10 sm:mb-14 js-reveal">
     <img src="{{ post.featured_image.url }}" alt="{{ post.title }}"
-         class="w-full rounded-3xl object-cover aspect-[16/8] shadow-soft-lift">
+         class="w-full rounded-2xl sm:rounded-3xl object-cover aspect-[16/10] sm:aspect-[16/8] shadow-soft-lift">
   </div>
   {% endif %}
 
   {# ---------- BODY + STICKY SHARE + AUTHOR + TOC ---------- #}
   <section>
-    <div class="container-main grid lg:grid-cols-12 gap-10 lg:gap-14">
+    <div class="container-main grid lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14">
 
       {# Left rail — share buttons (desktop sticky) #}
       <aside class="hidden lg:block lg:col-span-1">
@@ -207,20 +207,20 @@
 
   {# ---------- Prev / Next ---------- #}
   {% if prev_post or next_post %}
-  <section class="mt-20">
-    <div class="container-main grid md:grid-cols-2 gap-4">
+  <section class="mt-12 sm:mt-20">
+    <div class="container-main grid sm:grid-cols-2 gap-3 sm:gap-4">
       {% if prev_post %}
         <a href="{{ prev_post.get_absolute_url }}"
-           class="paper-card group !pl-6 block">
+           class="paper-card group !pl-5 sm:!pl-6 block">
           <span class="eyebrow !text-ink-500">← {% trans "Önceki yazı" %}</span>
-          <p class="mt-3 font-serif text-lg leading-tight group-hover:text-teal-700 transition-colors">{{ prev_post.title }}</p>
+          <p class="mt-2 sm:mt-3 font-serif text-base sm:text-lg leading-tight group-hover:text-teal-700 transition-colors">{{ prev_post.title }}</p>
         </a>
-      {% else %}<div></div>{% endif %}
+      {% else %}<div class="hidden sm:block"></div>{% endif %}
       {% if next_post %}
         <a href="{{ next_post.get_absolute_url }}"
-           class="paper-card group !pl-6 md:text-right block">
+           class="paper-card group !pl-5 sm:!pl-6 sm:text-right block">
           <span class="eyebrow !text-ink-500">{% trans "Sonraki yazı" %} →</span>
-          <p class="mt-3 font-serif text-lg leading-tight group-hover:text-teal-700 transition-colors">{{ next_post.title }}</p>
+          <p class="mt-2 sm:mt-3 font-serif text-base sm:text-lg leading-tight group-hover:text-teal-700 transition-colors">{{ next_post.title }}</p>
         </a>
       {% endif %}
     </div>
@@ -229,16 +229,16 @@
 
   {# ---------- Related posts ---------- #}
   {% if related %}
-  <section class="mt-20">
+  <section class="mt-14 sm:mt-20">
     <div class="container-main">
-      <div class="flex items-end justify-between mb-8">
+      <div class="flex items-end justify-between mb-6 sm:mb-8 gap-3">
         <div>
           <span class="eyebrow">{% trans "Devamını Okuyun" %}</span>
-          <h2 class="h-h2 mt-3">{% trans "İlgili yazılar" %}</h2>
+          <h2 class="h-h2 mt-2 sm:mt-3">{% trans "İlgili yazılar" %}</h2>
         </div>
-        <a href="{% url 'blog:list' %}" class="btn-ghost">{% trans "Tümü" %} <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+        <a href="{% url 'blog:list' %}" class="btn-ghost shrink-0">{% trans "Tümü" %} <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
       </div>
-      <div class="grid md:grid-cols-3 gap-6">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
         {% for r in related %}
           <a href="{{ r.get_absolute_url }}" class="editorial-card group">
             {% if r.featured_image %}
@@ -251,9 +251,9 @@
                 <span class="font-serif text-5xl text-white/40">{{ r.title|first }}</span>
               </div>
             {% endif %}
-            <div class="p-6">
+            <div class="p-5 sm:p-6">
               {% if r.category %}<span class="eyebrow">{{ r.category.name }}</span>{% endif %}
-              <h3 class="mt-3 font-serif text-lg text-ink-900 group-hover:text-teal-700 transition-colors">{{ r.title }}</h3>
+              <h3 class="mt-3 font-serif text-base sm:text-lg text-ink-900 group-hover:text-teal-700 transition-colors">{{ r.title }}</h3>
               <p class="mt-2 text-sm text-ink-700 line-clamp-2">{{ r.excerpt }}</p>
               <p class="mt-4 text-xs text-ink-500">{{ r.published_at|date:"d F Y" }} · {{ r.read_time_minutes }} {% trans "dk" %}</p>
             </div>
@@ -265,7 +265,7 @@
   {% endif %}
 
   {# ---------- Back to blog CTA ---------- #}
-  <section class="mt-16">
+  <section class="mt-12 sm:mt-16">
     <div class="container-main text-center">
       <a href="{% url 'blog:list' %}" class="btn-outline">
         <i data-lucide="arrow-left" class="w-4 h-4"></i>

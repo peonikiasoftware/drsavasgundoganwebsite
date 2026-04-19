@@ -3,19 +3,61 @@
  * Loaded from base.html after Alpine core.
  */
 
+/* ------------------------------------------------------------------
+   Global reveal-on-scroll for elements with class="js-reveal".
+   Mobile-safe:
+     • rootMargin pulls the trigger point above the fold so content
+       reveals as it scrolls in, not only after 15% is visible.
+     • threshold array + low min => works on short mobile screens too.
+     • Respects prefers-reduced-motion via CSS (see input.css).
+-------------------------------------------------------------------- */
+(function initReveal() {
+  const run = () => {
+    const els = document.querySelectorAll('.js-reveal:not(.is-visible)');
+    if (!('IntersectionObserver' in window) || !els.length) {
+      els.forEach((el) => el.classList.add('is-visible'));
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-visible');
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -8% 0px' }
+    );
+    els.forEach((el) => io.observe(el));
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', run, { once: true });
+  } else {
+    run();
+  }
+
+  // Re-scan after HTMX swaps so new content animates in.
+  document.body.addEventListener?.('htmx:afterSwap', run);
+})();
+
 document.addEventListener('alpine:init', () => {
-  /* ---------- Reveal-on-scroll directive --------------------------
-     Usage: <div x-data x-intersect:enter="...">  OR
-            class="reveal" + the reveal() watcher below.
+  /* ---------- Reveal-on-scroll directive (Alpine wrapper) --------
+     Legacy API used via x-data="reveal" :class="shown && '...'".
+     Retained for backward compatibility.
   ------------------------------------------------------------------ */
   Alpine.data('reveal', () => ({
     shown: false,
     init() {
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) { this.shown = true; io.unobserve(e.target); }
-        });
-      }, { threshold: 0.15 });
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) { this.shown = true; io.unobserve(e.target); }
+          });
+        },
+        { threshold: 0.08, rootMargin: '0px 0px -8% 0px' }
+      );
       io.observe(this.$el);
     },
   }));
@@ -26,15 +68,20 @@ document.addEventListener('alpine:init', () => {
     target,
     started: false,
     init() {
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting && !this.started) {
-            this.started = true;
-            this.animate(duration);
-            io.unobserve(e.target);
-          }
-        });
-      }, { threshold: 0.3 });
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) { this.current = this.target; this.started = true; return; }
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting && !this.started) {
+              this.started = true;
+              this.animate(duration);
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
+      );
       io.observe(this.$el);
     },
     animate(duration) {

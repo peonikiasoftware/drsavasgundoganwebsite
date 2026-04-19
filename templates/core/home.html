@@ -17,46 +17,47 @@
   {% endif %}
   <div class="hero-overlay"></div>
 
-  <div class="relative container-main pt-20 pb-14 lg:pt-24 lg:pb-20 w-full">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+  <div class="relative container-main pt-14 pb-12 sm:pt-16 sm:pb-14 lg:pt-24 lg:pb-20 w-full">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-center">
 
       {# Left copy ~55% — tighter, more hierarchical #}
-      <div class="lg:col-span-7 text-white">
-        <span class="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.22em] text-gold-400">
-          <span class="w-6 h-px bg-gold-500"></span>
+      <div class="lg:col-span-7 text-white js-reveal">
+        <span class="inline-flex items-center gap-2 text-[10px] sm:text-xs font-medium uppercase tracking-[0.22em] text-gold-400">
+          <span class="w-5 sm:w-6 h-px bg-gold-500"></span>
           {{ doctor.hospital_name }}
         </span>
 
-        <h1 class="h-hero mt-5 text-white">
+        <h1 class="h-hero mt-4 sm:mt-5 text-white text-balance">
           {{ doctor.hero_headline }}
         </h1>
 
-        <p class="mt-5 font-serif italic text-xl lg:text-2xl text-teal-100 max-w-2xl">
+        <p class="mt-4 sm:mt-5 font-serif italic text-lg sm:text-xl lg:text-2xl text-teal-100 max-w-2xl leading-snug">
           {{ doctor.hero_subheadline }}
         </p>
 
         {% if doctor.hero_intro_paragraph %}
-          <p class="mt-5 text-ink-100/90 text-base lg:text-lg leading-relaxed max-w-xl">
+          <p class="mt-4 sm:mt-5 text-ink-100/90 text-sm sm:text-base lg:text-lg leading-relaxed max-w-xl">
             {{ doctor.hero_intro_paragraph }}
           </p>
         {% endif %}
 
-        <div class="mt-7 flex flex-wrap gap-2.5">
-          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs text-white backdrop-blur">
+        <div class="mt-6 sm:mt-7 flex flex-wrap gap-2">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 border border-white/20 text-[11px] sm:text-xs text-white backdrop-blur">
             <i data-lucide="award" class="w-3.5 h-3.5 text-gold-400"></i>
             {% blocktrans with y=doctor.years_of_experience %}{{ y }}+ yıl deneyim{% endblocktrans %}
           </span>
-          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs text-white backdrop-blur">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 border border-white/20 text-[11px] sm:text-xs text-white backdrop-blur">
             <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-gold-400"></i>
-            {% trans "İtalya — Università degli Studi dell'Insubria" %}
+            <span class="hidden sm:inline">{% trans "İtalya — Università degli Studi dell'Insubria" %}</span>
+            <span class="sm:hidden">{% trans "İtalya eğitimli" %}</span>
           </span>
-          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs text-white backdrop-blur">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 border border-white/20 text-[11px] sm:text-xs text-white backdrop-blur">
             <i data-lucide="book-marked" class="w-3.5 h-3.5 text-gold-400"></i>
             {% blocktrans with n=doctor.publication_count %}{{ n }}+ uluslararası yayın{% endblocktrans %}
           </span>
         </div>
 
-        <div class="mt-9 flex flex-wrap gap-3">
+        <div class="mt-7 sm:mt-9 flex flex-wrap gap-3">
           <a href="{{ doctor.appointment_url }}" target="_blank" rel="noopener" class="btn-primary">
             <i data-lucide="calendar-check" class="w-4 h-4"></i>
             {% trans "Randevu Al" %}
@@ -70,21 +71,24 @@
 
       {# Right — Instagram Reel ~45%, prominent with decorative frame #}
       {% if hero_video %}
-      <div class="lg:col-span-5 relative">
-        {# Decorative ambient glow #}
+      <div class="lg:col-span-5 relative js-reveal">
+        {# Decorative ambient glow — desktop only #}
         <div aria-hidden="true" class="absolute -inset-10 -z-10 hidden lg:block">
           <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] rounded-full bg-gradient-to-br from-teal-500/30 via-teal-700/10 to-gold-500/20 blur-3xl"></div>
         </div>
 
-        {# Floating gold dots #}
+        {# Floating gold dots — desktop only #}
         <span aria-hidden="true" class="hidden lg:block absolute -top-6 -right-6 w-24 h-24 rounded-full border-2 border-gold-500/40"></span>
         <span aria-hidden="true" class="hidden lg:block absolute -bottom-8 -left-8 w-16 h-16 rounded-full bg-gold-500/30 backdrop-blur-sm"></span>
 
-        <div class="relative max-w-sm lg:max-w-none mx-auto w-full">
-          {# The reel iframe — bigger, crisper border #}
-          <div class="relative rounded-[32px] overflow-hidden ring-2 ring-gold-400/60 shadow-[0_50px_120px_-30px_rgba(0,0,0,0.7)] bg-black">
+        <div class="relative max-w-[280px] sm:max-w-xs lg:max-w-none mx-auto w-full">
+          {# The reel iframe — narrower on mobile so headline stays dominant #}
+          <div class="relative rounded-2xl sm:rounded-[28px] lg:rounded-[32px] overflow-hidden
+                      ring-1 sm:ring-2 ring-gold-400/50 lg:ring-gold-400/60
+                      shadow-[0_30px_80px_-30px_rgba(0,0,0,0.6)] lg:shadow-[0_50px_120px_-30px_rgba(0,0,0,0.7)]
+                      bg-black">
             <iframe src="{{ hero_video.embed_url }}"
-                    class="block w-full aspect-[9/16] max-h-[640px]"
+                    class="block w-full aspect-[9/16] max-h-[520px] lg:max-h-[640px]"
                     frameborder="0"
                     allowtransparency="true"
                     allow="encrypted-media"
@@ -93,7 +97,7 @@
           </div>
 
           {# Caption beneath reel #}
-          <p class="mt-5 text-sm text-teal-100/85 text-center italic max-w-xs mx-auto leading-relaxed">
+          <p class="mt-4 sm:mt-5 text-xs sm:text-sm text-teal-100/85 text-center italic max-w-xs mx-auto leading-relaxed">
             {{ hero_video.title }}
           </p>
         </div>
@@ -105,9 +109,13 @@
 </section>
 
 
-{# 2) TRUST STRIP — 4 stats with counter animation #}
+{# 2) TRUST STRIP — 4 stats with counter animation. On mobile, 2x2 with internal dividers. #}
 <section class="bg-cream-100 border-y border-ink-100">
-  <div class="container-main grid grid-cols-2 lg:grid-cols-4 divide-x divide-ink-100 border-x border-ink-100">
+  <div class="container-main grid grid-cols-2 lg:grid-cols-4
+              [&>*]:border-ink-100
+              [&>*:nth-child(2n)]:border-l lg:[&>*:nth-child(2n)]:border-l
+              lg:[&>*:nth-child(n+2)]:border-l
+              [&>*:nth-child(n+3)]:border-t lg:[&>*:nth-child(n+3)]:border-t-0">
     <div x-data="counter({{ doctor.years_of_experience }})" class="trust-stat">
       <span class="trust-stat-value"><span x-text="current">{{ doctor.years_of_experience }}</span>+</span>
       <span class="trust-stat-label">{% trans "Yıl Klinik Deneyim" %}</span>
@@ -117,13 +125,13 @@
       <span class="trust-stat-label">{% trans "Uluslararası Yayın" %}</span>
     </div>
     <div class="trust-stat">
-      <span class="trust-stat-value font-serif text-2xl md:text-3xl leading-tight">
-        <i data-lucide="flag" class="w-6 h-6 inline-block -mt-1 text-gold-500"></i> Italia
+      <span class="trust-stat-value font-serif text-xl sm:text-2xl md:text-3xl leading-tight whitespace-nowrap">
+        <i data-lucide="flag" class="w-5 h-5 sm:w-6 sm:h-6 inline-block -mt-1 text-gold-500"></i> Italia
       </span>
       <span class="trust-stat-label">{% trans "Università degli Studi dell'Insubria" %}</span>
     </div>
     <div class="trust-stat">
-      <span class="trust-stat-value font-serif text-2xl md:text-3xl leading-tight">Acıbadem</span>
+      <span class="trust-stat-value font-serif text-xl sm:text-2xl md:text-3xl leading-tight whitespace-nowrap">Acıbadem</span>
       <span class="trust-stat-label">{% trans "Sağlık Grubu Uzman Hekimi" %}</span>
     </div>
   </div>
@@ -134,7 +142,7 @@
 {% if featured_specialties %}
 <section id="uzmanlik" class="section-padding bg-cream-50">
   <div class="container-main">
-    <div class="max-w-2xl mb-14" x-data="reveal" :class="shown && 'animate-fade-up'">
+    <div class="max-w-2xl mb-10 sm:mb-14 js-reveal">
       <span class="eyebrow">{% trans "Özenle · Bilimle · Modern Tekniklerle" %}</span>
       <h2 class="h-display mt-4">
         {% blocktrans %}Uzmanlık <span class="accent-italic">Alanlarım</span>{% endblocktrans %}
@@ -146,13 +154,13 @@
       {% for area in featured_specialties %}
         {% with span=area.bento_size %}
         <a href="{{ area.get_absolute_url }}"
-           class="editorial-card group
-                  {% if span == '2x2' %}col-span-6 md:col-span-4 md:row-span-2 min-h-[420px]
+           class="editorial-card group js-reveal
+                  {% if span == '2x2' %}col-span-6 md:col-span-4 md:row-span-2 min-h-[280px] md:min-h-[420px]
                   {% elif span == '2x1' %}col-span-6 md:col-span-4
                   {% elif span == '1x2' %}col-span-6 md:col-span-2 md:row-span-2
                   {% else %}col-span-6 md:col-span-2
                   {% endif %}
-                  relative overflow-hidden p-8 flex flex-col justify-end">
+                  relative overflow-hidden p-6 sm:p-8 flex flex-col justify-end">
 
           {% if area.hero_image %}
             <div class="absolute inset-0">
@@ -164,26 +172,26 @@
               <span class="icon-badge !bg-white/15 !text-white">
                 <i data-lucide="{{ area.icon|default:'stethoscope' }}" class="w-5 h-5"></i>
               </span>
-              <h3 class="mt-5 font-serif text-2xl md:text-3xl leading-tight">{{ area.title }}</h3>
-              <p class="mt-3 text-sm text-white/85 max-w-md">{{ area.short_description }}</p>
-              <span class="mt-5 inline-flex items-center gap-1 text-sm text-white border-b border-white/40 pb-0.5 group-hover:border-white">
-                {% trans "Detay" %} <i data-lucide="arrow-upright" class="w-4 h-4"></i>
+              <h3 class="mt-4 sm:mt-5 font-serif text-xl sm:text-2xl md:text-3xl leading-tight">{{ area.title }}</h3>
+              <p class="mt-2 sm:mt-3 text-sm text-white/85 max-w-md">{{ area.short_description }}</p>
+              <span class="mt-4 sm:mt-5 inline-flex items-center gap-1 text-sm text-white border-b border-white/40 pb-0.5 group-hover:border-white">
+                {% trans "Detay" %} <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
               </span>
             </div>
           {% else %}
             <div class="relative">
               {% if span == '2x2' %}
-                <div class="absolute -top-6 -right-6 w-40 h-40 rounded-full bg-teal-50 -z-10"></div>
+                <div class="absolute -top-6 -right-6 w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-teal-50 -z-10"></div>
               {% endif %}
-              <span class="icon-badge {% if span == '2x2' %}!w-16 !h-16{% endif %}">
-                <i data-lucide="{{ area.icon|default:'stethoscope' }}" class="w-5 h-5 {% if span == '2x2' %}w-7 h-7{% endif %}"></i>
+              <span class="icon-badge {% if span == '2x2' %}!w-14 !h-14 sm:!w-16 sm:!h-16{% endif %}">
+                <i data-lucide="{{ area.icon|default:'stethoscope' }}" class="{% if span == '2x2' %}w-6 h-6 sm:w-7 sm:h-7{% else %}w-5 h-5{% endif %}"></i>
               </span>
-              <h3 class="mt-5 font-serif text-xl md:text-2xl {% if span == '2x2' %}md:text-3xl{% endif %} text-ink-900 leading-tight">
+              <h3 class="mt-4 sm:mt-5 font-serif text-lg sm:text-xl md:text-2xl {% if span == '2x2' %}md:text-3xl{% endif %} text-ink-900 leading-tight">
                 {{ area.title }}
               </h3>
-              <p class="mt-3 text-sm text-ink-700 leading-relaxed">{{ area.short_description }}</p>
-              <span class="mt-5 inline-flex items-center gap-1 text-sm text-teal-700 border-b border-teal-500/40 pb-0.5 group-hover:border-teal-500">
-                {% trans "Detay" %} <i data-lucide="arrow-upright" class="w-4 h-4"></i>
+              <p class="mt-2 sm:mt-3 text-sm text-ink-700 leading-relaxed">{{ area.short_description }}</p>
+              <span class="mt-4 sm:mt-5 inline-flex items-center gap-1 text-sm text-teal-700 border-b border-teal-500/40 pb-0.5 group-hover:border-teal-500">
+                {% trans "Detay" %} <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
               </span>
             </div>
           {% endif %}
@@ -192,7 +200,7 @@
       {% endfor %}
     </div>
 
-    <div class="mt-12 text-center">
+    <div class="mt-10 sm:mt-12 text-center">
       <a href="{% url 'expertise:list' %}" class="btn-outline">
         {% trans "Tüm Uzmanlık Alanlarım" %}
         <i data-lucide="arrow-right" class="w-4 h-4"></i>
@@ -206,31 +214,31 @@
 {# 4) "Why me" — 3 pillars #}
 <section class="section-padding bg-white border-y border-ink-100">
   <div class="container-main">
-    <div class="max-w-2xl mb-14">
+    <div class="max-w-2xl mb-10 sm:mb-14 js-reveal">
       <span class="eyebrow">{% trans "Neden Ben" %}</span>
       <h2 class="h-display mt-4">
         {% blocktrans %}Sizinle <span class="accent-italic">birlikte</span> şekillendirilen bir tedavi.{% endblocktrans %}
       </h2>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-6 lg:gap-10">
-      <div class="icon-card">
+    <div class="grid md:grid-cols-3 gap-5 sm:gap-6 lg:gap-10">
+      <div class="icon-card js-reveal">
         <span class="icon-badge"><i data-lucide="plane" class="w-5 h-5"></i></span>
-        <h3 class="mt-5 font-serif text-xl">{% trans "Uluslararası Deneyim" %}</h3>
+        <h3 class="mt-5 font-serif text-lg sm:text-xl">{% trans "Uluslararası Deneyim" %}</h3>
         <p class="mt-3 text-sm text-ink-700 leading-relaxed">
           {% trans "İtalya'da Università degli Studi dell'Insubria'da minimal invaziv cerrahi eğitimi aldım. Dünya standartlarında teknikleri kliniğime taşıyorum." %}
         </p>
       </div>
-      <div class="icon-card">
+      <div class="icon-card js-reveal">
         <span class="icon-badge"><i data-lucide="scissors" class="w-5 h-5"></i></span>
-        <h3 class="mt-5 font-serif text-xl">{% trans "Minimal İnvaziv Uzmanlık" %}</h3>
+        <h3 class="mt-5 font-serif text-lg sm:text-xl">{% trans "Minimal İnvaziv Uzmanlık" %}</h3>
         <p class="mt-3 text-sm text-ink-700 leading-relaxed">
           {% trans "vNOTES (izsiz vajinal cerrahi), robotik cerrahi ve tek-port laparoskopi ile daha kısa iyileşme, minimum iz." %}
         </p>
       </div>
-      <div class="icon-card">
+      <div class="icon-card js-reveal">
         <span class="icon-badge"><i data-lucide="heart-handshake" class="w-5 h-5"></i></span>
-        <h3 class="mt-5 font-serif text-xl">{% trans "Hasta Odaklı Yaklaşım" %}</h3>
+        <h3 class="mt-5 font-serif text-lg sm:text-xl">{% trans "Hasta Odaklı Yaklaşım" %}</h3>
         <p class="mt-3 text-sm text-ink-700 leading-relaxed">
           {% trans "Her hasta özeldir. Tedavi planı, yaşam tarzına ve beklentilerine göre birebir tasarlanır." %}
         </p>
@@ -244,16 +252,16 @@
 {% if featured_publications %}
 <section class="section-padding bg-cream-100">
   <div class="container-main">
-    <div class="grid lg:grid-cols-12 gap-10 lg:gap-14">
-      <div class="lg:col-span-4">
+    <div class="grid lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14">
+      <div class="lg:col-span-4 js-reveal">
         <span class="eyebrow">{% trans "Akademi" %}</span>
         <h2 class="h-display mt-4">
           {% blocktrans %}Akademik <span class="accent-italic">Araştırmalarım</span>{% endblocktrans %}
         </h2>
-        <p class="mt-6 text-ink-700 leading-relaxed">
+        <p class="mt-5 sm:mt-6 text-ink-700 leading-relaxed">
           {% blocktrans %}Minimal invaziv cerrahi, robotik myomektomi ve endometriozis üzerine <em>Journal of Minimally Invasive Gynecology</em> başta olmak üzere prestijli dergilerde uluslararası yayınlar.{% endblocktrans %}
         </p>
-        <div class="mt-7 flex flex-col gap-2.5">
+        <div class="mt-6 sm:mt-7 flex flex-col gap-2.5 items-start">
           <a href="{% url 'publications:list' %}" class="btn-ghost">{% trans "Tüm yayınlarım" %} <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
           <a href="{{ doctor.google_scholar_url }}" target="_blank" rel="noopener" class="btn-ghost">{% trans "Google Scholar profilim" %} <i data-lucide="arrow-up-right" class="w-4 h-4"></i></a>
         </div>
@@ -261,16 +269,16 @@
 
       <div class="lg:col-span-8 space-y-4">
         {% for pub in featured_publications %}
-          <a href="{{ pub.best_url }}" target="_blank" rel="noopener" class="paper-card group block">
-            <div class="flex items-start gap-4">
-              <span class="font-serif text-4xl text-teal-500/25 leading-none num-tabular group-hover:text-teal-500/50 transition-colors duration-300">{{ pub.year }}</span>
+          <a href="{{ pub.best_url }}" target="_blank" rel="noopener" class="paper-card group block js-reveal">
+            <div class="flex items-start gap-3 sm:gap-4">
+              <span class="font-serif text-3xl sm:text-4xl text-teal-500/25 leading-none num-tabular group-hover:text-teal-500/50 transition-colors duration-300 shrink-0">{{ pub.year }}</span>
               <div class="flex-1 min-w-0">
-                <p class="font-serif text-lg text-ink-900 leading-snug group-hover:text-teal-700 transition-colors duration-300">
+                <p class="font-serif text-base sm:text-lg text-ink-900 leading-snug group-hover:text-teal-700 transition-colors duration-300">
                   {{ pub.title }}
                   <i data-lucide="arrow-up-right" class="inline-block w-4 h-4 ml-0.5 text-ink-300 group-hover:text-teal-700 group-hover:-translate-y-0.5 transition-all duration-250"></i>
                 </p>
-                <p class="mt-2 text-sm text-ink-700">{{ pub.authors }}</p>
-                <p class="mt-0.5 text-sm text-ink-500 italic">{{ pub.journal }}</p>
+                <p class="mt-2 text-xs sm:text-sm text-ink-700">{{ pub.authors }}</p>
+                <p class="mt-0.5 text-xs sm:text-sm text-ink-500 italic">{{ pub.journal }}</p>
                 {% if pub.citation_count %}
                   <span class="inline-flex items-center gap-1 mt-3 text-xs text-teal-700 font-medium">
                     <i data-lucide="quote" class="w-3.5 h-3.5"></i> {{ pub.citation_count }} {% trans "atıf" %}
@@ -291,7 +299,7 @@
 {% if featured_videos %}
 <section id="videolar" class="section-padding bg-cream-100">
   <div class="container-main">
-    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-6 mb-8 sm:mb-12 js-reveal">
       <div class="max-w-2xl">
         <span class="eyebrow">{% trans "Video Kütüphanesi" %}</span>
         <h2 class="h-display mt-4">
@@ -301,11 +309,11 @@
       <a href="{% url 'media_library:list' %}" class="btn-ghost shrink-0">{% trans "Tüm videolar" %} <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
     </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" x-data="videoModal">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6" x-data="videoModal">
       {% for video in featured_videos %}
         <button type="button"
                 @click="show('{{ video.embed_url|escapejs }}', {% if video.platform == 'instagram' %}true{% else %}false{% endif %})"
-                class="group editorial-card text-left">
+                class="group editorial-card text-left js-reveal">
           <div class="relative {% if video.platform == 'instagram' %}aspect-[9/16]{% else %}aspect-video{% endif %} bg-ink-900 overflow-hidden">
             {% if video.thumbnail_url %}
               <img src="{{ video.thumbnail_url }}" alt="{{ video.title }}"
@@ -352,7 +360,7 @@
 {% if recent_posts %}
 <section class="section-padding bg-cream-50">
   <div class="container-main">
-    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-6 mb-8 sm:mb-12 js-reveal">
       <div class="max-w-2xl">
         <span class="eyebrow">{% trans "Blog" %}</span>
         <h2 class="h-display mt-4">{% trans "Son Yazılar" %}</h2>
@@ -360,20 +368,20 @@
       <a href="{% url 'blog:list' %}" class="btn-ghost shrink-0">{% trans "Tüm yazılar" %} <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-6">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
       {% for post in recent_posts %}
-      <a href="{{ post.get_absolute_url }}" class="editorial-card">
+      <a href="{{ post.get_absolute_url }}" class="editorial-card group js-reveal">
         {% if post.featured_image %}
           <div class="aspect-[16/10] overflow-hidden">
             <img src="{{ post.featured_image.url }}" alt="{{ post.title }}"
                  class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-[600ms]">
           </div>
         {% endif %}
-        <div class="p-6">
+        <div class="p-5 sm:p-6">
           {% if post.category %}<span class="eyebrow">{{ post.category.name }}</span>{% endif %}
-          <h3 class="mt-3 font-serif text-xl text-ink-900 leading-tight">{{ post.title }}</h3>
+          <h3 class="mt-3 font-serif text-lg sm:text-xl text-ink-900 leading-tight group-hover:text-teal-700 transition-colors">{{ post.title }}</h3>
           <p class="mt-3 text-sm text-ink-700 line-clamp-3">{{ post.excerpt }}</p>
-          <p class="mt-5 text-xs text-ink-500">{{ post.published_at|date:"d F Y" }} · {{ post.read_time_minutes }} dk</p>
+          <p class="mt-4 sm:mt-5 text-xs text-ink-500">{{ post.published_at|date:"d F Y" }} · {{ post.read_time_minutes }} dk</p>
         </div>
       </a>
       {% endfor %}
@@ -386,35 +394,35 @@
 {# 8) Short bio band #}
 <section class="section-padding bg-white">
   <div class="container-main">
-    <div class="grid lg:grid-cols-12 gap-12 items-center">
-      <div class="lg:col-span-5 order-2 lg:order-1">
+    <div class="grid lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-center">
+      <div class="lg:col-span-5 order-2 lg:order-1 js-reveal">
         {% if doctor.portrait_photo %}
-          <div class="relative">
-            <div class="absolute -inset-4 -z-10 rounded-3xl bg-teal-50"></div>
-            <div class="absolute -bottom-4 -right-4 w-24 h-24 rounded-full bg-gold-500/30 -z-10"></div>
+          <div class="relative max-w-sm sm:max-w-md lg:max-w-none mx-auto">
+            <div class="absolute -inset-3 sm:-inset-4 -z-10 rounded-[2rem] sm:rounded-3xl bg-teal-50"></div>
+            <div class="absolute -bottom-3 -right-3 sm:-bottom-4 sm:-right-4 w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gold-500/30 -z-10"></div>
             <img src="{{ doctor.portrait_photo.url }}" alt="{{ doctor.full_name }}"
-                 class="w-full rounded-3xl object-cover aspect-[4/5] ring-4 ring-white shadow-soft-lift">
+                 class="w-full rounded-[2rem] sm:rounded-3xl object-cover aspect-[4/5] ring-4 ring-white shadow-soft-lift">
           </div>
         {% else %}
-          <div class="aspect-[4/5] rounded-3xl bg-gradient-to-br from-teal-500 to-teal-800 flex items-center justify-center text-white">
-            <span class="font-serif text-8xl">SG</span>
+          <div class="aspect-[4/5] max-w-sm sm:max-w-md lg:max-w-none mx-auto rounded-[2rem] sm:rounded-3xl bg-gradient-to-br from-teal-500 to-teal-800 flex items-center justify-center text-white">
+            <span class="font-serif text-6xl sm:text-8xl">SG</span>
           </div>
         {% endif %}
       </div>
-      <div class="lg:col-span-7 order-1 lg:order-2">
+      <div class="lg:col-span-7 order-1 lg:order-2 js-reveal">
         <span class="eyebrow">{% trans "Kısaca" %}</span>
         <h2 class="h-display mt-4">
           {% blocktrans %}Her hasta bir <span class="accent-italic">hikâyedir</span>.{% endblocktrans %}
         </h2>
-        <p class="mt-6 text-ink-700 text-lg leading-relaxed">
+        <p class="mt-5 sm:mt-6 text-ink-700 text-base sm:text-lg leading-relaxed">
           {{ doctor.bio_short }}
         </p>
         {% if doctor.philosophy_quote %}
-          <blockquote class="mt-8 border-l-2 border-teal-500 pl-6 font-serif text-xl italic text-ink-900">
+          <blockquote class="mt-6 sm:mt-8 border-l-2 border-teal-500 pl-5 sm:pl-6 font-serif text-lg sm:text-xl italic text-ink-900">
             "{{ doctor.philosophy_quote }}"
           </blockquote>
         {% endif %}
-        <a href="{% url 'core:about' %}" class="btn-ghost mt-7">{% trans "Hakkımda daha fazla" %} <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+        <a href="{% url 'core:about' %}" class="btn-ghost mt-6 sm:mt-7">{% trans "Hakkımda daha fazla" %} <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
       </div>
     </div>
   </div>
@@ -422,23 +430,23 @@
 
 
 {# 9) CTA band #}
-<section class="relative py-20 md:py-28 bg-teal-gradient text-white overflow-hidden">
+<section class="relative py-14 sm:py-20 md:py-28 bg-teal-gradient text-white overflow-hidden">
   <div class="absolute inset-0 opacity-10 bg-cream-pattern"></div>
-  <div class="container-main text-center relative">
-    <h2 class="font-serif text-3xl md:text-5xl tracking-tight max-w-2xl mx-auto leading-tight">
+  <div class="container-main text-center relative js-reveal">
+    <h2 class="font-serif text-2xl sm:text-3xl md:text-5xl tracking-tight max-w-2xl mx-auto leading-tight text-balance">
       {% trans "Sağlığınız için bir adım atın." %}
     </h2>
-    <p class="mt-6 text-teal-50 text-lg max-w-xl mx-auto">
+    <p class="mt-5 sm:mt-6 text-teal-50 text-base sm:text-lg max-w-xl mx-auto">
       {% trans "Randevu talebiniz veya sorunuz için bize ulaşın. Her mesaj kısa süre içinde yanıtlanır." %}
     </p>
-    <div class="mt-10 flex flex-wrap justify-center gap-3">
+    <div class="mt-8 sm:mt-10 flex flex-wrap justify-center gap-3">
       <a href="{{ doctor.appointment_url }}" target="_blank" rel="noopener"
-         class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white text-teal-700 font-medium hover:-translate-y-0.5 transition-all duration-250 hover:shadow-soft-lift">
+         class="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-white text-teal-700 font-medium text-sm sm:text-base hover:-translate-y-0.5 transition-all duration-250 hover:shadow-soft-lift">
         <i data-lucide="calendar-check" class="w-4 h-4"></i>
         {% trans "Randevu Al — Acıbadem" %}
       </a>
       <a href="{% url 'core:contact' %}"
-         class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border-2 border-white/40 text-white font-medium hover:bg-white/10 transition-all duration-250">
+         class="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full border-2 border-white/40 text-white font-medium text-sm sm:text-base hover:bg-white/10 transition-all duration-250">
         <i data-lucide="mail" class="w-4 h-4"></i>
         {% trans "Mesaj Gönder" %}
       </a>
